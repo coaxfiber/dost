@@ -1,0 +1,71 @@
+
+<mat-drawer-container class="example-container">
+  <mat-drawer mode="side" opened="true"  #drawer>
+  	<div style="" id="coverp">
+	<div style="" id="fullname">
+		<table>
+			<tr>
+				<td width="60px">
+	  			<img [src]="image" width="50" id="photop" onError="this.src='assets/noimage.jpg'"/>
+				</td>
+				<td style="text-align: left" >
+				Elton John Emmanuel C. Bagne
+				</td>
+			</tr>
+		</table>
+	</div> 
+</div>
+  	<mat-accordion>
+
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <i class="material-icons iconsize" >home</i><b>&nbsp; Home</b>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+		<mat-list>
+		  <mat-list-item><button mat-button  [routerLink]="['../main',{outlets:{div:'person-information'}}]" >Dashboard</button></mat-list-item>
+		  <mat-divider></mat-divider>
+		  <mat-list-item><button mat-button  [routerLink]="['../main',{outlets:{div:'update-person'}}]" >Announcement</button></mat-list-item>
+		</mat-list>
+  </mat-expansion-panel>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <i class="material-icons iconsize" >assessment</i><b>&nbsp; Proposal</b>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+		<mat-list>
+		  <mat-list-item><button mat-button  [routerLink]="['../main',{outlets:{div:'new-proposal'}}]" >New Proposal</button></mat-list-item>
+		  <mat-divider></mat-divider>
+		  <mat-list-item><button mat-button  [routerLink]="['../main',{outlets:{div:'proposals'}}]" >Proposals</button></mat-list-item>
+		</mat-list>
+  </mat-expansion-panel>
+
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <i class="material-icons iconsize" >chrome_reader_mode</i><b>&nbsp; Research</b>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+		<mat-list>
+		  <mat-list-item><button mat-button [routerLink]="['../main',{outlets:{div:'student-information'}}]" >New Research</button></mat-list-item>
+		  <mat-divider></mat-divider>
+		  <mat-list-item><button mat-button [routerLink]="['../main',{outlets:{div:'admission'}}]" >Researches</button></mat-list-item>
+		</mat-list>
+  </mat-expansion-panel>
+
+
+</mat-accordion>
+
+  </mat-drawer>
+  <mat-drawer-content>
+  	<div style="margin-left: 10px;margin-top: 8px;" class="hnav">
+
+    </div>
+  	<mat-card class="matcontainer" style="padding: 0;overflow: hidden;overflow-y: scroll;"> 
+
+    <router-outlet name="div"></router-outlet>
+		
+  	</mat-card></mat-drawer-content>
+</mat-drawer-container>
