@@ -29,6 +29,10 @@ footer {
   background-color: #294a70;
   color: white !important;
 }
+.buttonred{
+  background-color: #dc3545;
+  color: white !important;
+}
 .matcontainer{
 	max-height:calc(100vh - 190px);
 	min-height:calc(100vh - 145px);
@@ -75,7 +79,9 @@ footer {
   padding: 0px !important;
  }
 
- 
-  .mat-horizontal-stepper-header{
-      pointer-events: none !important;
-  }
+ .mat-form-field-infix  {
+      width: 100px !important;
+ }
+  // .mat-horizontal-stepper-header{
+  //     pointer-events: none !important;
+  // }

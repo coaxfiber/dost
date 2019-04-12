@@ -25,11 +25,12 @@ displayedColumns = ['title','agency','fagency'];
 
 createTable() {
 
-    this.global.swalLoading('Loading Roles...');
-        this.http.get(this.global.api+'api.php?action=proposallists&user=1',this.global.option)
+    this.global.swalLoading('Loading Proposals...');
+        this.http.get(this.global.api+'api.php?action=proposallists&user='+this.global.userid,this.global.option)
           .map(response => response.json())
           .subscribe(res => {
             this.tableArr=res;
+            console.log(res)
             this.dataSource = new MatTableDataSource(this.tableArr);
             this.dataSource.sort = this.sort;
             this.dataSource.paginator = this.paginator;
@@ -49,7 +50,7 @@ applyFilter(filterValue: string) {
 }
 
 removeRole(id){
-    this.swalConfirm("Are you sure?","You won't be able to revert this!",'warning','Delete Proposal','Role has been Removed','','role',id);
+    this.swalConfirm("Are you sure?","You won't be able to revert this!",'warning','Delete Proposal','Proposal has been Removed','','role',id);
   }
   
   swalConfirm(title,text,type,button,d1,d2,remove,id)

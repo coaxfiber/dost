@@ -16,11 +16,13 @@ export class GlobalService {
   option:any;
 
   user:any;
+  userid=1;
 
 
   constructor(@Inject(SESSION_STORAGE) private storage: WebStorageService,private router: Router,private http: Http) { 	
     if(this.storage.get('token')!=null){
-      this.requestToken()
+      this.requestToken();
+      this.userid=1;
     }
     this.requestToken();
   }

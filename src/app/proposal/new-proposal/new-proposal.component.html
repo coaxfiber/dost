@@ -9,7 +9,7 @@
               <input matInput placeholder="Coordinator/Leader" required disabled="{{proposalcounter}}" [(ngModel)]="cleader">
               <mat-hint>the one in charge to take the lead in project implementation. <button class="buttonblue" style="border-radius: 10px;border: none;" (click)="leader()">?</button></mat-hint>
             </mat-form-field>
-            <br>
+            <div style="height: 10px;"></div>
             <mat-form-field  class="npinput2" >
             	<mat-label>Gender</mat-label>
 				  <mat-select [(ngModel)]="gender"  disabled="{{proposalcounter}}">
@@ -20,7 +20,7 @@
 				      Female
 				    </mat-option>
 				  </mat-select>
-            </mat-form-field>
+            </mat-form-field><br>
             <mat-form-field  class="npinput2">
               <input matInput placeholder="Email" required [(ngModel)]="email" disabled="{{proposalcounter}}">
             </mat-form-field>
@@ -34,7 +34,7 @@
             </mat-form-field><br>
             <mat-form-field  class="npinput2">
               <input matInput placeholder="Telephone" required [(ngModel)]="telephone" disabled="{{proposalcounter}}">
-            </mat-form-field>
+            </mat-form-field><br>
             <mat-form-field  class="npinput2">
               <input matInput placeholder="Fax" required [(ngModel)]="fax" disabled="{{proposalcounter}}">
             </mat-form-field>
@@ -57,19 +57,17 @@
             </mat-form-field></td>
             <td style="width: 20%">
             <mat-form-field class="npinput" style="width: 100%">
-              <input matInput placeholder="Duration" required type="number"  [(ngModel)]="duration" disabled="{{proposalcounter}}">
-              <mat-hint>In Months</mat-hint>
+              <input matInput placeholder="Duration" required type="number" min="0"  [(ngModel)]="duration" disabled="{{proposalcounter}}">
+              <mat-hint>In Months 
+                    <mat-hint><button class="buttonblue" style="border-radius: 10px;border: none;" (click)="infoduration()">?</button></mat-hint> </mat-hint>
             </mat-form-field></td>
             <td style="width: 27%">
               
-            <mat-form-field  class="npinput2" style="width: 100%">
+            <mat-form-field  class="npinput2" style="width: 100%" required>
               <mat-label>Funding Agency</mat-label>
               <mat-select  [(ngModel)]="fagency" disabled="{{proposalcounter}}">
-                <mat-option value="1">
-                  123123
-                </mat-option>
-                <mat-option value="2">
-                  asd
+                <mat-option value="{{f.id}}"  *ngFor="let f of fundingagency">
+                  {{f.name}}
                 </mat-option>
               </mat-select>
             </mat-form-field>
@@ -103,6 +101,57 @@
         <ng-template matStepLabel>Proposal Details</ng-template>
 
 
+        <div id="1a">
+          
+          <table style="width: 100%">
+            <tr>
+              <td style="width: 50%">
+            <mat-form-field class="npinput"  style="width: 100%">
+              <input matInput placeholder="Poject Title"  [(ngModel)]="protitle" >
+              <mat-hint></mat-hint>
+            </mat-form-field></td>
+            <td style="width: 20%">
+            <mat-form-field class="npinput" style="width: 100%">
+              <input matInput placeholder="Duration" type="number" min="0" [(ngModel)]="produration" >
+              <mat-hint>In Months</mat-hint>
+            </mat-form-field></td>
+            <td style="width: 27%">
+                <button mat-raised-button (click)="addproject()" class="buttonblue" >
+                    <mat-icon style="font-size:20px">add</mat-icon> Add</button>
+            </td>
+            </tr>
+          </table>
+
+          <div  *ngIf="projectlists!=undefined" >
+            <div  *ngIf="projectlists[0].id!=null" >
+              <table style="width: 100%" *ngFor="let list of projectlists">
+                <tr>
+                  <td style="width: 50%">
+                <mat-form-field class="npinput"  style="width: 100%">
+                  <input matInput placeholder="Poject Title" disabled="disabled" value="{{list.ptitle}}" >
+                  <mat-hint></mat-hint>
+                </mat-form-field></td>
+                <td style="width: 10%">
+                <mat-form-field class="npinput" style="width: 100%">
+                  <input matInput placeholder="Duration" type="number" disabled="disabled" value="{{list.duration}}">
+                  <mat-hint>In Months</mat-hint>
+                </mat-form-field></td>
+                <td style="width: 10%">
+                    <button  mat-button (click)="login2()" *ngIf="list.Significance==null">
+                        <mat-icon style="font-size:20px">add</mat-icon> Add Form 2B &nbsp; &nbsp; &nbsp;</button>
+
+
+                    <button  mat-button (click)="login2()" *ngIf="list.Significance!=null" >
+                        <mat-icon style="font-size:20px">add</mat-icon> Update Form 2B &nbsp; &nbsp; &nbsp;</button>
+                </td>
+                <td style="width: 27%">
+                    <button  mat-button (click)="swalConfirm(list.id)"  class="buttonred" >
+                        <mat-icon style="font-size:20px">remove</mat-icon> Remove</button>
+                </td>
+                </tr>
+              </table>
+          </div>
+          </div>
 
             <mat-form-field  class="npinput" style="width: 100%"> 
               <textarea matInput placeholder="Executive Summary" required style="height: 80px" ></textarea>
@@ -112,32 +161,125 @@
           <p><b>Budget Summary for the whole program </b><button class="buttonblue" style="border-radius: 10px;border: none;" (click)="budget()">?</button></p>
 
           <div>
+            <h5 style="margin: 0px">Y1 Budget</h5>
+            <div style="height: 5px;"></div>
+            <table  style="width: 100%">
+              <tr>
+                <td style="width: 16%">
+                    
+                  <mat-form-field style="width: 100%">
+                    <input matInput placeholder="Funding Agency" type="text" [(ngModel)]="fagency1" >
+                  </mat-form-field>
+                </td>
+                <td  style="width: 16%">
+                  <mat-form-field style="width: 100%">
+                    <input matInput placeholder="PS" type="number" min="0" [(ngModel)]="ps" (change)="btotal()">
+                    <mat-hint><button class="buttonblue" style="border-radius: 10px;border: none;" (click)="infops()">?</button></mat-hint> 
+                  </mat-form-field>
+                </td>
+                <td  style="width: 16%">
+                  <mat-form-field style="width: 100%;">
+                    <input matInput placeholder="MOE"  type="number" min="0" [(ngModel)]="moe" (change)="btotal()">
+                    <mat-hint><button class="buttonblue" style="border-radius: 10px;border: none;" (click)="infomoe()">?</button></mat-hint> 
+                  </mat-form-field>
+                </td>
+                <td style="width: 16%">
+                  <mat-form-field style="width: 100%">
+                    <input matInput placeholder="CO" type="number" min="0" [(ngModel)]="co" (change)="btotal()">
+                    <mat-hint><button class="buttonblue" style="border-radius: 10px;border: none;" (click)="infoco()">?</button></mat-hint> 
+                  </mat-form-field>
+                </td>
+                <td style="width: 16%">
+                  <mat-form-field style="width: 100%">
+                    <input matInput placeholder="Total" [(ngModel)]="budgettotal" disabled="disabled">
+                  </mat-form-field>
+                </td>
+                <td style="width: 16%">
+                <button mat-button (click)="login2()" class="buttonblue">
+                    <mat-icon style="font-size:20px">add</mat-icon> Add</button>
+                </td>
+              </tr>
+            </table>
+
+            <table  style="width: 100%">
+              <tr>
+                <td style="width: 16%">
+                    
+                  <mat-form-field style="width: 100%">
+                    <mat-label>Funding Agency</mat-label>
+                    <mat-select  disabled="disabled">
+                      <mat-option value="{{f.id}}"  *ngFor="let f of fundingagency">
+                        {{f.name}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </td>
+                <td  style="width: 16%">
+                  <mat-form-field style="width: 100%">
+                    <input matInput placeholder="PS" disabled="disabled">
+                  </mat-form-field>
+                </td>
+                
+                <td  style="width: 16%">
+                  <mat-form-field style="width: 100%">
+                    <input matInput placeholder="MOE" disabled="disabled">
+                  </mat-form-field>
+                </td>
+                
+                <td  style="width: 16%">
+                  <mat-form-field style="width: 100%">
+                    <input matInput placeholder="CO" disabled="disabled">
+                  </mat-form-field>
+                </td>
+                
+                <td  style="width: 16%">
+                  <mat-form-field style="width: 100%">
+                    <input matInput placeholder="Total" disabled="disabled" >
+                  </mat-form-field>
+                </td>
+                <td style="width: 16%">
+                <button mat-button (click)="login2()" class="buttonred">
+                    <mat-icon style="font-size:20px">remove</mat-icon> Remove</button>
+                </td>
+              </tr>
+            </table>
+            <div style="height: 10px;"></div>
+            <p style="margin:0">Total: <b>P{{total}}</b> &nbsp; &nbsp;
+                <button mat-button (click)="login2()" class="buttonblue">
+                    <mat-icon style="font-size:20px">add</mat-icon> Add Year Budget  &nbsp;  &nbsp;  &nbsp; </button></p>
+            <hr>
+          </div>
+
+          </div>
+
+
+          <div>
             <h5 style="margin: 0px">Total Budget</h5>
             <table>
               <tr>
                 <td>
                   <mat-form-field style="width: 100%">
-                    <input matInput placeholder="Source of Fund" required>
+                    <input matInput placeholder="Source of Fund" disabled="disabled">
                   </mat-form-field>
                 </td>
                 <td>
                   <mat-form-field style="width: 100%">
-                    <input matInput placeholder="PS" required>
+                    <input matInput placeholder="PS" disabled="disabled">
                   </mat-form-field>
                 </td>
                 <td>
                   <mat-form-field style="width: 100%">
-                    <input matInput placeholder="MOE" required>
+                    <input matInput placeholder="MOE" disabled="disabled">
                   </mat-form-field>
                 </td>
                 <td>
                   <mat-form-field style="width: 100%">
-                    <input matInput placeholder="CO" required>
+                    <input matInput placeholder="CO" disabled="disabled">
                   </mat-form-field>
                 </td>
                 <td>
                   <mat-form-field style="width: 100%">
-                    <input matInput placeholder="Total" required>
+                    <input matInput placeholder="Total" disabled="disabled">
                   </mat-form-field>
                 </td>
                 <td>
@@ -149,49 +291,6 @@
             <p style="margin:0">Total: <b>P{{total}}</b></p>
             <hr>
           </div>
-
-          <div>
-            <h5 style="margin: 0px">Y1 Budget</h5>
-            <table>
-              <tr>
-                <td>
-                  <mat-form-field style="width: 100%">
-                    <input matInput placeholder="Source of Fund" required>
-                  </mat-form-field>
-                </td>
-                <td>
-                  <mat-form-field style="width: 100%">
-                    <input matInput placeholder="PS" required>
-                  </mat-form-field>
-                </td>
-                <td>
-                  <mat-form-field style="width: 100%">
-                    <input matInput placeholder="MOE" required>
-                  </mat-form-field>
-                </td>
-                <td>
-                  <mat-form-field style="width: 100%">
-                    <input matInput placeholder="CO" required>
-                  </mat-form-field>
-                </td>
-                <td>
-                  <mat-form-field style="width: 100%">
-                    <input matInput placeholder="Total" required>
-                  </mat-form-field>
-                </td>
-                <td>
-                <button mat-button (click)="login2()" class="addbuttons">
-                    <mat-icon style="font-size:20px">add</mat-icon> Add</button>
-                </td>
-              </tr>
-            </table>
-            <p style="margin:0">Total: <b>P{{total}}</b></p>
-            <hr>
-          </div>
-
-                <button mat-button (click)="login2()" class="buttonblue" class="addbuttons">
-                    <mat-icon style="font-size:20px">add</mat-icon> Add Year Budget  &nbsp;  &nbsp;  &nbsp; </button>
-        <br><br><br>
         <div>
           <button mat-button matStepperPrevious class="buttonblue" >Back</button>
             <button mat-button class="buttonblue" matStepperNext  style="float: right;">Next</button>

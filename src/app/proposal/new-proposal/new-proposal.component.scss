@@ -1,13 +1,16 @@
 #new-proposal{
 
 	.npinput{
-		width: 75%
+		width: 100%
 	}
 	.npinput2{
-		width: 37.5%
+		width: 45%
 	}
 
 	div.mat-checkbox-inner-container{
 		margin-right: 10px !important;
 	}
 }
+	.mat-form-field-infix {
+		width: 100px !important;
+	} 
