@@ -38,10 +38,12 @@ export class NewProposalComponent implements OnInit {
   fundingagency;
   fangency1;
 
-  ps=0
-  moe=0
-  co=0
+  ps='';
+  moe='';
+  co='';
   budgettotal=0
+  budgetlist;
+  balltotal=0
 
   constructor( private global: GlobalService,private http: Http) {
     this.http.get(this.global.api + 'api.php?action=FundingAgency_List',
@@ -52,6 +54,12 @@ export class NewProposalComponent implements OnInit {
         });
 
 
+  }
+  totalb(ps,co,moe){
+    return parseInt(ps)+parseInt(moe)+parseInt(co);
+  }
+  totalb2(ps,co,moe){
+    return parseInt(ps)+parseInt(moe)+parseInt(co);
   }
   btotal(){
     this.budgettotal=this.ps +this.moe + this.co;
@@ -140,7 +148,7 @@ let x=''
                   let option = new RequestOptions({ headers: header });
   	  this.proposalcounter = true;
   	  this.global.requestToken();
-	     this.global.swalLoading('Loading Person Information');
+	     this.global.swalLoading('Adding Project Title');
 
 	     this.http.post(this.global.api + 'api.php?action=proposalinsert',
 	     body,option)
@@ -187,6 +195,19 @@ let x=''
              console.log(res);
         });
   }
+  getbudget(programid){
+    var header = new Headers();
+      header.append("Accept", "application/json");
+      header.append("Content-Type", "application/x-www-form-urlencoded");    
+      let option = new RequestOptions({ headers: header });
+      this.http.get(this.global.api + 'api.php?action=getbudget&programid='+programid,
+         option)
+            .map(response => response.json())
+            .subscribe(res => {
+              this.budgetlist= res;
+             console.log(res);
+        });
+  }
 
 
   addproject(){
@@ -222,7 +243,7 @@ let x=''
     }
   }
   removeprojecttitle(projectid){
-
+                                                                                              
     var header = new Headers();
       header.append("Accept", "application/json");
       header.append("Content-Type", "application/x-www-form-urlencoded");    
@@ -232,6 +253,21 @@ let x=''
             .map(response => response.json())
             .subscribe(res => {
              this.getprojectlist(this.programid);   
+        },error => {
+                this.global.swalAlertError();
+           } );
+  }
+  removebudget(id,ps,moe,co){                                                                                    
+    var header = new Headers();
+      header.append("Accept", "application/json");
+      header.append("Content-Type", "application/x-www-form-urlencoded");    
+      let option = new RequestOptions({ headers: header });
+      this.http.get(this.global.api + 'api.php?action=removebudget&bid='+id,
+         option)
+            .map(response => response.json())
+            .subscribe(res => {
+       this.balltotal = this.balltotal - (parseInt(ps)+parseInt(moe)+parseInt(co)) ; 
+             this.getbudget(this.programid);   
         },error => {
                 this.global.swalAlertError();
            } );
@@ -255,19 +291,76 @@ let x=''
   	}
   }
 
-  swalConfirm(id)
+  swalConfirm(id,text,ctr,ps,moe,co)
   {
     swal({
-        title: 'Remove Project Title?',
+        title: text,
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: 'Yes'
       }).then((result) => {
         if (result.value) {
+          if (ctr==1) {
              this.removeprojecttitle(id);
+            // code...
+          }else if (ctr==2) {
+             this.removebudget(id,ps,moe,co);
+          }
              
         }
       })
+  }
+
+
+  addbudget(){
+  let x=''
+    if (this.fangency1==undefined||this.fangency1=="") {
+      x=x+"*Source of Fund is Required\n";
+    }if (this.ps=='') {
+      x=x+"*PS is required\n";
+    }if (this.co=='') {
+      x=x+"*Co is required\n";
+    }if (this.moe=='') {
+      x=x+"*MOE is required\n";
+    }
+    if (x=='') {
+                  let urlSearchParams = new URLSearchParams();
+                    urlSearchParams.append("sof",this.fangency1);
+                     urlSearchParams.append('ps', this.ps.toString());
+                     urlSearchParams.append('moe', this.moe.toString());
+                     urlSearchParams.append('co', this.co.toString());
+                     urlSearchParams.append('programid', this.programid.toString());
+                  let body = urlSearchParams.toString()
+      var header = new Headers();
+                  header.append("Accept", "application/json");
+                  header.append("Content-Type", "application/x-www-form-urlencoded");    
+                  let option = new RequestOptions({ headers: header });
+      this.proposalcounter = true;
+      this.global.requestToken();
+       this.global.swalLoading('Adding Budget');
+
+       this.http.post(this.global.api + 'api.php?action=addbudget',
+       body,option)
+          .map(response => response.json())
+          .subscribe(res => {
+
+             this.balltotal = this.balltotal+this.budgettotal;
+             this.global.swalClose(); 
+             this.fangency1 = '';
+             this.ps = '';
+             this.moe = '';
+             this.co = '';
+             this.budgettotal = 0;
+             this.getbudget(this.programid);             
+
+          },error => {
+            console.log(Error); 
+                this.global.swalAlertError();
+           } );
+      }
+    if (x!='') {
+      alert(x)
+    }
   }
 }

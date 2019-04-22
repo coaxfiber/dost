@@ -145,7 +145,7 @@
                         <mat-icon style="font-size:20px">add</mat-icon> Update Form 2B &nbsp; &nbsp; &nbsp;</button>
                 </td>
                 <td style="width: 27%">
-                    <button  mat-button (click)="swalConfirm(list.id)"  class="buttonred" >
+                    <button  mat-button (click)="swalConfirm(list.id,'Remove Project Title?',1,null,null,null)"  class="buttonred" >
                         <mat-icon style="font-size:20px">remove</mat-icon> Remove</button>
                 </td>
                 </tr>
@@ -161,14 +161,13 @@
           <p><b>Budget Summary for the whole program </b><button class="buttonblue" style="border-radius: 10px;border: none;" (click)="budget()">?</button></p>
 
           <div>
-            <h5 style="margin: 0px">Y1 Budget</h5>
             <div style="height: 5px;"></div>
             <table  style="width: 100%">
               <tr>
                 <td style="width: 16%">
                     
                   <mat-form-field style="width: 100%">
-                    <input matInput placeholder="Funding Agency" type="text" [(ngModel)]="fagency1" >
+                    <input matInput placeholder="Funding Agency" type="text" [(ngModel)]="fangency1" >
                   </mat-form-field>
                 </td>
                 <td  style="width: 16%">
@@ -195,102 +194,64 @@
                   </mat-form-field>
                 </td>
                 <td style="width: 16%">
-                <button mat-button (click)="login2()" class="buttonblue">
+                <button mat-button (click)="addbudget()" class="buttonblue">
                     <mat-icon style="font-size:20px">add</mat-icon> Add</button>
                 </td>
               </tr>
             </table>
 
+
+          <div  *ngIf="budgetlist!=undefined" >
+            <div  *ngIf="budgetlist[0].id!=null" >
             <table  style="width: 100%">
-              <tr>
+              <tr  *ngFor="let b of budgetlist">
                 <td style="width: 16%">
                     
                   <mat-form-field style="width: 100%">
-                    <mat-label>Funding Agency</mat-label>
-                    <mat-select  disabled="disabled">
-                      <mat-option value="{{f.id}}"  *ngFor="let f of fundingagency">
-                        {{f.name}}
-                      </mat-option>
-                    </mat-select>
+                    <input matInput placeholder="Funding Agency" disabled="disabled" value="{{b.sof}}">
                   </mat-form-field>
                 </td>
                 <td  style="width: 16%">
                   <mat-form-field style="width: 100%">
-                    <input matInput placeholder="PS" disabled="disabled">
+                    <input matInput placeholder="PS" disabled="disabled" value="{{b.ps}}">
                   </mat-form-field>
                 </td>
                 
                 <td  style="width: 16%">
                   <mat-form-field style="width: 100%">
-                    <input matInput placeholder="MOE" disabled="disabled">
+                    <input matInput placeholder="MOE" disabled="disabled" value="{{b.moe}}">
                   </mat-form-field>
                 </td>
                 
                 <td  style="width: 16%">
                   <mat-form-field style="width: 100%">
-                    <input matInput placeholder="CO" disabled="disabled">
+                    <input matInput placeholder="CO" disabled="disabled" value="{{b.co}}">
                   </mat-form-field>
                 </td>
                 
                 <td  style="width: 16%">
                   <mat-form-field style="width: 100%">
-                    <input matInput placeholder="Total" disabled="disabled" >
+                    <input matInput placeholder="Total" disabled="disabled" value="{{totalb2(b.ps,b.co,b.moe)}}">
                   </mat-form-field>
                 </td>
                 <td style="width: 16%">
-                <button mat-button (click)="login2()" class="buttonred">
+                <button mat-button (click)="swalConfirm(b.id,'Remove Budget?',2,b.ps,b.moe,b.co)" class="buttonred">
                     <mat-icon style="font-size:20px">remove</mat-icon> Remove</button>
                 </td>
               </tr>
             </table>
+            </div>
+          </div>
+
             <div style="height: 10px;"></div>
-            <p style="margin:0">Total: <b>P{{total}}</b> &nbsp; &nbsp;
-                <button mat-button (click)="login2()" class="buttonblue">
-                    <mat-icon style="font-size:20px">add</mat-icon> Add Year Budget  &nbsp;  &nbsp;  &nbsp; </button></p>
+            <p style="margin:0">Total: <b>P{{balltotal}}</b> &nbsp; &nbsp;</p>
             <hr>
           </div>
 
           </div>
 
 
-          <div>
-            <h5 style="margin: 0px">Total Budget</h5>
-            <table>
-              <tr>
-                <td>
-                  <mat-form-field style="width: 100%">
-                    <input matInput placeholder="Source of Fund" disabled="disabled">
-                  </mat-form-field>
-                </td>
-                <td>
-                  <mat-form-field style="width: 100%">
-                    <input matInput placeholder="PS" disabled="disabled">
-                  </mat-form-field>
-                </td>
-                <td>
-                  <mat-form-field style="width: 100%">
-                    <input matInput placeholder="MOE" disabled="disabled">
-                  </mat-form-field>
-                </td>
-                <td>
-                  <mat-form-field style="width: 100%">
-                    <input matInput placeholder="CO" disabled="disabled">
-                  </mat-form-field>
-                </td>
-                <td>
-                  <mat-form-field style="width: 100%">
-                    <input matInput placeholder="Total" disabled="disabled">
-                  </mat-form-field>
-                </td>
-                <td>
-                <button mat-button (click)="login2()" class="addbuttons">
-                    <mat-icon style="font-size:20px">add</mat-icon> Add</button>
-                </td>
-              </tr>
-            </table>
-            <p style="margin:0">Total: <b>P{{total}}</b></p>
-            <hr>
-          </div>
+          
         <div>
           <button mat-button matStepperPrevious class="buttonblue" >Back</button>
             <button mat-button class="buttonblue" matStepperNext  style="float: right;">Next</button>
