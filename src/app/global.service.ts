@@ -27,10 +27,12 @@ export class GlobalService {
     this.requestToken();
   }
 
+  requestemail(){return this.storage.get('email');}
   requestid(){return this.storage.get('id');}
 
-  setidname(val1){
-     this.storage.set('id',val1);
+  setemail(val1,val2){
+     this.storage.set('email',val1);
+     this.storage.set('id',val2);
   }
 
   requestToken(){

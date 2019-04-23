@@ -163,6 +163,21 @@ $db = $database->getConnection();
   return  $app_list;
 }
 
+function proposaldone($esum,$proposalid)
+{
+  $esum=htmlspecialchars(strip_tags($esum));
+$database = new Database();
+$db = $database->getConnection();
+
+  $stmt = $db->prepare("exec spProposal_Program_Insert_Update
+    @ProposalID = '$proposalid',@Significance = '$esum'");  
+  $stmt->execute();
+  $app_list = array(
+              "ok" =>"ok"
+               );
+  return  $app_list;
+}
+
 function FundingAgency_List()
 {
   //normally this info would be pulled from a database.
@@ -249,37 +264,76 @@ while ($row = $stmt ->fetch()) {
 }
   return  $app_list;
 }
-function get_app_list()
+function login($uname,$pword,$appname,$appsecret)
 {
   //normally this info would be pulled from a database.
   //build JSON array
 
+  $uname=htmlspecialchars(strip_tags($uname));
+  $pword = md5($pword);
+  $appsecret = md5($appsecret);
+
   $database = new Database();
   $db = $database->getConnection();
-  $read = new Place($db);
 
-  $x=0;
-  $stmt = $read->read();
-    while ($row = $stmt->fetch()) {
+  $stmt = $db->prepare("exec spUser_Login
+    @username = '$uname',
+    @password = '$pword',
+    @applicationName = '$appname',
+    @appSecret = '$appsecret'");  
+  $stmt->execute();
+  $app_list = array(
+              "id" => null);
+    $row = $stmt ->fetch();
+    $app_list = array(
+              "id" => $row[0],
+              "email" =>  $row[1],
+              "confirmed" =>  $row[2],
+              "lockout" =>  $row[3],
+              "codehash" =>  $row[4], 
+              "dateregistered" => $row[5], 
+              "photo" => $row[6]);
 
-            $app_list[$x] = array(
-              "pansitanid" => $row['pansitanid'],
-              "name" =>  $row['name'],
-              "address" =>  $row['address'],
-              "lati" =>  floatval($row['lati']), 
-              "longti" => floatval($row['longti']), 
-              "contact" =>  $row['contact'], 
-              "prices" => $row['prices'], 
-              "specialty" =>  $row['specialty'], 
-              "status" =>  $row['status'] );
-            $x++;
-        
-        }
-
-  return $app_list;
+  return  $app_list;
 }
+function getuserinfo($id)
+{
+  $database = new Database();
+  $db = $database->getConnection();
 
-$possible_url = array("proposalinsert","proposallists", "proposaldelete", 'programinsert', 'getprojecttitles','projectadd','removeprojecttitle','removebudget','FundingAgency_List','addbudget','getbudget','addpost');
+  $stmt = $db->prepare("exec spUser_PersonalInformation_Get
+    @userID = $id");  
+  $stmt->execute();
+  $app_list = array(
+              "id" => null);
+    $row = $stmt ->fetch();
+    $app_list = array(
+              "id" => $row[0],
+              "surname" =>  $row[1],
+              "fname" =>  $row[2],
+              "mname" =>  $row[3],
+              "ext" =>  $row[4], 
+              "birthdate" => $row[5], 
+              "sex" => $row[6], 
+              "civilstatus" => $row[7], 
+              "height" => $row[8], 
+              "weight" => $row[9], 
+              "bloodtype" => $row[10], 
+              "gsis" => $row[11], 
+              "pagibig" => $row[12], 
+              "philhealth" => $row[13], 
+              "tin" => $row[14], 
+              "agency" => $row[15], 
+              "citizenship" => $row[16], 
+              "address" => $row[17], 
+              "psg" => $row[18], 
+              "paddress" => $row[19], 
+              "telno" => $row[20], 
+              "mobileno" => $row[21]);
+
+  return  $app_list;
+}
+$possible_url = array("proposalinsert","proposallists", "proposaldelete", 'programinsert', 'getprojecttitles','projectadd','removeprojecttitle','removebudget','FundingAgency_List','addbudget','getbudget','proposaldone','login','getuserinfo');
 
 $value = "An error has occurred";
 
@@ -333,14 +387,14 @@ if (isset($_GET["action"]) && in_array($_GET["action"], $possible_url))
       case "getbudget":
         $value = getbudget($_GET["programid"]);
         break;
-      case "ratingedit":
-        $value = ratingedit($_GET["email"],$_GET["id"],$_GET["rate"],$_GET["rateid"]);
+      case "proposaldone":
+        $value = proposaldone($_POST["esummary"],$_POST["pid"]);
         break;
-      case "getimage":
-        if (isset($_GET["id"]))
-          $value = getimage($_GET["id"],$_GET["g"],$_GET["email"]);
-        else
-          $value = "Missing argument";
+      case "login":
+        $value = login($_POST["username"],$_POST["password"],$_POST["appname"],$_POST["appsecret"]);
+        break;
+      case "getuserinfo":
+        $value = getuserinfo($_GET["id"]);
         break;
     }
 }

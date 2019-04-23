@@ -16,10 +16,11 @@ const swal = Swal;
   encapsulation: ViewEncapsulation.None,
 })
 export class LoginComponent implements OnInit {
-	username:any=undefined;
-	password:any;
+	username:any="admin@gmail.com";
+	password:any="admin";
   key = 1
-header = new Headers();
+  header = new Headers();
+  user
   constructor(private http: Http, private global: GlobalService,private router: Router) { 
     
     if (this.global.getSession()!=null) {
@@ -45,9 +46,6 @@ header = new Headers();
           )
     }
     else{
-      var header = new Headers();
-                header.append("Content-Type", "application/json");
-      let option = new RequestOptions({ headers: header });
       if (this.username==undefined) {
         this.username = "";
       } if (this.password==undefined) {
@@ -57,43 +55,36 @@ header = new Headers();
        title: 'Logging In...',allowOutsideClick: false,
       });
       swal.showLoading();
-        this.http.post(this.global.api+'Auth/login' ,{
-          'userName':this.username,
-          'password':this.password,
-          'appUserName':'uslerp',
-          'appPassword':'SecretAppPass'
-        },option)
-                              .map(response => response.json())
-                              .subscribe(res => {
-                                swal.close();       
-                                if (res.token==undefined) {
-                                  swal(
-                                      "Invalid Credentials!",
-                                      'Username or Password is incorrect',
-                                      'info'
-                                    )
+        let urlSearchParams = new URLSearchParams();
+                    urlSearchParams.append("username",this.username);
+                     urlSearchParams.append('password', this.password);
+                     urlSearchParams.append('appname', 'CVRDKMS');
+                     urlSearchParams.append('appsecret', 'admin');
+                  let body = urlSearchParams.toString()
+      var header = new Headers();
+                  header.append("Accept", "application/json");
+                  header.append("Content-Type", "application/x-www-form-urlencoded");    
+                  let option = new RequestOptions({ headers: header });
 
-                                  // code...
-                                }else
-                                {  
-                                  this.global.requestToken();
-                                  this.global.setSession(res.token);
-
-                                        this.http.get(this.global.api+'Access/MenuListByUserName',this.global.option)
-                                                                  .map(response => response.json())
-                                                                  .subscribe(res2 => {
-                                                                    this.global.setidname(this.username);
-                                                                    this.router.navigate(['../main']);
-                                                                  },Error=>{
-                                                                    //console.log(Error);
-                                                                    this.global.swalAlertError();
-                                                                    console.log(Error)
-                                                                  });
-                                }
-                              },Error=>{
-                                //console.log(Error);
-                                 swal('Oops...', 'Something went wrong!', 'error');
-                              });
+       this.http.post(this.global.api + 'api.php?action=login',
+       body,option)
+          .map(response => response.json())
+          .subscribe(res => {
+             swal.close();
+             if (res.id==null) {
+               swal(
+                  '',
+                   'Incorrect Username or Password',
+                   'info'
+                  )
+             }else{
+               this.global.setemail(res.email,res.id);
+               this.router.navigate(['main']);
+             }
+          },error => {
+            console.log(Error); 
+                this.global.swalAlertError();
+           } );
     }
   }
   ngOnInit() {

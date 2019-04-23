@@ -22,7 +22,9 @@ displayedColumns = ['title','agency','fagency'];
         this.createTable();
       }
   constructor(private global: GlobalService,private http: Http) { }
-
+tabClick(tab) {
+  console.log(tab.index);
+}
 createTable() {
 
     this.global.swalLoading('Loading Proposals...');

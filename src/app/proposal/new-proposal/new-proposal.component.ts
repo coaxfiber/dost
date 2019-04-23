@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { GlobalService } from './../../global.service';
+import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router'; 
 import { MatStepper,MatDialog,MatDialogRef } from '@angular/material';
 import {Http, Headers, RequestOptions} from '@angular/http';
 import Swal from 'sweetalert2';
@@ -38,14 +40,15 @@ export class NewProposalComponent implements OnInit {
   fundingagency;
   fangency1;
 
-  ps='';
-  moe='';
-  co='';
+  ps=null;
+  moe=null;
+  co=null;
   budgettotal=0
   budgetlist;
   balltotal=0
+  esummary='';
 
-  constructor( private global: GlobalService,private http: Http) {
+  constructor( private global: GlobalService,private http: Http,private route: ActivatedRoute, private router: Router) {
     this.http.get(this.global.api + 'api.php?action=FundingAgency_List',
          this.global.option)
             .map(response => response.json())
@@ -53,6 +56,23 @@ export class NewProposalComponent implements OnInit {
               this.fundingagency= res;
         });
 
+
+    if (global.user.ext==null) {
+      global.user.ext = '';
+    }
+    if (global.user.mname==null) {
+      global.user.mname = '';
+    }
+    if (global.user.telno==null) {
+      global.user.telno = '';
+    }
+
+    this.cleader = global.user.fname+" "+global.user.mname+" "+global.user.surname+" "+global.user.ext;
+    this.gender = global.user.sex;
+    this.email = global.requestemail();
+    this.agencies = global.user.agency;
+    this.address = global.user.address;
+    this.telephone = global.user.telno;
 
   }
   totalb(ps,co,moe){
@@ -92,6 +112,27 @@ export class NewProposalComponent implements OnInit {
   budget(){
   	this.global.swalinfo("<b>Budget Summary</b> - Personal Services (PS), maintenance and other operating expenses (MOE), and capital outlay (CO) requirement of the whole program by source.");
   }
+  classification(){
+    this.global.swalinfo("<b>Classification</b> - indicates whether the program/project is research or development.");
+  }
+  implementation(){
+    this.global.swalinfo("<b>Mode of Implementation</b> - indicate whether the R & D will be undertaken by one or more than one agency.");
+  }
+  basic(){
+    this.global.swalinfo("<b>Basic research </b> - is an experimental or theoretical work undertaken primarily to acquire new knowledge of the underlying foundations of phenomena and observable facts, without any particular or specific application or use in view.");
+  }
+  applied(){
+    this.global.swalinfo("<b>Applied research</b> - is an original investigation undertaken in order to acquire new knowledge directed primarily towards a specific aim or objective.");
+  }
+  ptesting(){
+    this.global.swalinfo("<b>Pilot Testing</b> - is an innovative work to confirm and demonstrate the feasibility of actually using a technology; gauging end user’s reaction to introduction of improved technologies and identifying potential problems related to wider dissemination, utilization and adoption so that these can be fed back to researchers.");
+  }
+  promotion(){
+    this.global.swalinfo("<b>Technology promotion/commercialization</b> - is an activity involving application of technologies on a commercial scale by an identified entrepreneur or user primarily to increase his income/profits and productivity; technologies utilized/produced on a pre-commercial scale including market testing jointly undertaken with a client.");
+  }
+  development(){
+    this.global.swalinfo("<b>Developmental research</b> - is a systematic work, drawing on existing knowledge gained from research and/or practical experience that is directed to producing new materials, products or devices, installing new processes, systems and services and improving substantially those already produced or installed.");
+  }
 
   add(stepper: MatStepper) {
   	let x=''
@@ -107,8 +148,6 @@ export class NewProposalComponent implements OnInit {
   		x=x+"*Address is required\n";
   	}if (this.telephone==undefined||this.telephone=="") {
   		x=x+"*Telephone is required\n";
-  	}if (this.fax==undefined||this.fax=="") {
-  		x=x+"*Fax is required\n";
   	}
   	if (x=='') {
   	  
@@ -127,7 +166,9 @@ let x=''
   		x=x+"*Duration is required\n";
   	}if (this.fagency==undefined||this.fagency=="") {
   		x=x+"*Funding Agency is required\n";
-  	}
+  	}if (this.proj==false&&this.prog==false) {
+      x=x+"*Must select a proposal type!\n";
+    }
 
   	if (x==''&&this.proposalcounter==false) {
                   let urlSearchParams = new URLSearchParams();
@@ -317,11 +358,11 @@ let x=''
   let x=''
     if (this.fangency1==undefined||this.fangency1=="") {
       x=x+"*Source of Fund is Required\n";
-    }if (this.ps=='') {
+    }if (this.ps==''||this.ps==null) {
       x=x+"*PS is required\n";
-    }if (this.co=='') {
+    }if (this.co==''||this.co==null) {
       x=x+"*Co is required\n";
-    }if (this.moe=='') {
+    }if (this.moe==''||this.moe==null) {
       x=x+"*MOE is required\n";
     }
     if (x=='') {
@@ -354,6 +395,44 @@ let x=''
              this.budgettotal = 0;
              this.getbudget(this.programid);             
 
+          },error => {
+            console.log(Error); 
+                this.global.swalAlertError();
+           } );
+      }
+    if (x!='') {
+      alert(x)
+    }
+  }
+
+ proposaldone(){
+  let x=''
+    if (!(this.projectlists!=undefined&&this.projectlists[0].id!=null)) {
+      x=x+"*At least 1 project title is required\n";
+    }if (!(this.budgetlist!=undefined&&this.budgetlist[0].id!=null)) {
+      x=x+"*At least 1 source of fund is required\n";
+    }if (this.esummary==''||this.esummary==null) {
+      x=x+"*Executive Summary is required\n";
+    }
+    if (x=='') {
+                  let urlSearchParams = new URLSearchParams();
+                    urlSearchParams.append("esummary",this.esummary);
+                     urlSearchParams.append('pid', this.proposalid.toString());
+                  let body = urlSearchParams.toString()
+      var header = new Headers();
+                  header.append("Accept", "application/json");
+                  header.append("Content-Type", "application/x-www-form-urlencoded");    
+                  let option = new RequestOptions({ headers: header });
+      this.proposalcounter = true;
+      this.global.requestToken();
+       this.global.swalLoading('Saving New Proposal...');
+
+       this.http.post(this.global.api + 'api.php?action=proposaldone',
+       body,option)
+          .map(response => response.json())
+          .subscribe(res => {
+             this.global.swalClose(); 
+             this.router.navigate(['../main',{outlets:{div:'proposals'}}]);
           },error => {
             console.log(Error); 
                 this.global.swalAlertError();

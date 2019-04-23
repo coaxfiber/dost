@@ -1,13 +1,18 @@
 <div id='proposals'>
 
-
 <table style="width: 97%;margin: auto;">
-  <tr>
-    <td>
-    <button mat-button>Draft</button> | <button mat-button>Submitted</button> | <button mat-button>On Process</button> | <button mat-button>Rejected</button> | <button mat-button>Revise</button> | <button mat-button>Approved</button>
-    </td>
-    <td style="text-align: right;">
-       <mat-form-field>
+  <tr><td>
+      <mat-tab-group (selectedTabChange)="tabClick($event)">
+        <mat-tab label="Draft"></mat-tab>
+        <mat-tab label="Submitted"></mat-tab>
+        <mat-tab label="On Process"></mat-tab>
+        <mat-tab label="Rejected"></mat-tab>
+        <mat-tab label="Revise"></mat-tab>
+        <mat-tab label="Approved"></mat-tab>
+      </mat-tab-group>
+</td>
+    <td style="text-align: right;width: 237px" >
+       <mat-form-field style="width: 180px !important">
       <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
 
           </mat-form-field>
