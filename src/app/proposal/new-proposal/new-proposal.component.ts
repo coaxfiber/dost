@@ -48,12 +48,29 @@ export class NewProposalComponent implements OnInit {
   balltotal=0
   esummary='';
 
+  projecttitle;
+  projectduration;
+  coopagency='';
+  cagencylist
+  projectid
+  calists
+
+  rndstation
+
   constructor( private global: GlobalService,private http: Http,private route: ActivatedRoute, private router: Router) {
     this.http.get(this.global.api + 'api.php?action=FundingAgency_List',
          this.global.option)
             .map(response => response.json())
             .subscribe(res => {
               this.fundingagency= res;
+        });
+
+    this.http.get(this.global.api + 'api.php?action=company_List',
+         this.global.option)
+            .map(response => response.json())
+            .subscribe(res => {
+              this.cagencylist= res;
+              console.log(res)
         });
 
 
@@ -173,7 +190,7 @@ let x=''
   	if (x==''&&this.proposalcounter==false) {
                   let urlSearchParams = new URLSearchParams();
                     urlSearchParams.append("GeneralTitle",this.title);
-        			     	urlSearchParams.append('LeadAgency', '01001');
+        			     	urlSearchParams.append('LeadAgency', this.agencies);
         			     	urlSearchParams.append('Street', "go");
         			     	urlSearchParams.append('Address_PSGC', "012801001");
         			     	urlSearchParams.append('Telephone', this.telephone);
@@ -202,7 +219,33 @@ let x=''
                 .map(response => response.json())
                 .subscribe(res => {
                   this.programid= res.id;
-                  this.getprojectlist(this.programid);
+
+                  if (this.proj!=true) {
+                    this.getprojectlist(this.programid);
+                  }else{
+                    this.projecttitle = this.title;
+                    this.projectduration = this.duration;
+                         let urlSearchParams = new URLSearchParams();
+                                        urlSearchParams.append("programid",this.programid.toString());
+                                         urlSearchParams.append('title', this.projecttitle );
+                                         urlSearchParams.append('duration', this.projectduration);
+                                      let body = urlSearchParams.toString()
+                          var header = new Headers();
+                                      header.append("Accept", "application/json");
+                                      header.append("Content-Type", "application/x-www-form-urlencoded");    
+                                      let option = new RequestOptions({ headers: header });
+                          this.global.swalLoading('Adding project title');
+                           this.http.post(this.global.api + 'api.php?action=projectadd',
+                           body,option)
+                              .map(response => response.json())
+                              .subscribe(res => {
+                                 this.global.swalClose();  
+                                 this.getprojectlist(this.programid) 
+                              },error => {
+                                console.log(Error); 
+                                    this.global.swalAlertError();
+                               } );
+                  }
                 });
 
 
@@ -233,9 +276,59 @@ let x=''
             .map(response => response.json())
             .subscribe(res => {
               this.projectlists= res;
-             console.log(res);
+              this.projectid=res[0].id;
         });
   }
+
+
+  insertcagency(){
+
+let x='';
+    if (this.coopagency==undefined||this.coopagency=="") {
+      x=x+"*Cooperating Agency is required\n";
+    }
+
+    if (x=='') {
+     let urlSearchParams = new URLSearchParams();
+                    urlSearchParams.append("pid",this.projectid.toString());
+                     urlSearchParams.append('cid', this.coopagency.toString() );
+                  let body = urlSearchParams.toString()
+      var header = new Headers();
+                  header.append("Accept", "application/json");
+                  header.append("Content-Type", "application/x-www-form-urlencoded");    
+                  let option = new RequestOptions({ headers: header });
+      this.proposalcounter = true;
+      this.global.swalLoading('Adding project title');
+
+       this.http.post(this.global.api + 'api.php?action=projectaddcoopagency',
+       body,option)
+          .map(response => response.json())
+          .subscribe(res => {
+             this.global.swalClose();
+             this.coopagency = null;
+             this.getcooperating(this.projectid);           
+
+          },error => {
+            console.log(Error); 
+                this.global.swalAlertError();
+           } );
+        }else
+          alert(x)
+  }
+
+  getcooperating(projectid){
+    var header = new Headers();
+      header.append("Accept", "application/json");
+      header.append("Content-Type", "application/x-www-form-urlencoded");    
+      let option = new RequestOptions({ headers: header });
+      this.http.get(this.global.api + 'api.php?action=getcoopagency&projectid='+projectid,
+         option)
+            .map(response => response.json())
+            .subscribe(res => {
+              this.calists= res;
+        });
+  }
+
   getbudget(programid){
     var header = new Headers();
       header.append("Accept", "application/json");
@@ -298,6 +391,21 @@ let x=''
                 this.global.swalAlertError();
            } );
   }
+  removecagency(id){
+                                                                                              
+    var header = new Headers();
+      header.append("Accept", "application/json");
+      header.append("Content-Type", "application/x-www-form-urlencoded");    
+      let option = new RequestOptions({ headers: header });
+      this.http.get(this.global.api + 'api.php?action=projectdeletecoopagency&id='+id,
+         option)
+            .map(response => response.json())
+            .subscribe(res => {
+             this.getcooperating(this.projectid);    
+        },error => {
+                this.global.swalAlertError();
+           } );
+  }
   removebudget(id,ps,moe,co){                                                                                    
     var header = new Headers();
       header.append("Accept", "application/json");
@@ -347,6 +455,8 @@ let x=''
             // code...
           }else if (ctr==2) {
              this.removebudget(id,ps,moe,co);
+          }else if (ctr==3) {
+             this.removecagency(id);
           }
              
         }

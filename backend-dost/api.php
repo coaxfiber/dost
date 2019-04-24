@@ -1,9 +1,4 @@
 <?php
-// This is the API, 2 possibilities: show the app list or show a specific app by id.
-// This would normally be pulled from a database but for demo purposes, I will be hardcoding the return values.
-
-                                                    
-
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Credentials: true ");
 header("Access-Control-Allow-Methods: OPTIONS, GET, POST");
@@ -15,6 +10,159 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 include_once 'config/database.php';
+
+
+$possible_url = array("proposalinsert","proposallists", "proposaldelete", 'programinsert', 'getprojecttitles','projectadd','removeprojecttitle','removebudget','FundingAgency_List','addbudget','getbudget','proposaldone','login','getuserinfo','projectinsert','company_List','projectaddcoopagency','getcoopagency','projectdeletecoopagency');
+
+$value = "An error has occurred";
+
+if (isset($_GET["action"]) && in_array($_GET["action"], $possible_url))
+{
+  switch ($_GET["action"])
+    {
+      case "proposalinsert":
+        $value = insertProposal(
+          $_POST["GeneralTitle"],
+          $_POST["LeadAgency"],
+          $_POST["Street"],
+          $_POST["Address_PSGC"],
+          $_POST["Telephone"],
+          $_POST["Fax"],
+          $_POST["Email"],
+          $_POST["FundingAgency_id"],
+          $_POST["TotalDuration"],
+          $_POST["createdBy"]);
+        break;
+      case "proposallists":
+        $value = proposallists($_GET["user"]);
+        break;
+      case "proposaldelete":
+        $value = proposaldelete($_GET["proposalid"]);
+        break;
+      case "programinsert":
+        $value = programinsert($_GET["proposalid"]);
+        break;
+      case "getprojecttitles":
+        $value = getprojecttitles($_GET["programid"]);
+        break;
+      case "projectadd":
+        $value = projectadd(
+          $_POST["programid"],
+          $_POST["title"],
+          $_POST["duration"]);
+        break;
+      case "removeprojecttitle":
+        $value = removeprojecttitle($_GET["projectid"]);
+        break;
+      case "removebudget":
+        $value = removebudget($_GET["bid"]);
+        break;
+      case "FundingAgency_List":
+        $value = FundingAgency_List();
+        break;
+      case "addbudget":
+        $value = addbudget($_POST["programid"],$_POST["sof"],$_POST["ps"],$_POST["moe"],$_POST["co"]);
+        break;
+      case "getbudget":
+        $value = getbudget($_GET["programid"]);
+        break;
+      case "proposaldone":
+        $value = proposaldone($_POST["esummary"],$_POST["pid"]);
+        break;
+      case "login":
+        $value = login($_POST["username"],$_POST["password"],$_POST["appname"],$_POST["appsecret"]);
+        break;
+      case "getuserinfo":
+        $value = getuserinfo($_GET["id"]);
+        break;
+      case "company_List":
+        $value = company_List();
+        break;
+      case "projectinsert":
+        $value = projectinsert(
+          $_POST["programid"],
+          $_POST["title"],
+          $_POST["duration"],
+          $_POST["station"],
+          $_POST["implementation"],
+          $_POST["significance"],
+          $_POST["objectives"],
+          $_POST["literature"],
+          $_POST["basis"],
+          $_POST["methodology"],
+          $_POST["expectedoutput"],
+          $_POST["targetb"],
+          $_POST["programid"],
+          $_POST["programid"],
+          $_POST["programid"],
+          $_POST["programid"],
+          $_POST["programid"],
+          $_POST["programid"]);
+        break;
+      case "getcoopagency":
+        $value = getcoopagency($_GET["projectid"]);
+        break;
+      case "projectaddcoopagency":
+        $value = projectaddcoopagency(
+          $_POST["pid"],
+          $_POST["cid"]);
+        break;
+      case "projectdeletecoopagency":
+        $value = projectdeletecoopagency($_GET["id"]);
+        break;
+    }
+}
+
+function projectdeletecoopagency($id)
+{
+$database = new Database();
+$db = $database->getConnection();
+
+  $stmt = $db->prepare("exec spProposal_ProjectCooperatingAgencies_Delete
+    @id = $id");  
+  $stmt->execute();
+  $app_list = array(
+              "ok" =>"ok"
+               );
+  return  $app_list;
+}
+function getcoopagency($projectid)
+{
+  //normally this info would be pulled from a database.
+  //build JSON array
+$database = new Database();
+$db = $database->getConnection();
+
+  $stmt = $db->prepare("exec spProposal_ProjectCooperatingAgency_List
+    @Project_id = $projectid");  
+  $stmt->execute();
+  $app_list = array(
+              "id" => null);
+  $app_list = array(
+               0 => $app_list);
+  $x=0;
+while ($row = $stmt ->fetch()) {
+    $app_list[$x] = array(
+              "id" => $row[0],
+              "name" =>  $row[1]  );
+            $x++;
+        
+}
+  return  $app_list;
+}
+function projectaddcoopagency($pid,$cid)
+{
+$database = new Database();
+$db = $database->getConnection();
+
+  $stmt = $db->prepare("exec spProposal_ProjectCooperatingAgency_Insert_Update
+    @Project_id = $pid,@companyID = '$cid'");  
+  $stmt->execute();
+  $app_list = array(
+              "status" => "success" );
+
+  return  $app_list;
+}
 
 function insertProposal($GeneralTitle,$LeadAgency,$Street,$Address_PSGC,$Telephone,$Fax,$Email,$FundingAgency_id,$TotalDuration,$createdBy)
 {
@@ -75,7 +223,6 @@ $db = $database->getConnection();
   $stmt->execute();
   $app_list = array(
               "status" => "success" );
-    
 
   return  $app_list;
 }
@@ -106,6 +253,7 @@ while ($proposal = $stmt ->fetch()) {
 }
   return  $app_list;
 }
+
  
 function proposaldelete($proposalid)
 {
@@ -197,6 +345,30 @@ while ($row = $stmt ->fetch()) {
               "id" => $row[0],
               "name" =>  $row[1],
               "desciption" =>  $row[2]);
+            $x++;
+        
+}
+  return  $app_list;
+}
+
+function company_List()
+{
+  //normally this info would be pulled from a database.
+  //build JSON array
+$database = new Database();
+$db = $database->getConnection();
+
+  $stmt = $db->prepare("exec spCompany_List");  
+  $stmt->execute();
+  $app_list = array(
+              "id" => null);
+  $app_list = array(
+               0 => $app_list);
+  $x=0;
+while ($row = $stmt ->fetch()) {
+    $app_list[$x] = array(
+              "id" => $row[0],
+              "name" =>  $row[1]);
             $x++;
         
 }
@@ -333,71 +505,8 @@ function getuserinfo($id)
 
   return  $app_list;
 }
-$possible_url = array("proposalinsert","proposallists", "proposaldelete", 'programinsert', 'getprojecttitles','projectadd','removeprojecttitle','removebudget','FundingAgency_List','addbudget','getbudget','proposaldone','login','getuserinfo');
 
-$value = "An error has occurred";
 
-if (isset($_GET["action"]) && in_array($_GET["action"], $possible_url))
-{
-  switch ($_GET["action"])
-    {
-      case "proposalinsert":
-        $value = insertProposal(
-          $_POST["GeneralTitle"],
-          $_POST["LeadAgency"],
-          $_POST["Street"],
-          $_POST["Address_PSGC"],
-          $_POST["Telephone"],
-          $_POST["Fax"],
-          $_POST["Email"],
-          $_POST["FundingAgency_id"],
-          $_POST["TotalDuration"],
-          $_POST["createdBy"]);
-        break;
-      case "proposallists":
-        $value = proposallists($_GET["user"]);
-        break;
-      case "proposaldelete":
-        $value = proposaldelete($_GET["proposalid"]);
-        break;
-      case "programinsert":
-        $value = programinsert($_GET["proposalid"]);
-        break;
-      case "getprojecttitles":
-        $value = getprojecttitles($_GET["programid"]);
-        break;
-      case "projectadd":
-        $value = projectadd(
-          $_POST["programid"],
-          $_POST["title"],
-          $_POST["duration"]);
-        break;
-      case "removeprojecttitle":
-        $value = removeprojecttitle($_GET["projectid"]);
-        break;
-      case "removebudget":
-        $value = removebudget($_GET["bid"]);
-        break;
-      case "FundingAgency_List":
-        $value = FundingAgency_List();
-        break;
-      case "addbudget":
-        $value = addbudget($_POST["programid"],$_POST["sof"],$_POST["ps"],$_POST["moe"],$_POST["co"]);
-        break;
-      case "getbudget":
-        $value = getbudget($_GET["programid"]);
-        break;
-      case "proposaldone":
-        $value = proposaldone($_POST["esummary"],$_POST["pid"]);
-        break;
-      case "login":
-        $value = login($_POST["username"],$_POST["password"],$_POST["appname"],$_POST["appsecret"]);
-        break;
-      case "getuserinfo":
-        $value = getuserinfo($_GET["id"]);
-        break;
-    }
-}
 
 //return JSON array
 exit(json_encode($value));

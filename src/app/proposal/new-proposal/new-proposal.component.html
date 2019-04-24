@@ -24,10 +24,24 @@
             <mat-form-field  class="npinput2">
               <input matInput placeholder="Email" required [(ngModel)]="email" disabled="{{proposalcounter}}">
             </mat-form-field>
-            <mat-form-field  class="npinput">
-              <input matInput placeholder="Agency(ies)" required [(ngModel)]="agencies" disabled="{{proposalcounter}}">
-              <mat-hint>the institution(s) of the coordinator/leader <button class="buttonblue" style="border-radius: 10px;border: none;" (click)="agency()">?</button></mat-hint>
-            </mat-form-field><br>
+
+            <table style="width: 100%">
+              <tr>
+                <td style="width: 50%"> 
+                  <mat-form-field  class="npinput2" style="width: 100%">
+                    <mat-label>Agency(ies)</mat-label>
+                    <mat-select  [(ngModel)]="agencies"  disabled="{{proposalcounter}}">
+                      <mat-option value="{{c.id}}"  *ngFor="let c of cagencylist">
+                        {{c.name}}
+                      </mat-option>
+                    </mat-select>
+                    <mat-hint>the institution(s) of the coordinator/leader <button class="buttonblue" style="border-radius: 10px;border: none;" (click)="agency()">?</button></mat-hint>
+                  </mat-form-field>
+                </td>
+              </tr>
+            </table>
+
+            <br>
             <div style="height: 10px;"></div>
             <mat-form-field  class="npinput">
               <input matInput placeholder="Address" required [(ngModel)]="address" disabled="{{proposalcounter}}">
@@ -257,25 +271,55 @@
             <tr>
               <td style="width: 50%">
             <mat-form-field class="npinput"  style="width: 100%">
-              <input matInput placeholder="Project Title"  [(ngModel)]="protitle" >
+              <input matInput placeholder="Project Title"  [(ngModel)]="projecttitle" >
               <mat-hint></mat-hint>
             </mat-form-field></td>
             <td style="width: 20%">
             <mat-form-field class="npinput" style="width: 100%">
-              <input matInput placeholder="Duration" type="number" min="0" [(ngModel)]="produration" >
+              <input matInput placeholder="Duration" type="number" min="0" [(ngModel)]="projectduration" >
               <mat-hint>In Months</mat-hint>
             </mat-form-field></td>
             </tr>
           </table>
 
-            <mat-form-field  class="npinput" style="width: 100%"> 
-              <textarea matInput placeholder="Cooperating Agencies" required style="height: 80px"  [(ngModel)]="esummary" ></textarea>
-              <mat-hint>agencies participating in the R & D work.</mat-hint> 
-            </mat-form-field>
+            <table style="width: 100%">
+              <tr>
+                <td style="width: 50%"> 
+                  <mat-form-field  class="npinput2" style="width: 100%">
+                    <mat-label>Cooperating Agencies</mat-label>
+                    <mat-select  [(ngModel)]="coopagency">
+                      <mat-option value="{{c.id}}"  *ngFor="let c of cagencylist">
+                        {{c.name}}
+                      </mat-option>
+                    </mat-select>
+                    <mat-hint>agencies participating in the R & D work.</mat-hint> 
+                  </mat-form-field>
+                </td>
+                <td>
+                  <button mat-raised-button (click)="insertcagency()" class="buttonblue" >
+                    <mat-icon style="font-size:20px">add</mat-icon> Add</button>
+                </td>
+              </tr>
+            </table>
+
+
+          <div  *ngIf="calists!=undefined" >
+            <div  *ngIf="calists[0].id!=null" >
+              <table style="width: 100%" *ngFor="let list of calists">
+                <tr>
+                  <td style="width: 50%">{{list.name}}</td>
+                <td style="width: 27%">
+                    <button  mat-button (click)="swalConfirm(list.id,'Remove this Cooperating Agency?',3,null,null,null)"  class="buttonred" >
+                        <mat-icon style="font-size:20px">remove</mat-icon> Remove</button>
+                </td>
+                </tr>
+              </table>
+          </div>
+          </div>
 
             <div style="height: 10px;"></div>
             <mat-form-field  class="npinput" style="width: 100%"> 
-              <textarea matInput placeholder="Research & Development Station" required style="height: 80px"  [(ngModel)]="esummary" ></textarea>
+              <textarea matInput placeholder="Research & Development Station" required style="height: 80px"  [(ngModel)]="rndstation" ></textarea>
               <mat-hint>station or unit where R & D will be actually conducted.</mat-hint> 
             </mat-form-field>
 
