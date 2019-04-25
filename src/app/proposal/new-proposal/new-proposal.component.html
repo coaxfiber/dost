@@ -329,19 +329,19 @@
             <div style="overflow: hidden;">
             <mat-card style="background-color: #f4f4f4;width:calc(50% - 43px);float: left;">
               <h4 style="margin: 0px">Research:</h4>
-              <mat-checkbox>
+              <mat-checkbox (change)="checkbox($event,1,1)">
                 <p style="margin: 0px;white-space:normal;">Basic <button class="buttonblue" style="border-radius: 10px;border: none;" (click)="basic()">?</button></p>
               </mat-checkbox><br>
-              <mat-checkbox>
+              <mat-checkbox (change)="checkbox($event,1,2)">
                 <p style="margin: 0px;white-space:normal;">Applied <button class="buttonblue" style="border-radius: 10px;border: none;" (click)="applied()">?</button></p>
               </mat-checkbox>
             </mat-card>
             <mat-card style="background-color: #f4f4f4;width: calc(50% - 95px);float: right;">
               <h4 style="margin: 0px">Development: <button class="buttonblue" style="border-radius: 10px;border: none;" (click)="development()">?</button></h4>
-              <mat-checkbox>
+              <mat-checkbox (change)="checkbox($event,1,3)">
                 <p style="margin: 0px;white-space:normal;">Pilot Testing <button class="buttonblue" style="border-radius: 10px;border: none;" (click)="ptesting()">?</button></p>
               </mat-checkbox><br>
-              <mat-checkbox>
+              <mat-checkbox (change)="checkbox($event,1,4)">
                 <p style="margin: 0px;white-space:normal;">Tech. Promotion/Commercialization <button class="buttonblue" style="border-radius: 10px;border: none;" (click)="promotion()">?</button></p>
               </mat-checkbox>
             </mat-card>
@@ -352,10 +352,10 @@
 
             <div style="overflow: hidden;">
             <mat-card style="background-color: #f4f4f4;width:calc(100% - 70px);float: left;">
-              <mat-checkbox>
+              <mat-checkbox (change)="checkbox($event,2,1)">
                 <p style="margin: 0px;white-space:normal;">Single Agency</p>
               </mat-checkbox><br>
-              <mat-checkbox>
+              <mat-checkbox (change)="checkbox($event,2,2)">
                 <p style="margin: 0px;white-space:normal;">Multi Agency</p>
               </mat-checkbox>
             </mat-card>
@@ -366,87 +366,381 @@
 
             <div style="overflow: hidden;">
             <mat-card style="background-color: #f4f4f4;width:calc(100% - 70px);float: left;">
-              <mat-checkbox>
+              <mat-checkbox (change)="checkbox($event,3,1)">
                 <p style="margin: 0px;white-space:normal;">Biotechnology</p>
               </mat-checkbox><br>
-              <mat-checkbox>
+              <mat-checkbox (change)="checkbox($event,3,2)">
                 <p style="margin: 0px;white-space:normal;">ICT</p>
               </mat-checkbox><br>
-              <mat-checkbox>
+              <mat-checkbox (change)="checkbox($event,3,3)">
                 <p style="margin: 0px;white-space:normal;">Alternative Energy</p>
               </mat-checkbox><br>
-              <mat-checkbox>
+              <mat-checkbox (change)="checkbox($event,3,4)">
                 <p style="margin: 0px;white-space:normal;">Environment</p>
               </mat-checkbox><br>
-              <mat-checkbox>
+              <mat-checkbox (change)="checkbox($event,3,5)">
                 <p style="margin: 0px;white-space:normal;">Health Products</p>
               </mat-checkbox><br>
-              <mat-checkbox>
+              <mat-checkbox (change)="checkbox($event,3,6)">
                 <p style="margin: 0px;white-space:normal;">Basic Research</p>
               </mat-checkbox><br>
-              <mat-checkbox>
+              <mat-checkbox (change)="checkbox($event,3,7)">
                 <p style="margin: 0px;white-space:normal;">others</p>
               </mat-checkbox><br>
 
-              <div style="height: 10px;"></div>
-              <mat-form-field class="npinput">
-                <input matInput placeholder="Others" [(ngModel)]="cleader">
-              </mat-form-field>
               </mat-card>
           </div>
 
           <div style="height: 10px;"></div>
-             
-            <mat-form-field  class="npinput" style="width: 50%"> 
-              <textarea matInput placeholder="Sector Commodity" required style="height: 80px"  [(ngModel)]="esummary" ></textarea>
-              <mat-hint><button class="buttonblue" style="border-radius: 10px;border: none;" (click)="promotion()">?</button></mat-hint> 
-            </mat-form-field>
-            <mat-form-field  class="npinput" style="width: 48%"> 
-              <textarea matInput placeholder="Discipline" required style="height: 80px"  [(ngModel)]="esummary" ></textarea>
-              <mat-hint><button class="buttonblue" style="border-radius: 10px;border: none;" (click)="promotion()">?</button></mat-hint> 
+             <p style="margin: 0"><b>Sector Commodity </b><button class="buttonblue" style="border-radius: 10px;border: none;" (click)="sectorc()">?</button></p>
+
+            <div style="overflow: hidden;">
+            <mat-card style="background-color: #f4f4f4;width:calc(100% - 70px);float: left;">
+              <mat-checkbox (change)="checkbox($event,4,1)">
+                <p style="margin: 0px;white-space:normal;">Crops</p>
+              </mat-checkbox><br>
+              <mat-checkbox (change)="checkbox($event,4,2)">
+                <p style="margin: 0px;white-space:normal;">Livestock</p>
+              </mat-checkbox><br>
+              <mat-checkbox (change)="checkbox($event,4,3)">
+                <p style="margin: 0px;white-space:normal;">Forestry</p>
+              </mat-checkbox><br>
+              <mat-checkbox (change)="checkbox($event,4,4)">
+                <p style="margin: 0px;white-space:normal;">Agricultural Resources</p>
+              </mat-checkbox><br>
+              <mat-checkbox (change)="checkbox($event,4,5)">
+                <p style="margin: 0px;white-space:normal;">Socio Economics</p>
+              </mat-checkbox><br>
+              <mat-checkbox (change)="checkbox($event,4,6)">
+                <p style="margin: 0px;white-space:normal;">Fisheries or Aquatic resources</p>
+              </mat-checkbox><br>
+              <mat-checkbox (change)="checkbox($event,4,7)">
+                <p style="margin: 0px;white-space:normal;">Biotechnical</p>
+              </mat-checkbox><br>
+              <mat-checkbox (change)="checkbox($event,4,8)">
+                <p style="margin: 0px;white-space:normal;">Pharmaceutical</p>
+              </mat-checkbox><br>
+              <mat-checkbox (change)="checkbox($event,4,9)">
+                <p style="margin: 0px;white-space:normal;">Health Services</p>
+              </mat-checkbox><br>
+              <mat-checkbox (change)="checkbox($event,4,10)">
+                <p style="margin: 0px;white-space:normal;">Information Technology</p>
+              </mat-checkbox><br>
+              <mat-checkbox (change)="checkbox($event,4,11)">
+                <p style="margin: 0px;white-space:normal;">Material Science</p>
+              </mat-checkbox><br>
+              <mat-checkbox (change)="checkbox($event,4,12)">
+                <p style="margin: 0px;white-space:normal;">Photonics or Space Technology</p>
+              </mat-checkbox><br>
+              <mat-checkbox (change)="checkbox($event,4,13)">
+                <p style="margin: 0px;white-space:normal;">Industry</p>
+              </mat-checkbox><br>
+              <mat-checkbox (change)="checkbox($event,4,14)">
+                <p style="margin: 0px;white-space:normal;">Energy</p>
+              </mat-checkbox><br>
+              <mat-checkbox (change)="checkbox($event,4,15)">
+                <p style="margin: 0px;white-space:normal;">Utilities or Infrastructure</p>
+              </mat-checkbox><br>
+
+              </mat-card>
+          </div>
+
+          <div style="height: 10px;"></div>
+             <p style="margin: 0"><b>Discipline </b><button class="buttonblue" style="border-radius: 10px;border: none;" (click)="disciplineinfo()">?</button></p>
+
+            <div style="overflow: hidden;">
+            <mat-card style="background-color: #f4f4f4;width:calc(100% - 70px);float: left;">
+              <mat-checkbox (change)="checkbox($event,5,1)">
+                <p style="margin: 0px;white-space:normal;">Plant Breeding</p>
+              </mat-checkbox><br>
+              <mat-checkbox (change)="checkbox($event,5,2)">
+                <p style="margin: 0px;white-space:normal;">Taxonomy</p>
+              </mat-checkbox><br>
+              <mat-checkbox (change)="checkbox($event,5,3)">
+                <p style="margin: 0px;white-space:normal;">Communicable and Degenerative Diseases</p>
+              </mat-checkbox><br>
+              <mat-checkbox (change)="checkbox($event,5,4)">
+                <p style="margin: 0px;white-space:normal;">Drug Formulation</p>
+              </mat-checkbox><br>
+              <mat-checkbox (change)="checkbox($event,5,5)">
+                <p style="margin: 0px;white-space:normal;">Maternal and Child Health</p>
+              </mat-checkbox><br>
+              <mat-checkbox (change)="checkbox($event,5,6)">
+                <p style="margin: 0px;white-space:normal;">Process</p>
+              </mat-checkbox><br>
+              <mat-checkbox (change)="checkbox($event,5,7)">
+                <p style="margin: 0px;white-space:normal;">Food and Feed</p>
+              </mat-checkbox><br>
+              <mat-checkbox (change)="checkbox($event,5,8)">
+                <p style="margin: 0px;white-space:normal;">Metals</p>
+              </mat-checkbox><br>
+              <mat-checkbox (change)="checkbox($event,5,9)">
+                <p style="margin: 0px;white-space:normal;">Engineering</p>
+              </mat-checkbox><br>
+              </mat-card>
+          </div>
+
+          <div style="height: 10px;"></div>
+                         
+          <div style="height: 10px;"></div>
+            <mat-form-field  class="npinput" style="width: 100%"> 
+              <textarea matInput placeholder="Significance" required style="height: 80px"  [(ngModel)]="significance" ></textarea>
+              <mat-hint><button class="buttonblue" style="border-radius: 10px;border: none;" (click)="significanceinfo()">?</button></mat-hint> 
             </mat-form-field>
             
           <div style="height: 10px;"></div>
             <mat-form-field  class="npinput" style="width: 100%"> 
-              <textarea matInput placeholder="Significance" required style="height: 80px"  [(ngModel)]="esummary" ></textarea>
-              <mat-hint><button class="buttonblue" style="border-radius: 10px;border: none;" (click)="promotion()">?</button></mat-hint> 
+              <textarea matInput placeholder="Objectives" required style="height: 80px"  [(ngModel)]="objectives" ></textarea>
+              <mat-hint>Statement of the specific purpose to address the problem areas of the project.</mat-hint> 
             </mat-form-field>
             
           <div style="height: 10px;"></div>
             <mat-form-field  class="npinput" style="width: 100%"> 
-              <textarea matInput placeholder="Objectives" required style="height: 80px"  [(ngModel)]="esummary" ></textarea>
-              <mat-hint><button class="buttonblue" style="border-radius: 10px;border: none;" (click)="promotion()">?</button></mat-hint> 
-            </mat-form-field>
-            
-          <div style="height: 10px;"></div>
-            <mat-form-field  class="npinput" style="width: 100%"> 
-              <textarea matInput placeholder="Methodology" required style="height: 80px"  [(ngModel)]="esummary" ></textarea>
-              <mat-hint><button class="buttonblue" style="border-radius: 10px;border: none;" (click)="promotion()">?</button></mat-hint> 
+              <textarea matInput placeholder="Methodology" required style="height: 80px"  [(ngModel)]="methodology" ></textarea>
+              <mat-hint>Brief description of how projects will be implemented</mat-hint> 
             </mat-form-field>
 
             
           <div style="height: 10px;"></div>
             <mat-form-field  class="npinput" style="width: 100%"> 
-              <textarea matInput placeholder="Major Activities" required style="height: 80px"  [(ngModel)]="esummary" ></textarea>
-              <mat-hint><button class="buttonblue" style="border-radius: 10px;border: none;" (click)="promotion()">?</button></mat-hint> 
+              <textarea matInput placeholder="Major Activities" required style="height: 80px"  [(ngModel)]="majora" ></textarea>
+              <mat-hint>Enumerate in chronological order the tasks to be undertaken. Use gantt chart</mat-hint> 
             </mat-form-field>
 
 
             
           <div style="height: 10px;"></div>
             <mat-form-field  class="npinput" style="width: 100%"> 
-              <textarea matInput placeholder="Expected Output" required style="height: 80px"  [(ngModel)]="esummary" ></textarea>
-              <mat-hint><button class="buttonblue" style="border-radius: 10px;border: none;" (click)="promotion()">?</button></mat-hint> 
+              <textarea matInput placeholder="Expected Output" required style="height: 80px"  [(ngModel)]="expectedo" ></textarea>
+              <mat-hint><button class="buttonblue" style="border-radius: 10px;border: none;" (click)="expectedoinfo()">?</button></mat-hint> 
             </mat-form-field>
             
           <div style="height: 10px;"></div>
             <mat-form-field  class="npinput" style="width: 100%"> 
-              <textarea matInput placeholder="Target Beneficiaries" required style="height: 80px"  [(ngModel)]="esummary" ></textarea>
-              <mat-hint><button class="buttonblue" style="border-radius: 10px;border: none;" (click)="promotion()">?</button></mat-hint> 
+              <textarea matInput placeholder="Target Beneficiaries" required style="height: 80px"  [(ngModel)]="targetb" ></textarea>
+              <mat-hint><button class="buttonblue" style="border-radius: 10px;border: none;" (click)="targetbinfo()">?</button></mat-hint> 
             </mat-form-field>
 
           <div style="height: 10px;"></div>
+             <p style="margin: 0"><b>Implementing Schedule </b><button class="buttonblue" style="border-radius: 10px;border: none;" (click)="schedinfo()">?</button></p>
 
+          <div style="height: 10px;"></div>
+            <mat-form-field class="npinput" style="width: 50%">
+              <input matInput placeholder="Duration" type="number" min="0" [(ngModel)]="projectduration" disabled="disabled">
+              <mat-hint>In Months</mat-hint>
+            </mat-form-field>
+
+            <table style="width: 100%">
+              <tr>
+                <td style="width: 200px">
+                  Planned Start date:
+                </td>
+                <td style="width: 150px">
+                  <mat-form-field  class="npinput2"  style="width: 100%">
+                    <mat-label>Month</mat-label>
+                    <mat-select [(ngModel)]="month1">
+                      <mat-option value="01">
+                        January
+                      </mat-option>
+                       <mat-option value="02">
+                        February
+                      </mat-option>
+                       <mat-option value="03">
+                        March
+                      </mat-option>
+                       <mat-option value="04">
+                        April
+                      </mat-option>
+                       <mat-option value="05">
+                        May
+                      </mat-option>
+                       <mat-option value="06">
+                        June
+                      </mat-option>
+                       <mat-option value="07">
+                        July
+                      </mat-option>
+                       <mat-option value="08">
+                        August
+                      </mat-option>
+                       <mat-option value="09">
+                        September
+                      </mat-option>
+                       <mat-option value="10">
+                        October
+                      </mat-option>
+                       <mat-option value="11">
+                        November
+                      </mat-option>
+                       <mat-option value="12">
+                        December
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </td>
+                <td style="width: 150px">
+                  <mat-form-field  class="npinput2"  style="width: 100%">
+                    <mat-label>Year</mat-label>
+                    <mat-select [(ngModel)]="year1">
+                      <mat-option value="{{f}}"  *ngFor="let f of yeararr">
+                        {{f}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field></td>
+                  <td></td>
+              </tr>
+            </table>
+
+             <table style="width: 100%">
+              <tr>
+                <td style="width: 200px">
+                  Planned Completion date:
+                </td>
+                <td style="width: 150px">
+                  <mat-form-field  class="npinput2"  style="width: 100%">
+                    <mat-label>Month</mat-label>
+                    <mat-select [(ngModel)]="month2">
+                      <mat-option value="01">
+                        January
+                      </mat-option>
+                       <mat-option value="02">
+                        February
+                      </mat-option>
+                       <mat-option value="03">
+                        March
+                      </mat-option>
+                       <mat-option value="04">
+                        April
+                      </mat-option>
+                       <mat-option value="05">
+                        May
+                      </mat-option>
+                       <mat-option value="06">
+                        June
+                      </mat-option>
+                       <mat-option value="07">
+                        July
+                      </mat-option>
+                       <mat-option value="08">
+                        August
+                      </mat-option>
+                       <mat-option value="09">
+                        September
+                      </mat-option>
+                       <mat-option value="10">
+                        October
+                      </mat-option>
+                       <mat-option value="11">
+                        November
+                      </mat-option>
+                       <mat-option value="12">
+                        December
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </td>
+                <td style="width: 150px">
+                  <mat-form-field  class="npinput2"  style="width: 100%">
+                    <mat-label>Year</mat-label>
+                    <mat-select [(ngModel)]="year2">
+                      <mat-option value="{{f}}"  *ngFor="let f of yeararr">
+                        {{f}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field></td>
+                  <td></td>
+              </tr>
+            </table>
+
+            <p><b>Estimated Budget by Source </b><button class="buttonblue" style="border-radius: 10px;border: none;" (click)="budgetprojectinfo()">?</button></p>
+
+          <div>
+            <div style="height: 5px;"></div>
+            <table  style="width: 100%">
+              <tr>
+                <td style="width: 16%">
+                    
+                  <mat-form-field style="width: 100%">
+                    <input matInput placeholder="Funding Agency" type="text" [(ngModel)]="fangency1" >
+                  </mat-form-field>
+                </td>
+                <td  style="width: 16%">
+                  <mat-form-field style="width: 100%">
+                    <input matInput placeholder="PS" type="number" min="0" [(ngModel)]="ps" (change)="btotal()">
+                    <mat-hint><button class="buttonblue" style="border-radius: 10px;border: none;" (click)="infops()">?</button></mat-hint> 
+                  </mat-form-field>
+                </td>
+                <td  style="width: 16%">
+                  <mat-form-field style="width: 100%;">
+                    <input matInput placeholder="MOE"  type="number" min="0" [(ngModel)]="moe" (change)="btotal()">
+                    <mat-hint><button class="buttonblue" style="border-radius: 10px;border: none;" (click)="infomoe()">?</button></mat-hint> 
+                  </mat-form-field>
+                </td>
+                <td style="width: 16%">
+                  <mat-form-field style="width: 100%">
+                    <input matInput placeholder="CO" type="number" min="0" [(ngModel)]="co" (change)="btotal()">
+                    <mat-hint><button class="buttonblue" style="border-radius: 10px;border: none;" (click)="infoco()">?</button></mat-hint> 
+                  </mat-form-field>
+                </td>
+                <td style="width: 16%">
+                  <mat-form-field style="width: 100%">
+                    <input matInput placeholder="Total" [(ngModel)]="budgettotal" disabled="disabled">
+                  </mat-form-field>
+                </td>
+                <td style="width: 16%">
+                <button mat-button (click)="addbudget2()" class="buttonblue">
+                    <mat-icon style="font-size:20px">add</mat-icon> Add</button>
+                </td>
+              </tr>
+            </table>
+
+
+          <div  *ngIf="budgetlist2!=undefined" >
+            <div  *ngIf="budgetlist2[0].id!=null" >
+            <table  style="width: 100%">
+              <tr  *ngFor="let b of budgetlist2">
+                <td style="width: 16%">
+                    
+                  <mat-form-field style="width: 100%">
+                    <input matInput placeholder="Funding Agency" disabled="disabled" value="{{b.sof}}">
+                  </mat-form-field>
+                </td>
+                <td  style="width: 16%">
+                  <mat-form-field style="width: 100%">
+                    <input matInput placeholder="PS" disabled="disabled" value="{{b.ps}}">
+                  </mat-form-field>
+                </td>
+                
+                <td  style="width: 16%">
+                  <mat-form-field style="width: 100%">
+                    <input matInput placeholder="MOE" disabled="disabled" value="{{b.moe}}">
+                  </mat-form-field>
+                </td>
+                
+                <td  style="width: 16%">
+                  <mat-form-field style="width: 100%">
+                    <input matInput placeholder="CO" disabled="disabled" value="{{b.co}}">
+                  </mat-form-field>
+                </td>
+                
+                <td  style="width: 16%">
+                  <mat-form-field style="width: 100%">
+                    <input matInput placeholder="Total" disabled="disabled" value="{{totalb2(b.ps,b.co,b.moe)}}">
+                  </mat-form-field>
+                </td>
+                <td style="width: 16%">
+                <button mat-button (click)="swalConfirm(b.id,'Remove Budget?',4,b.ps,b.moe,b.co)" class="buttonred">
+                    <mat-icon style="font-size:20px">remove</mat-icon> Remove</button>
+                </td>
+              </tr>
+            </table>
+            </div>
+          </div>
+
+            <div style="height: 10px;"></div>
+            <p style="margin:0">Total: <b>P{{balltotal}}</b> &nbsp; &nbsp;</p>
+            <hr>
+          </div>
         </div>
 
 

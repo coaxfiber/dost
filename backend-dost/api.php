@@ -12,7 +12,7 @@ error_reporting(E_ALL);
 include_once 'config/database.php';
 
 
-$possible_url = array("proposalinsert","proposallists", "proposaldelete", 'programinsert', 'getprojecttitles','projectadd','removeprojecttitle','removebudget','FundingAgency_List','addbudget','getbudget','proposaldone','login','getuserinfo','projectinsert','company_List','projectaddcoopagency','getcoopagency','projectdeletecoopagency');
+$possible_url = array("proposalinsert","proposallists", "proposaldelete", 'programinsert', 'getprojecttitles','projectadd','removeprojecttitle','removebudget','removebudget2','FundingAgency_List','addbudget','getbudget','addbudget2','getbudget2','proposaldone','login','getuserinfo','projectinsert','company_List','projectaddcoopagency','getcoopagency','projectdeletecoopagency');
 
 $value = "An error has occurred";
 
@@ -57,6 +57,9 @@ if (isset($_GET["action"]) && in_array($_GET["action"], $possible_url))
       case "removebudget":
         $value = removebudget($_GET["bid"]);
         break;
+      case "removebudget2":
+        $value = removebudget2($_GET["bid"]);
+        break;
       case "FundingAgency_List":
         $value = FundingAgency_List();
         break;
@@ -65,6 +68,12 @@ if (isset($_GET["action"]) && in_array($_GET["action"], $possible_url))
         break;
       case "getbudget":
         $value = getbudget($_GET["programid"]);
+        break;
+      case "addbudget2":
+        $value = addbudget2($_POST["projectid"],$_POST["sof"],$_POST["ps"],$_POST["moe"],$_POST["co"]);
+        break;
+      case "getbudget2":
+        $value = getbudget2($_GET["projectid"]);
         break;
       case "proposaldone":
         $value = proposaldone($_POST["esummary"],$_POST["pid"]);
@@ -275,7 +284,7 @@ $database = new Database();
 $db = $database->getConnection();
 
   $stmt = $db->prepare("exec spProposal_ProgramBudgetSummary_Insert
-    @Program_id = $pid,@SourceOfFund = $s,@PS = $ps,@MOE = $moe,@CO = $co");  
+    @Program_id = $pid,@SourceOfFund = '$s',@PS = $ps,@MOE = $moe,@CO = $co");  
   $stmt->execute();
   $app_list = array(
               "ok" =>"ok"
@@ -283,6 +292,19 @@ $db = $database->getConnection();
   return  $app_list;
 }
  
+function addbudget2($pid,$s,$ps,$moe,$co)
+{
+$database = new Database();
+$db = $database->getConnection();
+
+  $stmt = $db->prepare("exec spProposal_ProjectEstimatedBudget_Insert
+    @Project_id = $pid,@SourceName = '$s',@PS = $ps,@MOE = $moe,@CO = $co");  
+  $stmt->execute();
+  $app_list = array(
+              "ok" =>$ps
+               );
+  return  $app_list;
+}
 function removeprojecttitle($projectid)
 {
 $database = new Database();
@@ -303,6 +325,19 @@ $database = new Database();
 $db = $database->getConnection();
 
   $stmt = $db->prepare("exec spProposal_ProgramBudgetSummary_Delete
+    @id = $id");  
+  $stmt->execute();
+  $app_list = array(
+              "ok" =>"ok"
+               );
+  return  $app_list;
+}
+function removebudget2($id)
+{
+$database = new Database();
+$db = $database->getConnection();
+
+  $stmt = $db->prepare("exec spProposal_ProjectEstimatedBudget_Delete
     @id = $id");  
   $stmt->execute();
   $app_list = array(
@@ -417,6 +452,34 @@ $db = $database->getConnection();
 
   $stmt = $db->prepare("exec spProposal_ProgramBudgetSummary_List
     @Program_id = $programid");  
+  $stmt->execute();
+  $app_list = array(
+              "id" => null);
+  $app_list = array(
+               0 => $app_list);
+  $x=0;
+while ($row = $stmt ->fetch()) {
+    $app_list[$x] = array(
+              "id" => $row[0],
+              "pid" =>  $row[1],
+              "sof" =>  $row[2],
+              "ps" =>  $row[3],
+              "moe" =>  $row[4], 
+              "co" => $row[5]);
+            $x++;
+        
+}
+  return  $app_list;
+}
+function getbudget2($projectid)
+{
+  //normally this info would be pulled from a database.
+  //build JSON array
+$database = new Database();
+$db = $database->getConnection();
+
+  $stmt = $db->prepare("exec spProposal_ProjectEstimatedBudget_List
+    @Project_id = $projectid");  
   $stmt->execute();
   $app_list = array(
               "id" => null);
