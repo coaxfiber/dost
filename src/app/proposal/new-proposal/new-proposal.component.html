@@ -502,11 +502,14 @@
 
             
           <div style="height: 10px;"></div>
-            <mat-form-field  class="npinput" style="width: 100%"> 
-              <textarea matInput placeholder="Major Activities" required style="height: 80px"  [(ngModel)]="majora" ></textarea>
-              <mat-hint>Enumerate in chronological order the tasks to be undertaken. Use gantt chart</mat-hint> 
-            </mat-form-field>
-
+            <p>Major Activities <button class="buttonblue" style="border-radius: 10px;border: none;" (click)="majorainfo()">?</button></p>
+            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+              <div class="form-group">
+                <input type="file" id="avatar" (change)="onFileChange($event)" #fileInput class="inputfile" />
+                <label for="avatar">{{majoralabel}}</label>
+                <button mat-button type="button" class="btn btn-sm btn-default" (click)="clearFile()">clear file</button>
+              </div>
+            </form>
 
             
           <div style="height: 10px;"></div>
@@ -746,8 +749,8 @@
 
         <div>
           <button mat-button matStepperPrevious class="buttonblue" >Back</button>
-            <button mat-button class="buttonblue"  (click)="proposaldone()"  style="float: right;">Submit Proposal</button>
-            <button mat-button style="float: right;">Save as Draft</button>
+            <button mat-button class="buttonblue"  (click)="proposaldone(2)"  style="float: right;">Submit Proposal</button>
+            <button mat-button style="float: right;" (click)="proposaldone(1)">Save as Draft</button>
           
         </div>
       </mat-step>

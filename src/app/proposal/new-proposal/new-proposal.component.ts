@@ -5,6 +5,11 @@ import { ActivatedRoute } from '@angular/router';
 import { MatStepper,MatDialog,MatDialogRef } from '@angular/material';
 import {Http, Headers, RequestOptions} from '@angular/http';
 import Swal from 'sweetalert2';
+
+
+import { ElementRef, ViewChild} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+
 const swal = Swal;
 @Component({
   selector: 'app-new-proposal',
@@ -12,6 +17,11 @@ const swal = Swal;
   styleUrls: ['./new-proposal.component.scss']
 })
 export class NewProposalComponent implements OnInit {
+
+  form: FormGroup;
+  loading: boolean = false;
+  @ViewChild('fileInput') fileInput: ElementRef;
+
 
   yeararr=[];
 
@@ -78,7 +88,8 @@ export class NewProposalComponent implements OnInit {
   month1
   month2
 
-  constructor( private global: GlobalService,private http: Http,private route: ActivatedRoute, private router: Router) {
+majoralabel='Choose a file';
+  constructor( private fb: FormBuilder,private global: GlobalService,private http: Http,private route: ActivatedRoute, private router: Router) {
     this.http.get(this.global.api + 'api.php?action=FundingAgency_List',
          this.global.option)
             .map(response => response.json())
@@ -118,6 +129,45 @@ export class NewProposalComponent implements OnInit {
       year++;
     }
 
+    this.createForm();
+
+  }
+
+ createForm() {
+    this.form = this.fb.group({
+      name: ['', Validators.required],
+      avatar: null
+    });
+  }
+
+onFileChange(event) {
+
+  
+    let reader = new FileReader();
+    if(event.target.files && event.target.files.length > 0) {
+      let file = event.target.files[0];
+      reader.readAsDataURL(file);
+      console.log(reader);
+      reader.onload = () => {
+        this.form.get('avatar').setValue({
+          filename: file.name,
+          filetype: file.type,
+          value: reader.result.toString().split(',')[1]
+        })
+        if (this.form.value.avatar!=null) {
+            this.majoralabel = file.name;
+          }else{
+            this.majoralabel = "Choose a file";
+          }
+      };
+    }
+  }
+
+
+  clearFile() {
+    this.majoralabel = "Choose a file...";
+    this.form.get('avatar').setValue(null);
+    this.fileInput.nativeElement.value = '';
   }
 
   checkbox(event,type,text){
@@ -188,7 +238,9 @@ export class NewProposalComponent implements OnInit {
   }
   ngOnInit() {
   }
-
+  majorainfo(){
+    this.global.swalinfo("<p style='text-align:left;'><b>Major Activities</b> – Enumerate in chronological order the tasks to be undertaken. Use gantt chart.</p>");
+  }
   agency(){
     this.global.swalinfo("<p style='text-align:left;'><b>Cooperating Agencies</b> – agencies participating in the R & D work.<br><br><b>R & D Station</b> – station or unit where R & D will be actually conducted.<br><br><b>Classification</b> – indicates whether the program/project is research or development.</p>");
   }
@@ -682,7 +734,7 @@ let x='';
 
        this.http.post(this.global.api + 'api.php?action=addbudget2',
        body,option)
-          .map(response => response.json())
+          .map(response => response.text())
           .subscribe(res => {
 
              this.balltotal = this.balltotal+this.budgettotal;
@@ -693,6 +745,7 @@ let x='';
              this.co = '';
              this.budgettotal = 0;
              this.getbudget2(this.projectid);
+            console.log(res); 
           },error => {
             console.log(Error); 
                 this.global.swalAlertError();
@@ -703,7 +756,7 @@ let x='';
     }
   }
 
- proposaldone(){
+ proposaldone(type){
    if (this.prog==true) {
       let x=''
         if (!(this.projectlists!=undefined&&this.projectlists[0].id!=null)) {
@@ -741,20 +794,21 @@ let x='';
           alert(x)
         }
      }else{
-       let x=''
-
-
-        if (!(this.calists!=undefined&&this.calists[0].id!=null)) {
+       let x='';
+        if (!(this.calists!=undefined&&this.calists[0].id!=null)) 
           x=x+"*At least 1 Cooperating Agency is required\n";
+        
         if (this.rndstation==''||this.rndstation==null) {
           x=x+"*Research & Development Station is required\n";
-        }}if (this.projectclassification==[]) {
+        }if (this.projectclassification.length < 1) {
           x=x+"*Please check at least 1 Classification is required\n";
-        }if (this.projectpa==[]) {
+        }if (this.projectpa.length < 1) {
           x=x+"*Please check at least 1 Priority Agenda is required\n";
-        }if (this.projectsector==[]) {
+        }if (this.projectsector.length < 1) {
           x=x+"*Please check at least 1 Sector Commodity is required\n";
-        }if (this.projectdiscipline==[]) {
+        }if (this.projectmoi.length < 1) {
+          x=x+"*Please check at least 1 Mode of Implementation is required\n";
+        }if (this.projectdiscipline.length < 1) {
           x=x+"*Please check at least 1 Discipline is required\n";
         }if (this.significance==''||this.significance==null) {
           x=x+"*Significance is required\n";
@@ -762,21 +816,42 @@ let x='';
           x=x+"*Objectives is required\n";
         }if (this.methodology==''||this.methodology==null) {
           x=x+"*Methodology is required\n";
-        }if (this.majora==''||this.majora==null) {
+        }if (this.form.value.avatar==null) {
           x=x+"*Major Activities is required\n";
-        }if (this.targetb==''||this.targetb==null) {
+        }else{
+          if (this.form.value.avatar.filetype!='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+          x=x+"*Major Activities attachment must be in xlsx format(excel).\n";
+        }
+         if (this.targetb==''||this.targetb==null) {
           x=x+"*Target Beneficiaries is required\n";
-        }if ((this.month1==''||this.month1==null)&&(this.year1==''||this.year1==null)) {
+        }if (this.expectedo==''||this.expectedo==null) {
+          x=x+"*Expected Output is required\n";
+        }if ((this.month1==''||this.month1==undefined)&&(this.year1==''||this.year1==undefined)) {
           x=x+"*Planned Start date is required\n";
-        }if ((this.month2==''||this.month2==null)&&(this.year2==''||this.year2==null)) {
+        }if ((this.month2==''||this.month2==undefined)&&(this.year2==''||this.year2==undefined)) {
           x=x+"*Planned Completion date is required\n";
         }if (!(this.budgetlist2!=undefined&&this.budgetlist2[0].id!=null)) {
           x=x+"*At least 1 Estimated Budget is required\n";
         }
         if (x=='') {
+          let start = this.year1.toString()+'-'+this.month1.toString()+'-'+'15';
+          let completion = this.year2.toString()+'-'+this.month2.toString()+'-'+'15';
                       let urlSearchParams = new URLSearchParams();
-                        urlSearchParams.append("esummary",this.esummary);
-                         urlSearchParams.append('pid', this.proposalid.toString());
+                        urlSearchParams.append("id",this.projectid.toString());
+                         urlSearchParams.append('title', this.projecttitle);
+                         urlSearchParams.append('duration', this.projectduration.toString());
+                         urlSearchParams.append('rndstation', this.rndstation.toString());
+                         urlSearchParams.append('siteofi', '');
+                         urlSearchParams.append('significance', this.significance.toString());
+                         urlSearchParams.append('objectives', this.objectives.toString());
+                         urlSearchParams.append('literature', '');
+                         urlSearchParams.append('sbasis', '');
+                         urlSearchParams.append('methodology', this.methodology);
+                         urlSearchParams.append('majora', this.form.value.avatar.value);
+                         urlSearchParams.append('expectedoutput', this.expectedo);
+                         urlSearchParams.append('targetb', this.targetb.toString());
+                         urlSearchParams.append('start', start);
+                         urlSearchParams.append('completion', completion);
                       let body = urlSearchParams.toString()
           var header = new Headers();
                       header.append("Accept", "application/json");
@@ -786,12 +861,68 @@ let x='';
           this.global.requestToken();
            this.global.swalLoading('Saving New Proposal...');
 
-           this.http.post(this.global.api + 'api.php?action=proposaldone1b',
+           this.http.post(this.global.api + 'api.php?action=projectinsert',
            body,option)
-              .map(response => response.json())
+              .map(response => response.text())
               .subscribe(res => {
                  this.global.swalClose(); 
-                 this.router.navigate(['../main',{outlets:{div:'proposals'}}]);
+                 console.log(res)
+
+                 for (var i = 0; i < this.projectclassification.length; i++) {
+                   this.http.get(this.global.api + 'api.php?action=projectclassificationupdate&projectid='+this.projectid.toString()+"&cid="+this.projectclassification[i])
+                      .map(response => response.text())
+                      .subscribe(res => {
+                      });
+                 }
+                 for (var i = 0; i < this.projectdiscipline.length; i++) {
+                   this.http.get(this.global.api + 'api.php?action=spProposal_ProjectDiscipline_Insert_Update&projectid='+this.projectid.toString()+"&cid="+this.projectdiscipline[i])
+                      .map(response => response.text())
+                      .subscribe(res => {
+                      });
+                 }
+                 for (var i = 0; i < this.projectpa.length; i++) {
+                   this.http.get(this.global.api + 'api.php?action=spProposal_ProjectPriorityAgenda_Insert_Update&projectid='+this.projectid.toString()+"&cid="+this.projectpa[i])
+                      .map(response => response.text())
+                      .subscribe(res => {
+                      });
+                 }
+                 for (var i = 0; i < this.projectmoi.length; i++) {
+                   this.http.get(this.global.api + 'api.php?action=spProposal_ProjectMOI_Insert_Update&projectid='+this.projectid.toString()+"&cid="+this.projectmoi[i])
+                      .map(response => response.text())
+                      .subscribe(res => {
+                      });
+                 }
+                 for (var i = 0; i < this.projectsector.length; i++) {
+                   this.http.get(this.global.api + 'api.php?action=spProposal_ProjectSector_Insert_Update&projectid='+this.projectid.toString()+"&cid="+this.projectsector[i])
+                      .map(response => response.text())
+                      .subscribe(res => {
+                      });
+                 }
+
+                 let urlSearchParams = new URLSearchParams();
+                        urlSearchParams.append("proposalid",this.proposalid.toString());
+                         urlSearchParams.append('statusid', type);
+                         urlSearchParams.append('remarks', '');
+                         urlSearchParams.append('userid', this.global.requestid());
+                         urlSearchParams.append('type', '1');
+                      let body = urlSearchParams.toString()
+                var header = new Headers();
+                      header.append("Accept", "application/json");
+                      header.append("Content-Type", "application/x-www-form-urlencoded");    
+                      let option = new RequestOptions({ headers: header });
+                 this.http.post(this.global.api + 'api.php?action=statuschange',body,option)
+                      .map(response => response.text())
+                      .subscribe(res => {
+                      });
+                      if (type==1) {
+                        this.global.swalSuccess("Proposal Saved as Draft!");
+                      }else
+                        this.global.swalSuccess("Proposal has been submitted!");
+
+                        setTimeout(() => {
+                          this.router.navigate(['../main',{outlets:{div:'proposals'}}]);
+                          }, 1500);
+                 //
               },error => {
                 console.log(Error); 
                     this.global.swalAlertError();
@@ -802,4 +933,5 @@ let x='';
         }
      }
   }
+
 }

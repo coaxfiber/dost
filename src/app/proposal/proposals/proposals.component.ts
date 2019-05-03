@@ -21,11 +21,16 @@ displayedColumns = ['title','agency','fagency'];
       ngOnInit() {
         this.createTable();
       }
+
+      draft=[];
+      submmited=[];
   constructor(private global: GlobalService,private http: Http) { }
 tabClick(tab) {
-  console.log(tab.index);
+    this.createTablestatus(tab.index);
 }
 createTable() {
+      this.draft=[];
+      this.submmited=[];
 
     this.global.swalLoading('Loading Proposals...');
         this.http.get(this.global.api+'api.php?action=proposallists&user='+this.global.userid,this.global.option)
@@ -33,7 +38,15 @@ createTable() {
           .subscribe(res => {
             this.tableArr=res;
             console.log(res)
-            this.dataSource = new MatTableDataSource(this.tableArr);
+             for (var i = 0; i < this.tableArr.length; i++) {
+                   if (this.tableArr[i].status[0].name=='Draft') {
+                     this.draft.push(this.tableArr[i]);
+                   }else 
+                   if (this.tableArr[i].status[0].name=='Submitted') {
+                     this.submmited.push(this.tableArr[i]);
+                   }
+                 }
+            this.dataSource = new MatTableDataSource(this.draft);
             this.dataSource.sort = this.sort;
             this.dataSource.paginator = this.paginator;
             this.global.swalClose();
@@ -42,6 +55,20 @@ createTable() {
             console.log(Error)
           });
       }
+
+createTablestatus(text){
+
+                 if (text==0) {
+                    this.dataSource = new MatTableDataSource(this.draft);
+                 }
+                 else if(text==1) {
+                    this.dataSource = new MatTableDataSource(this.submmited);
+                 }
+
+            this.dataSource.sort = this.sort;
+            this.dataSource.paginator = this.paginator;
+}
+
 
 applyFilter(filterValue: string) {
   this.dataSource.filterPredicate = (data:

@@ -107,7 +107,6 @@ export class GlobalService {
   }
 
   swalSuccess(bat){
-
                   swal({
                     type: 'success',
                     title: bat,
