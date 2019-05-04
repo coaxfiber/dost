@@ -1,0 +1,69 @@
+<div style="padding:20px" id="new-research">
+	<h3>New Research</h3>
+	<hr>
+	<mat-horizontal-stepper   labelPostion="botton" [linear]="true" #stepper>
+      <mat-step>
+          <ng-template matStepLabel>Research Details</ng-template>
+          <div>
+
+            <mat-form-field class="npinput">
+              <input matInput placeholder="Research Title" required [(ngModel)]="inputtitle">
+            </mat-form-field>
+
+            <div style="height: 10px;"></div>
+            <mat-form-field  class="npinput">
+              <textarea matInput placeholder="Abstract" required style="height: 80px;"  [(ngModel)]="inputabstract" ></textarea>
+            </mat-form-field>
+
+            <table style="width: 100%">
+              <tr>
+                <td style="width: 50%"> 
+                  <mat-form-field  class="npinput2">
+                    <mat-label>Company</mat-label>
+                    <mat-select  [(ngModel)]="inputcompany">
+                      <mat-option value="{{c.id}}"  *ngFor="let c of company">
+                        {{c.name}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </td>
+              </tr>
+            </table>
+
+            <br>
+           
+            <table style="width: 100%">
+              <tr>
+                <td style="width: 50%"> 
+                  <mat-form-field  class="npinput2">
+                    <mat-label>Degree Level</mat-label>
+                    <mat-select  [(ngModel)]="inputdegreelevel">
+                      <mat-option value="{{c.id}}"  *ngFor="let c of degreelevel">
+                        {{c.name}} - {{c.description}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div>
+            <br>
+            <button mat-button type="submit" class="buttonblue" (click)="add(stepper)">Next</button>
+          </div>
+      </mat-step>
+      <mat-step>
+
+          <ng-template matStepLabel>Other Information</ng-template>
+
+
+
+            <button mat-button matStepperPrevious class="buttonblue" >Back</button>
+            <button mat-button class="buttonblue" style="float: right;"  (click)="proposalinsert(stepper)">Next</button>
+     
+      </mat-step>
+      <mat-step>
+          <ng-template matStepLabel>Other Information</ng-template>
+      </mat-step>
+    </mat-horizontal-stepper>
+</div>

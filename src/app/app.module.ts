@@ -12,6 +12,8 @@ import { HttpModule } from '@angular/http';
 import { StorageServiceModule } from 'angular-webstorage-service';
 import { NewProposalComponent } from './proposal/new-proposal/new-proposal.component';
 import { ProposalsComponent } from './proposal/proposals/proposals.component';
+import { NewResearchComponent } from './research/new-research/new-research.component';
+import { ResearchesComponent } from './research/researches/researches.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +23,8 @@ import { ProposalsComponent } from './proposal/proposals/proposals.component';
     HomeComponent,
     NewProposalComponent,
     ProposalsComponent,
+    NewResearchComponent,
+    ResearchesComponent,
   ],
    entryComponents: [
    ],

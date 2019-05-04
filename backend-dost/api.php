@@ -18,7 +18,9 @@ $possible_url = array("proposalinsert","proposallists", "proposaldelete", 'progr
   'spProposal_ProjectPriorityAgenda_Insert_Update',
   'spProposal_ProjectMOI_Insert_Update',
   'spProposal_ProjectSector_Insert_Update',
-  'statuschange');
+  'statuschange',
+  'degreelevel',
+  'researchadd');
 
 $value = "An error has occurred";
 
@@ -29,6 +31,9 @@ if (isset($_GET["action"]) && in_array($_GET["action"], $possible_url))
 
       case "statuschange":
         $value = statuschange($_POST["proposalid"],$_POST["statusid"],$_POST["remarks"],$_POST["userid"],$_POST["type"]);
+        break;
+      case "degreelevel":
+        $value = degreelevel();
         break;
       case "spProposal_ProjectSector_Insert_Update":
         $value = spProposal_ProjectSector_Insert_Update($_GET["projectid"],$_GET["cid"]);
@@ -141,9 +146,55 @@ if (isset($_GET["action"]) && in_array($_GET["action"], $possible_url))
       case "projectdeletecoopagency":
         $value = projectdeletecoopagency($_GET["id"]);
         break;
+      case "researchadd":
+        $value = researchadd($_POST["title"],$_POST["abstract"],$_POST["company"],$_POST["degreelevel"],$_POST["user"]);
+        break;
     }
 }
 
+
+function researchadd($title,$abstract,$company,$degreelevel,$user)
+{
+  $database = new Database();
+  $db = $database->getConnection();
+
+  $stmt = $db->prepare("exec spResearch_Insert
+    @Title = '$title',
+    @Abstract = '$abstract',
+    @DegreeLevel_id = '$degreelevel',
+    @CompanyID = '$company',
+    @CreatedBy = '$user'");  
+  $stmt->execute();
+   $row = $stmt ->fetch();
+  $app_list = array(
+              "id" => $row[0] );
+  return  $app_list;
+}
+
+function degreelevel()
+{
+  //normally this info would be pulled from a database.
+  //build JSON array
+$database = new Database();
+$db = $database->getConnection();
+
+  $stmt = $db->prepare("exec spDegreeLevel_List");  
+  $stmt->execute();
+  $app_list = array(
+              "id" => null);
+  $app_list = array(
+               0 => $app_list);
+  $x=0;
+while ($row = $stmt ->fetch()) {
+    $app_list[$x] = array(
+              "id" => $row[0],
+              "name" =>  $row[1],
+              "description" =>  $row[2]);
+            $x++;
+        
+}
+  return  $app_list;
+}
 function statuschange($proposalid,$statusid,$remarks,$userid,$type)
 {
   $database = new Database();
@@ -161,6 +212,8 @@ function statuschange($proposalid,$statusid,$remarks,$userid,$type)
                );
   return  $app_list;
 }
+
+
 function spProposal_ProjectSector_Insert_Update($pid,$cid)
 {
   $database = new Database();

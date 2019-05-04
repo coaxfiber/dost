@@ -1,0 +1,71 @@
+<div id='research'>
+
+<table style="width: 97%;margin: auto;">
+  <tr><td>
+      <mat-tab-group (selectedTabChange)="tabClick($event)">
+        <mat-tab label="Draft"></mat-tab>
+        <mat-tab label="Submitted"></mat-tab>
+        <mat-tab label="Approved"></mat-tab>
+      </mat-tab-group>
+</td>
+    <td style="text-align: right;width: 237px" >
+       <mat-form-field style="width: 180px !important">
+      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+
+          </mat-form-field>
+        <button mat-mini-fab color="primary">
+          <mat-icon><mat-icon>filter_list</mat-icon></mat-icon>
+        </button>
+    </td>
+  </tr>
+</table>
+    
+
+
+    <mat-table #table [dataSource]="dataSource" matSort>
+
+   <ng-container matColumnDef="title">
+      <mat-header-cell *matHeaderCellDef>Project Title</mat-header-cell>
+      <mat-cell *matCellDef="let element">
+      <div class="rolerow">
+       <b>{{element.GeneralTitle}}</b> <br>
+        <div class="action">
+      <a href="javascript:void(0)" class="actionlink" (click)="openDialogUpdate(element.id)"> Update Proposal</a> | <a href="javascript:void(0)" class="actionlink" style="color: orange" (click)="removeRole(element.id)">
+        Remove</a>
+    </div>
+    </div>
+    </mat-cell>
+    </ng-container>
+
+   <ng-container matColumnDef="agency">
+      <mat-header-cell *matHeaderCellDef> Agency </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+      <div class="rolerow">
+       <b>{{element.agency}}</b>
+    </div>
+    </mat-cell>
+    </ng-container>
+
+   <ng-container matColumnDef="fagency">
+      <mat-header-cell *matHeaderCellDef> Funding Agency </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+      <div class="rolerow">
+       <b>{{element.fagency}}</b>
+    </div>
+    </mat-cell>
+    </ng-container>
+
+
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+        </mat-table>
+        <mat-paginator 
+             #paginator
+            [length]="100"
+              [pageSize]="10"
+              [pageSizeOptions]="[5, 10, 25, 100]">
+    </mat-paginator>
+
+</div>
+
