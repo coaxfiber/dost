@@ -22,6 +22,7 @@ $possible_url = array("proposalinsert","proposallists", "proposaldelete", 'progr
   'degreelevel',
   'researchadd');
 
+
 $value = "An error has occurred";
 
 if (isset($_GET["action"]) && in_array($_GET["action"], $possible_url))
