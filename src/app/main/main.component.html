@@ -36,7 +36,7 @@
       </mat-panel-title>
     </mat-expansion-panel-header>
 		<mat-list>
-		  <mat-list-item><button mat-button  [routerLink]="['../main',{outlets:{div:'new-proposal'}}]" >New Proposal</button></mat-list-item>
+		  <mat-list-item><button mat-button  [routerLink]="['../main',{outlets:{div:'new-proposal'}}]" >Create Capsule Proposal</button></mat-list-item>
 		  <mat-divider></mat-divider>
 		  <mat-list-item><button mat-button  [routerLink]="['../main',{outlets:{div:'proposals'}}]" >Proposals</button></mat-list-item>
 		</mat-list>
@@ -53,6 +53,26 @@
 		  <mat-divider></mat-divider>
 		  <mat-list-item><button mat-button [routerLink]="['../main',{outlets:{div:'researches'}}]" >Researches</button></mat-list-item>
 		</mat-list>
+  </mat-expansion-panel>
+
+
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <i class="material-icons">settings_applications</i><b>&nbsp; Control Panel</b>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <mat-list>
+      <mat-list-item><button mat-button  [routerLink]="['../main',{outlets:{div:'discipline'}}]">Discipline</button></mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item><button mat-button>Classification Type</button>
+      </mat-list-item>
+      <mat-divider></mat-divider> 
+      <mat-list-item><button mat-button>Mode of Implementation</button></mat-list-item>
+      <mat-divider></mat-divider> 
+      <mat-list-item><button mat-button  [routerLink]="['../main',{outlets:{div:'user-management'}}]">User Management</button></mat-list-item>
+      <mat-divider></mat-divider>
+    </mat-list>
   </mat-expansion-panel>
 
 

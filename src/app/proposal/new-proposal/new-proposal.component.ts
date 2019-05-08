@@ -6,7 +6,7 @@ import { MatStepper,MatDialog,MatDialogRef } from '@angular/material';
 import {Http, Headers, RequestOptions} from '@angular/http';
 import Swal from 'sweetalert2';
 
-
+import { UpdateProjectComponent } from './../../proposal/new-proposal/update-project/update-project.component';
 import { ElementRef, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
@@ -89,7 +89,10 @@ export class NewProposalComponent implements OnInit {
   month2
 
 majoralabel='Choose a file';
-  constructor( private fb: FormBuilder,private global: GlobalService,private http: Http,private route: ActivatedRoute, private router: Router) {
+
+
+labeltitle="Create Capsule Proposal";
+  constructor(public dialog: MatDialog, private fb: FormBuilder,private global: GlobalService,private http: Http,private route: ActivatedRoute, private router: Router) {
     this.http.get(this.global.api + 'api.php?action=FundingAgency_List',
          this.global.option)
             .map(response => response.json())
@@ -436,6 +439,7 @@ let x=''
             .map(response => response.json())
             .subscribe(res => {
               this.projectlists= res;
+              console.log(res)
               this.projectid=res[0].id;
         });
   }
@@ -869,10 +873,12 @@ let x='';
                  console.log(res)
 
                  for (var i = 0; i < this.projectclassification.length; i++) {
+
                    this.http.get(this.global.api + 'api.php?action=projectclassificationupdate&projectid='+this.projectid.toString()+"&cid="+this.projectclassification[i])
                       .map(response => response.text())
                       .subscribe(res => {
                       });
+
                  }
                  for (var i = 0; i < this.projectdiscipline.length; i++) {
                    this.http.get(this.global.api + 'api.php?action=spProposal_ProjectDiscipline_Insert_Update&projectid='+this.projectid.toString()+"&cid="+this.projectdiscipline[i])
@@ -932,6 +938,17 @@ let x='';
           alert(x)
         }
      }
+  }
+  openDialogUpdate(list): void {
+    const dialogRef = this.dialog.open(UpdateProjectComponent, {
+      width: '99%',data:{list:list,progtitle:this.title, disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result==1) {
+        this.getprojectlist(this.programid);   
+      }
+    });
   }
 
 }

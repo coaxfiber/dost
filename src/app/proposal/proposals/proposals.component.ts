@@ -12,7 +12,7 @@ const swal = Swal;
   styleUrls: ['./proposals.component.scss']
 })
 export class ProposalsComponent implements OnInit {
-displayedColumns = ['title','agency','fagency'];
+displayedColumns = ['title','fagency','datecreated','status'];
       @ViewChild(MatSort) sort: MatSort;
        @ViewChild('paginator') paginator: MatPaginator;
 
@@ -46,7 +46,7 @@ createTable() {
                      this.submmited.push(this.tableArr[i]);
                    }
                  }
-            this.dataSource = new MatTableDataSource(this.draft);
+            this.dataSource = new MatTableDataSource(this.tableArr);
             this.dataSource.sort = this.sort;
             this.dataSource.paginator = this.paginator;
             this.global.swalClose();

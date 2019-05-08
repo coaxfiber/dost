@@ -17,7 +17,7 @@ export class MainComponent implements OnInit {
     image:any = 'assets/noimage.jpg';
     id:any;
     name:any;
-    user={fname:'',surname:'',mname:'',ext:''}
+    user={fname:'',surname:'',mname:'',ext:'',sex:'',agency:'',address:'',telno:''}
 
   constructor( private domSanitizer: DomSanitizer,private global: GlobalService,private http: Http,private route: ActivatedRoute, private router: Router) {
   	this.router.navigate(['../main',{outlets:{div:'home'}}]);
@@ -29,7 +29,12 @@ export class MainComponent implements OnInit {
             .map(response => response.json())
             .subscribe(res => {
               this.user= res;
-              this.global.user=res;
+               console.log(res)
+               this.user.sex="male";
+               this.user.agency="08001";
+               this.user.address="address";
+               this.user.telno="none";
+              this.global.user=this.user;
              this.global.swalClose(); 
         });
 

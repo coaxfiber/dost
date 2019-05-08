@@ -14,6 +14,9 @@ import { NewProposalComponent } from './proposal/new-proposal/new-proposal.compo
 import { ProposalsComponent } from './proposal/proposals/proposals.component';
 import { NewResearchComponent } from './research/new-research/new-research.component';
 import { ResearchesComponent } from './research/researches/researches.component';
+import { ProjectDisciplineComponent } from './control-panel/project-discipline/project-discipline.component';
+import { ProjectClassificationTypeComponent } from './control-panel/project-classification-type/project-classification-type.component';
+import { UpdateProjectComponent } from './proposal/new-proposal/update-project/update-project.component';
 
 @NgModule({
   declarations: [
@@ -25,8 +28,12 @@ import { ResearchesComponent } from './research/researches/researches.component'
     ProposalsComponent,
     NewResearchComponent,
     ResearchesComponent,
+    ProjectDisciplineComponent,
+    ProjectClassificationTypeComponent,
+    UpdateProjectComponent,
   ],
    entryComponents: [
+    UpdateProjectComponent,
    ],
   imports: [
     BrowserModule,

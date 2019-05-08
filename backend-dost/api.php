@@ -22,7 +22,6 @@ $possible_url = array("proposalinsert","proposallists", "proposaldelete", 'progr
   'degreelevel',
   'researchadd');
 
-
 $value = "An error has occurred";
 
 if (isset($_GET["action"]) && in_array($_GET["action"], $possible_url))
@@ -490,7 +489,8 @@ $ents=$proposal[0];
               "Fax" => $proposal[6],
               "Email" => $proposal[7],
               "FundingAgency" => $proposal[8],
-              "status" => $stat
+              "status" => $stat,
+              "datecreated" => $proposal[9]
                );
    
 

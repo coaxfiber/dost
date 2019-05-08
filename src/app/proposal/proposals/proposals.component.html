@@ -1,20 +1,26 @@
-<div id='proposals'>
+<div id='proposals' style="padding:20px" >
+  <h3>Proposals</h3>
+  <hr>
 
 <table style="width: 97%;margin: auto;">
   <tr><td>
-      <mat-tab-group (selectedTabChange)="tabClick($event)">
-        <mat-tab label="Draft"></mat-tab>
-        <mat-tab label="Submitted"></mat-tab>
-        <mat-tab label="On Process"></mat-tab>
-        <mat-tab label="Rejected"></mat-tab>
-        <mat-tab label="Revise"></mat-tab>
-        <mat-tab label="Approved"></mat-tab>
-      </mat-tab-group>
+
+            <mat-form-field  class="npinput2" style="width: 237px" required>
+              <mat-label>Filter by:</mat-label>
+              <mat-select >
+                <mat-option value="3">
+                 status
+                </mat-option>
+                <mat-option value="3">
+                 submitted
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
 </td>
     <td style="text-align: right;width: 237px" >
        <mat-form-field style="width: 180px !important">
-      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
-
+              <mat-label>Search:</mat-label>
+          <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
           </mat-form-field>
         <button mat-mini-fab color="primary">
           <mat-icon><mat-icon>filter_list</mat-icon></mat-icon>
@@ -40,20 +46,29 @@
     </mat-cell>
     </ng-container>
 
-   <ng-container matColumnDef="agency">
-      <mat-header-cell *matHeaderCellDef> Agency </mat-header-cell>
-      <mat-cell *matCellDef="let element">
-      <div class="rolerow">
-       <b>{{element.agency}}</b>
-    </div>
-    </mat-cell>
-    </ng-container>
-
    <ng-container matColumnDef="fagency">
       <mat-header-cell *matHeaderCellDef> Funding Agency </mat-header-cell>
       <mat-cell *matCellDef="let element">
       <div class="rolerow">
-       <b>{{element.fagency}}</b>
+       <b>{{element.FundingAgency}}</b>
+    </div>
+    </mat-cell>
+    </ng-container>
+
+   <ng-container matColumnDef="datecreated">
+      <mat-header-cell *matHeaderCellDef > Date Created </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+      <div class="rolerow">
+       <b>{{element.datecreated| date :'mediumDate'}} @ {{element.datecreated| date :'shortTime'}}</b>
+    </div>
+    </mat-cell>
+    </ng-container>
+
+   <ng-container matColumnDef="status">
+      <mat-header-cell *matHeaderCellDef  style="width: 150px;flex: 0 0 75px;"> Status </mat-header-cell>
+      <mat-cell *matCellDef="let element" style="width: 150px;flex: 0 0 75px;">
+      <div class="rolerow">
+       <b>{{element.status[0].name}}</b>
     </div>
     </mat-cell>
     </ng-container>
