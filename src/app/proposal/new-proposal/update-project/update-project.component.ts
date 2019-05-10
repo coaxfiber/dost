@@ -3,11 +3,13 @@ import { GlobalService } from './../../../global.service';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router'; 
 import { MatStepper,MatDialog,MatDialogRef } from '@angular/material';
+import {\MAT_DIALOG_DATA} from '@angular/material';
 import {Http, Headers, RequestOptions} from '@angular/http';
 import Swal from 'sweetalert2';
 
 import { ElementRef, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import { Inject} from '@angular/core';
 
 const swal = Swal;
 @Component({
@@ -98,8 +100,22 @@ applied1=false;
 pilottesting=false;
 clss=0;
 
-  constructor(public dialog: MatDialog, private fb: FormBuilder,private global: GlobalService,private http: Http,private route: ActivatedRoute, private router: Router) {
-    this.http.get(this.global.api + 'api.php?action=FundingAgency_List',
+  constructor(public dialogRef: MatDialogRef<UpdateProjectComponent>,@Inject(MAT_DIALOG_DATA) public data: any,public dialog: MatDialog, private fb: FormBuilder,private global: GlobalService,private http: Http,private route: ActivatedRoute, private router: Router) {
+    console.log(this.data.list)
+    this.title = this.data.progtitle;
+    this.projectid = this.data.projectid
+    this.projecttitle = this.data.list.ptitle;
+    this.projectduration = this.data.list.duration;
+    this.esummary = this.data.list.duration;
+    this.getcooperating(this.projectid); 
+
+    this.rndstation=this.data.list.duration;
+    this.rndstation=this.data.list.duration;
+    this.rndstation=this.data.list.duration;
+    this.rndstation=this.data.list.duration;
+    this.rndstation=this.data.list.duration;
+
+  this.http.get(this.global.api + 'api.php?action=FundingAgency_List',
          this.global.option)
             .map(response => response.json())
             .subscribe(res => {
@@ -523,7 +539,7 @@ let x='';
             .map(response => response.json())
             .subscribe(res => {
               this.calists= res;
-
+              console.log(res)
               if (res[0].id!=null) {
               this.modeofimplementation="Multi Agency";
               }else
@@ -558,54 +574,6 @@ let x='';
         });
   }
 
-
-  addproject(){
-    if (this.protitle==''||this.produration=='') {
-      alert("Project title and Duration is required!")
-    }else
-    {
-     let urlSearchParams = new URLSearchParams();
-                    urlSearchParams.append("programid",this.programid.toString());
-                     urlSearchParams.append('title', this.protitle );
-                     urlSearchParams.append('duration', this.produration);
-                  let body = urlSearchParams.toString()
-      var header = new Headers();
-                  header.append("Accept", "application/json");
-                  header.append("Content-Type", "application/x-www-form-urlencoded");    
-                  let option = new RequestOptions({ headers: header });
-      this.proposalcounter = true;
-      this.global.swalLoading('Adding project title');
-
-       this.http.post(this.global.api + 'api.php?action=projectadd',
-       body,option)
-          .map(response => response.json())
-          .subscribe(res => {
-             this.global.swalClose();
-             this.protitle = '';
-             this.produration = '';
-             this.getprojectlist(this.programid);           
-
-          },error => {
-            console.log(Error); 
-                this.global.swalAlertError();
-           } );
-    }
-  }
-  removeprojecttitle(projectid){
-                                                                                              
-    var header = new Headers();
-      header.append("Accept", "application/json");
-      header.append("Content-Type", "application/x-www-form-urlencoded");    
-      let option = new RequestOptions({ headers: header });
-      this.http.get(this.global.api + 'api.php?action=removeprojecttitle&projectid='+projectid,
-         option)
-            .map(response => response.json())
-            .subscribe(res => {
-             this.getprojectlist(this.programid);   
-        },error => {
-                this.global.swalAlertError();
-           } );
-  }
   removecagency(id){
                                                                                               
     var header = new Headers();
@@ -652,23 +620,9 @@ let x='';
                 this.global.swalAlertError();
            } );
   }
-  proposaltype(x){
-  	if (x==0) {
-  		if (this.prog==false) {
-  			this.prog = true;
-  			this.proj = false;
-  		}
-  		else
-  			this.prog = false;
-  	}
-  	else{
-  		if (this.proj==false) {
-  			this.proj = true;
-  			this.prog = false;
-  		}
-  		else
-  			this.proj = false;
-  	}
+
+  onNoClick(): void {
+    this.dialogRef.close(0);
   }
 
   swalConfirm(id,text,ctr,ps,moe,co)
@@ -682,7 +636,6 @@ let x='';
       }).then((result) => {
         if (result.value) {
           if (ctr==1) {
-             this.removeprojecttitle(id);
             // code...
           }else if (ctr==2) {
              this.removebudget(id,ps,moe,co);
@@ -800,43 +753,6 @@ let x='';
   }
 
  proposaldone(type){
-   if (this.prog==true) {
-      let x=''
-        if (!(this.projectlists!=undefined&&this.projectlists[0].id!=null)) {
-          x=x+"*At least 1 project title is required\n";
-        }if (!(this.budgetlist!=undefined&&this.budgetlist[0].id!=null)) {
-          x=x+"*At least 1 source of fund is required\n";
-        }if (this.esummary==''||this.esummary==null) {
-          x=x+"*Executive Summary is required\n";
-        }
-        if (x=='') {
-                      let urlSearchParams = new URLSearchParams();
-                        urlSearchParams.append("esummary",this.esummary);
-                         urlSearchParams.append('pid', this.proposalid.toString());
-                      let body = urlSearchParams.toString()
-          var header = new Headers();
-                      header.append("Accept", "application/json");
-                      header.append("Content-Type", "application/x-www-form-urlencoded");    
-                      let option = new RequestOptions({ headers: header });
-          this.proposalcounter = true;
-          this.global.requestToken();
-           this.global.swalLoading('Saving New Proposal...');
-
-           this.http.post(this.global.api + 'api.php?action=proposaldone',
-           body,option)
-              .map(response => response.json())
-              .subscribe(res => {
-                 this.global.swalClose(); 
-                 this.router.navigate(['../main',{outlets:{div:'proposals'}}]);
-              },error => {
-                console.log(Error); 
-                    this.global.swalAlertError();
-               } );
-          }
-        if (x!='') {
-          alert(x)
-        }
-     }else{
        let x='';
         if (!(this.calists!=undefined&&this.calists[0].id!=null)) 
           x=x+"*At least 1 Cooperating Agency is required\n";
@@ -979,17 +895,6 @@ let x='';
         if (x!='') {
           alert(x)
         }
-     }
-  }
-  openDialogUpdate(list): void {
-    const dialogRef = this.dialog.open(UpdateProjectComponent, {
-      width: '99%',data:{list:list,progtitle:this.title}, disableClose: true });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result==1) {
-        this.getprojectlist(this.programid);   
-      }
-    });
   }
 
 }

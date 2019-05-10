@@ -15,20 +15,6 @@
               <textarea matInput placeholder="Abstract" required style="height: 80px;"  [(ngModel)]="inputabstract" ></textarea>
             </mat-form-field>
 
-            <table style="width: 100%">
-              <tr>
-                <td style="width: 50%"> 
-                  <mat-form-field  class="npinput2">
-                    <mat-label>Company</mat-label>
-                    <mat-select  [(ngModel)]="inputcompany">
-                      <mat-option value="{{c.id}}"  *ngFor="let c of company">
-                        {{c.name}}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </td>
-              </tr>
-            </table>
 
             <br>
            

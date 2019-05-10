@@ -28,7 +28,7 @@
       <mat-header-cell *matHeaderCellDef>Project Title</mat-header-cell>
       <mat-cell *matCellDef="let element">
       <div class="rolerow">
-       <b>{{element.GeneralTitle}}</b> <br>
+       <b>{{element.title}}</b> <br>
         <div class="action">
       <a href="javascript:void(0)" class="actionlink" (click)="openDialogUpdate(element.id)"> Update Proposal</a> | <a href="javascript:void(0)" class="actionlink" style="color: orange" (click)="removeRole(element.id)">
         Remove</a>
@@ -37,20 +37,39 @@
     </mat-cell>
     </ng-container>
 
-   <ng-container matColumnDef="agency">
-      <mat-header-cell *matHeaderCellDef> Agency </mat-header-cell>
+   <ng-container matColumnDef="level">
+      <mat-header-cell *matHeaderCellDef> Level </mat-header-cell>
       <mat-cell *matCellDef="let element">
       <div class="rolerow">
-       <b>{{element.agency}}</b>
+       <b>{{element.level}}</b>
     </div>
     </mat-cell>
     </ng-container>
 
-   <ng-container matColumnDef="fagency">
-      <mat-header-cell *matHeaderCellDef> Funding Agency </mat-header-cell>
+   <ng-container matColumnDef="company">
+      <mat-header-cell *matHeaderCellDef> Institution/Company </mat-header-cell>
       <mat-cell *matCellDef="let element">
       <div class="rolerow">
-       <b>{{element.fagency}}</b>
+       <b>{{element.company}}</b>
+    </div>
+    </mat-cell>
+    </ng-container>
+
+   <ng-container matColumnDef="datecreated">
+      <mat-header-cell *matHeaderCellDef> Date Created </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+      <div class="rolerow">
+       <b>{{element.datecreated| date :'mediumDate'}} @ {{element.datecreated| date :'shortTime'}}</b>
+    </div>
+    </mat-cell>
+    </ng-container>
+
+
+   <ng-container matColumnDef="status">
+      <mat-header-cell *matHeaderCellDef style="width: 150px;flex: 0 0 75px;"> Status </mat-header-cell>
+      <mat-cell *matCellDef="let element" style="width: 150px;flex: 0 0 75px;">
+      <div class="rolerow">
+       <b>Draft</b>
     </div>
     </mat-cell>
     </ng-container>

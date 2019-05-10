@@ -1,4 +1,4 @@
-<div id="update-Project" style="height: 90vh;overflow-y: scroll;">
+<div id="update-Project" style="height: 88vh;overflow-y: scroll;">
        <div>
           <p style="text-align: center;margin:0px"><i>Form 1b</i></p>
               <h4>Program: {{title}}</h4>
@@ -83,7 +83,7 @@
           </div>
 
           <div style="height: 10px;"></div>
-             <p style="margin: 0"><b>Mode of Implementation </b><button class="buttonblue" style="border-radius: 10px;border: none;" (click)="implementation()">?</button>: Multi Agency</p>
+             <p style="margin: 0"><b>Mode of Implementation </b><button class="buttonblue" style="border-radius: 10px;border: none;" (click)="implementation()">?</button>: {{modeofimplementation}}</p>
 
 
           <div style="height: 10px;"></div>
@@ -478,4 +478,9 @@
             <button mat-button style="float: right;" (click)="proposaldone(1)">Cancel</button>
           
         </div>
+</div>
+
+<div mat-dialog-actions style="float: right">
+  <button mat-raised-button (click)="onNoClickclose()" color="warning">Close</button>
+  <button mat-raised-button color="primary" (click)="onNoClick()" >Save</button>
 </div>

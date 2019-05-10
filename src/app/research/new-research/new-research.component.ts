@@ -41,6 +41,7 @@ researchid
               this.degreelevel= res;
         });
 
+    this.inputcompany = global.user.agency;
   }
 
   ngOnInit() {

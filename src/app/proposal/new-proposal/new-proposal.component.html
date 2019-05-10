@@ -89,12 +89,12 @@
                   <td style="width: 40%"><b>{{list.ptitle}}</b></td>
                 <td style="width: 20%"><b>{{list.duration}} months</b></td>
                 <td style="width: 10%">
-                    <button  mat-button (click)="openDialogUpdate(list)" *ngIf="list.Significance==null">
+                    <button  mat-button (click)="openDialogUpdate(list)" *ngIf="list.significance==null">
                         <mat-icon style="font-size:20px">add</mat-icon> Add Form 2B &nbsp; &nbsp; &nbsp;</button>
 
 
-                    <button  mat-button (click)="login2()" *ngIf="list.Significance!=null" >
-                        <mat-icon style="font-size:20px">add</mat-icon> Update Form 2B &nbsp; &nbsp; &nbsp;</button>
+                    <button  mat-button (click)="openDialogUpdate(list)" *ngIf="list.significance!=null" >
+                        <mat-icon style="font-size:20px">edit</mat-icon> Update Form 2B &nbsp; &nbsp; &nbsp;</button>
                 </td>
                 <td style="width: 27%">
                     <button  mat-button (click)="swalConfirm(list.id,'Remove Project Title?',1,null,null,null)"  class="buttonred" >
@@ -213,7 +213,7 @@
           
           <table style="width: 100%">
             <tr>
-              <td style="width: 50%">
+              <td style="width: 60%">
             <mat-form-field class="npinput"  style="width: 100%">
               <input matInput placeholder="Project Title"  [(ngModel)]="projecttitle" >
             </mat-form-field></td>
@@ -227,7 +227,60 @@
 
             <table style="width: 100%">
               <tr>
-                <td style="width: 50%"> 
+                <td style="width: 60%"> 
+                  <p style="margin: 0"><b>Proponent</b> <small></small></p>
+                  <div style="height: 5px"></div>
+                  <table style="width: 100%">
+                    <tr>
+                      <td style="width: 29%">
+                  <mat-form-field  class="npinput2" style="width: 100%">
+                    <input matInput placeholder="First Name"  [(ngModel)]="fname" >
+                  </mat-form-field>
+                      </td>
+                      <td style="width: 18%">
+                  <mat-form-field  class="npinput2" style="width: 100%">
+                    <input matInput placeholder="Middle Name"  [(ngModel)]="mname" >
+                  </mat-form-field>
+                      </td>
+                      <td style="width: 18%">
+                  <mat-form-field  class="npinput2" style="width: 100%">
+                    <input matInput placeholder="Last Name"  [(ngModel)]="lname" >
+                  </mat-form-field>
+                      </td>
+                      <td style="width: 5%">
+                  <mat-form-field  class="npinput2" style="width: 100%">
+                    <input matInput placeholder="Suffix"  [(ngModel)]="suffix" >
+                  </mat-form-field>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+                <td>
+                  <button mat-raised-button (click)="insertproponent()" class="buttonblue" >
+                    <mat-icon style="font-size:20px">add</mat-icon> Add Proponent ({{ proponenttype }})</button>
+                </td>
+              </tr>
+            </table>
+
+
+          <div  *ngIf="proponents!=undefined" >
+            <div  *ngIf="proponents[0].id!=null" >
+              <table style="width: 100%" *ngFor="let list of proponents">
+                <tr>
+                  <td style="width: 60%">{{list.name}}</td>
+                <td style="width: 40%">
+                    <button  mat-button (click)="swalConfirm(list.id,'Remove this Proponent?',5,null,null,null)"  class="buttonred" >
+                        <mat-icon style="font-size:20px">remove</mat-icon> Remove</button>
+                </td>
+                </tr>
+              </table>
+          </div>
+          </div>
+          <hr>
+
+            <table style="width: 100%">
+              <tr>
+                <td style="width: 60%"> 
                   <p style="margin: 0"><b>Cooperating Agencies</b> <small>(agencies participating in the R & D work.)</small></p>
                   <mat-form-field  class="npinput2" style="width: 100%">
                     <mat-label>- Select Agency -</mat-label>
@@ -250,8 +303,8 @@
             <div  *ngIf="calists[0].id!=null" >
               <table style="width: 100%" *ngFor="let list of calists">
                 <tr>
-                  <td style="width: 50%">{{list.name}}</td>
-                <td style="width: 50%">
+                  <td style="width: 60%">{{list.name}}</td>
+                <td style="width: 40%">
                     <button  mat-button (click)="swalConfirm(list.id,'Remove this Cooperating Agency?',3,null,null,null)"  class="buttonred" >
                         <mat-icon style="font-size:20px">remove</mat-icon> Remove</button>
                 </td>

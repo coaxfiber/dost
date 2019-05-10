@@ -13,7 +13,7 @@ const swal = Swal;
   styleUrls: ['./researches.component.scss']
 })
 export class ResearchesComponent implements OnInit {
-	displayedColumns = ['title','agency','fagency'];
+	displayedColumns = ['title','level','company','datecreated','status'];
       @ViewChild(MatSort) sort: MatSort;
        @ViewChild('paginator') paginator: MatPaginator;
 
@@ -25,47 +25,27 @@ export class ResearchesComponent implements OnInit {
 
       draft=[];
       submmited=[];
-  constructor(private global: GlobalService,private http: Http) { }
-createTable() {
-      this.draft=[];
-      this.submmited=[];
+      researches
+  constructor(private global: GlobalService,private http: Http) {
+    this.createTable();
+  }
 
+  createTable() {
     this.global.swalLoading('Loading Researches...');
-        this.http.get(this.global.api+'api.php?action=researchlists&user='+this.global.userid,this.global.option)
-          .map(response => response.json())
-          .subscribe(res => {
-            this.tableArr=res;
+        this.http.get(this.global.api + 'api.php?action=spResearch_List&company=' + this.global.user.agency,
+         this.global.option)
+            .map(response => response.json())
+            .subscribe(res => {
+            this.global.swalClose();
             console.log(res)
-             for (var i = 0; i < this.tableArr.length; i++) {
-                   if (this.tableArr[i].status[0].name=='Draft') {
-                     this.draft.push(this.tableArr[i]);
-                   }else 
-                   if (this.tableArr[i].status[0].name=='Submitted') {
-                     this.submmited.push(this.tableArr[i]);
-                   }
-                 }
-            this.dataSource = new MatTableDataSource(this.draft);
+            this.tableArr= res;
+            this.dataSource = new MatTableDataSource(this.tableArr);
             this.dataSource.sort = this.sort;
             this.dataSource.paginator = this.paginator;
-            this.global.swalClose();
-          },Error=>{
-            //console.log(Error);
-            console.log(Error)
-          });
+        });
+
       }
 
-createTablestatus(text){
-
-                 if (text==0) {
-                    this.dataSource = new MatTableDataSource(this.draft);
-                 }
-                 else if(text==1) {
-                    this.dataSource = new MatTableDataSource(this.submmited);
-                 }
-
-            this.dataSource.sort = this.sort;
-            this.dataSource.paginator = this.paginator;
-}
 
 
 applyFilter(filterValue: string) {

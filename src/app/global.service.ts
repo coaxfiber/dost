@@ -70,7 +70,6 @@ export class GlobalService {
     this.storage.set('level',"1");
     this.storage.set('domain',"college");
     this.storage.set('yearlevel',"2");
-    this.cookieService.set( 'Test', 'Hello World' );
   }
 
   getSession(){

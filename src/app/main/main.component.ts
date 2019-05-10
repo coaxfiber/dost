@@ -29,9 +29,8 @@ export class MainComponent implements OnInit {
             .map(response => response.json())
             .subscribe(res => {
               this.user= res;
-               console.log(res)
                this.user.sex="male";
-               this.user.agency="08001";
+               this.user.agency="01001";
                this.user.address="address";
                this.user.telno="none";
               this.global.user=this.user;

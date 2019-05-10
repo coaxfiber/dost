@@ -99,6 +99,13 @@ applied1=false;
 pilottesting=false;
 clss=0;
 
+proponenttype="Project Leader"
+proponents
+fname
+mname
+lname
+suffix
+
   constructor(public dialog: MatDialog, private fb: FormBuilder,private global: GlobalService,private http: Http,private route: ActivatedRoute, private router: Router) {
     this.http.get(this.global.api + 'api.php?action=FundingAgency_List',
          this.global.option)
@@ -262,6 +269,7 @@ onFileChange(event) {
           }
        }
     }
+
   }
 
 
@@ -513,6 +521,84 @@ let x='';
         }else
           alert(x)
   }
+  getproponent(projectid){
+    var header = new Headers();
+      header.append("Accept", "application/json");
+      header.append("Content-Type", "application/x-www-form-urlencoded");    
+      let option = new RequestOptions({ headers: header });
+      this.http.get(this.global.api + 'api.php?action=spProposal_ProjectProponent_List&projectid='+projectid,
+         option)
+            .map(response => response.json())
+            .subscribe(res => {
+              this.proponents= res;
+
+              if (res[0].id!=null) {
+                this.proponenttype = 'Member'
+              }else
+                this.proponenttype = 'Project Leader'
+        });
+  }
+
+  insertproponent(){
+
+let x='';
+    if (this.fname==undefined||this.fname=="") {
+      x=x+"*First name is required\n";
+    }
+    if (this.lname==undefined||this.lname=="") {
+      x=x+"*Last name is required\n";
+    }
+    var z=1;
+    if (this.proponenttype=='Member') {
+      z=2
+    }
+    if (x=='') {
+     let urlSearchParams = new URLSearchParams();
+                    urlSearchParams.append("pid",this.projectid.toString());
+                    urlSearchParams.append("lname",this.projectid.toString());
+                    urlSearchParams.append("fname",this.projectid.toString());
+                    urlSearchParams.append("mname",this.projectid.toString());
+                    urlSearchParams.append("sname",this.projectid.toString());
+                    urlSearchParams.append("percent","0");
+                     urlSearchParams.append('type', z.toString() );
+                  let body = urlSearchParams.toString()
+      var header = new Headers();
+                  header.append("Accept", "application/json");
+                  header.append("Content-Type", "application/x-www-form-urlencoded");    
+                  let option = new RequestOptions({ headers: header });
+      this.proposalcounter = true;
+      this.global.swalLoading('Adding project title');
+
+       this.http.post(this.global.api + 'api.php?action=spProposal_ProjectProponent_Insert',
+       body,option)
+          .map(response => response.json())
+          .subscribe(res => {
+             this.global.swalClose();
+             this.coopagency = null;
+             this.getproponent(this.projectid);     
+          },error => {
+            console.log(Error); 
+                this.global.swalAlertError();
+           } );
+        }else
+          alert(x)
+  }
+  removeproponent(id){
+                                                                                              
+    var header = new Headers();
+      header.append("Accept", "application/json");
+      header.append("Content-Type", "application/x-www-form-urlencoded");    
+      let option = new RequestOptions({ headers: header });
+      this.http.get(this.global.api + 'api.php?action=spProposal_ProjectProponent_Delete&id='+id,
+         option)
+            .map(response => response.json())
+            .subscribe(res => {
+             this.getproponent(this.projectid); 
+
+        },error => {
+                this.global.swalAlertError();
+           } );
+  }
 
   getcooperating(projectid){
     var header = new Headers();
@@ -691,6 +777,8 @@ let x='';
              this.removecagency(id);
           }else if (ctr==4) {
              this.removebudget2(id,ps,moe,co);
+          }else if (ctr==5) {
+             this.removeproponent(id);
           }
              
         }
@@ -984,7 +1072,7 @@ let x='';
   }
   openDialogUpdate(list): void {
     const dialogRef = this.dialog.open(UpdateProjectComponent, {
-      width: '99%',data:{list:list,progtitle:this.title}, disableClose: true });
+      width: '99%',data:{programid:this.programid,projectid:this.projectid,progtitle:this.title,list:list}, disableClose: true });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result==1) {
