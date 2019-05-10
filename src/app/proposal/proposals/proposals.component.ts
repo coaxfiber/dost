@@ -74,16 +74,29 @@ applyFilter(filterValue: string) {
   this.dataSource.filterPredicate = (data:
   {GeneralTitle: string}, filterValue: string) =>
   data.GeneralTitle.trim().toLowerCase().indexOf(filterValue) !== -1;
+  this.dataSource.filter = filterValue.trim().toLowerCase();
+}
 
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+applyFilterstatus(filterValue: string) {
+  this.dataSource.filterPredicate = (data:
+  {status: string}, filterValue: string) =>
+  data.status.trim().toLowerCase().indexOf(filterValue) !== -1;
+  this.dataSource.filter = filterValue.trim().toLowerCase();
+}
+
+applyFilteragency(filterValue: string) {
+  this.dataSource.filterPredicate = (data:
+  {status: string}, filterValue: string) =>
+  data.status.trim().toLowerCase().indexOf(filterValue) !== -1;
+  this.dataSource.filter = filterValue.trim().toLowerCase();
 }
 
 removeRole(id){
     this.swalConfirm("Are you sure?","You won't be able to revert this!",'warning','Delete Proposal','Proposal has been Removed','','role',id);
-  }
+}
   
-  swalConfirm(title,text,type,button,d1,d2,remove,id)
-  {
+swalConfirm(title,text,type,button,d1,d2,remove,id){
     swal({
         title: title,
         text: text,

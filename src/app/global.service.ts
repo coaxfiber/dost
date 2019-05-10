@@ -5,9 +5,9 @@ import {Http, Headers, RequestOptions} from '@angular/http';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
 
-
 import {SESSION_STORAGE, WebStorageService } from 'angular-webstorage-service';
 const swal = Swal;
+
 @Injectable()
 export class GlobalService {
 	token: any;
@@ -22,7 +22,6 @@ export class GlobalService {
   constructor(@Inject(SESSION_STORAGE) private storage: WebStorageService,private router: Router,private http: Http) { 	
     if(this.storage.get('token')!=null){
       this.requestToken();
-      this.userid=1;
     }
     this.requestToken();
   }
@@ -49,6 +48,7 @@ export class GlobalService {
           )
   }
 
+
   swalLoading(val){
      swal({
        title: val,allowOutsideClick: false,
@@ -70,6 +70,7 @@ export class GlobalService {
     this.storage.set('level',"1");
     this.storage.set('domain',"college");
     this.storage.set('yearlevel',"2");
+    this.cookieService.set( 'Test', 'Hello World' );
   }
 
   getSession(){

@@ -89,9 +89,16 @@ export class NewProposalComponent implements OnInit {
   month2
 
 majoralabel='Choose a file';
-
-
+modeofimplementation='';
 labeltitle="Create Capsule Proposal";
+
+
+techpromotion=false;
+basic1=false;
+applied1=false;
+pilottesting=false;
+clss=0;
+
   constructor(public dialog: MatDialog, private fb: FormBuilder,private global: GlobalService,private http: Http,private route: ActivatedRoute, private router: Router) {
     this.http.get(this.global.api + 'api.php?action=FundingAgency_List',
          this.global.option)
@@ -99,6 +106,9 @@ labeltitle="Create Capsule Proposal";
             .subscribe(res => {
               this.fundingagency= res;
         });
+
+       this.modeofimplementation="Single Agency";
+
 
     this.http.get(this.global.api + 'api.php?action=company_List',
          this.global.option)
@@ -136,6 +146,30 @@ labeltitle="Create Capsule Proposal";
 
   }
 
+
+  changeclassification(x){
+      this.techpromotion=false;
+      this.basic1=false;
+      this.applied1=false;
+      this.pilottesting=false;
+      if (x==1) {
+      this.basic1=true;
+      }
+      if (x==2) {
+      this.applied1=true;
+      }
+      if (x==3) {
+      this.pilottesting=true;
+      }
+      if (x==4) {
+      this.techpromotion=true;
+      }
+      this.clss = x
+    }
+
+  see(assign){
+    this.fangency1=assign;
+  }
  createForm() {
     this.form = this.fb.group({
       name: ['', Validators.required],
@@ -176,6 +210,7 @@ onFileChange(event) {
   checkbox(event,type,text){
     if (event.checked==true) {
        if (type==1) {
+         this.projectclassification=[]
          this.projectclassification.push(text);
        }else 
        if (type==2) {
@@ -470,8 +505,7 @@ let x='';
           .subscribe(res => {
              this.global.swalClose();
              this.coopagency = null;
-             this.getcooperating(this.projectid);           
-
+             this.getcooperating(this.projectid);     
           },error => {
             console.log(Error); 
                 this.global.swalAlertError();
@@ -490,6 +524,11 @@ let x='';
             .map(response => response.json())
             .subscribe(res => {
               this.calists= res;
+
+              if (res[0].id!=null) {
+              this.modeofimplementation="Multi Agency";
+              }else
+              this.modeofimplementation="Single Agency";
         });
   }
 
@@ -578,7 +617,8 @@ let x='';
          option)
             .map(response => response.json())
             .subscribe(res => {
-             this.getcooperating(this.projectid);    
+             this.getcooperating(this.projectid); 
+
         },error => {
                 this.global.swalAlertError();
            } );
@@ -804,14 +844,12 @@ let x='';
         
         if (this.rndstation==''||this.rndstation==null) {
           x=x+"*Research & Development Station is required\n";
-        }if (this.projectclassification.length < 1) {
-          x=x+"*Please check at least 1 Classification is required\n";
+        }if (this.clss == 0) {
+          x=x+"*Classification is required\n";
         }if (this.projectpa.length < 1) {
           x=x+"*Please check at least 1 Priority Agenda is required\n";
         }if (this.projectsector.length < 1) {
           x=x+"*Please check at least 1 Sector Commodity is required\n";
-        }if (this.projectmoi.length < 1) {
-          x=x+"*Please check at least 1 Mode of Implementation is required\n";
         }if (this.projectdiscipline.length < 1) {
           x=x+"*Please check at least 1 Discipline is required\n";
         }if (this.significance==''||this.significance==null) {
@@ -872,14 +910,7 @@ let x='';
                  this.global.swalClose(); 
                  console.log(res)
 
-                 for (var i = 0; i < this.projectclassification.length; i++) {
 
-                   this.http.get(this.global.api + 'api.php?action=projectclassificationupdate&projectid='+this.projectid.toString()+"&cid="+this.projectclassification[i])
-                      .map(response => response.text())
-                      .subscribe(res => {
-                      });
-
-                 }
                  for (var i = 0; i < this.projectdiscipline.length; i++) {
                    this.http.get(this.global.api + 'api.php?action=spProposal_ProjectDiscipline_Insert_Update&projectid='+this.projectid.toString()+"&cid="+this.projectdiscipline[i])
                       .map(response => response.text())
@@ -892,18 +923,30 @@ let x='';
                       .subscribe(res => {
                       });
                  }
-                 for (var i = 0; i < this.projectmoi.length; i++) {
-                   this.http.get(this.global.api + 'api.php?action=spProposal_ProjectMOI_Insert_Update&projectid='+this.projectid.toString()+"&cid="+this.projectmoi[i])
-                      .map(response => response.text())
-                      .subscribe(res => {
-                      });
-                 }
+
                  for (var i = 0; i < this.projectsector.length; i++) {
                    this.http.get(this.global.api + 'api.php?action=spProposal_ProjectSector_Insert_Update&projectid='+this.projectid.toString()+"&cid="+this.projectsector[i])
                       .map(response => response.text())
                       .subscribe(res => {
                       });
                  }
+
+
+                 //mode of implementaion--- automatic
+                 var z='2'
+                 if (this.modeofimplementation == "Single Agency") {
+                  z='1';
+                 }
+                   this.http.get(this.global.api + 'api.php?action=spProposal_ProjectMOI_Insert_Update&projectid='+this.projectid.toString()+"&cid="+z)
+                      .map(response => response.text())
+                      .subscribe(res => {
+                      });
+
+                      
+                   this.http.get(this.global.api + 'api.php?action=projectclassificationupdate&projectid='+this.projectid.toString()+"&cid="+this.clss)
+                      .map(response => response.text())
+                      .subscribe(res => {
+                      });
 
                  let urlSearchParams = new URLSearchParams();
                         urlSearchParams.append("proposalid",this.proposalid.toString());
@@ -941,8 +984,7 @@ let x='';
   }
   openDialogUpdate(list): void {
     const dialogRef = this.dialog.open(UpdateProjectComponent, {
-      width: '99%',data:{list:list,progtitle:this.title, disableClose: true
-    });
+      width: '99%',data:{list:list,progtitle:this.title}, disableClose: true });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result==1) {
