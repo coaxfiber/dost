@@ -227,7 +227,7 @@
 
             <table style="width: 100%">
               <tr>
-                <td style="width: 60%"> 
+                <td style="width: 80%"> 
                   <p style="margin: 0"><b>Proponent</b> <small></small></p>
                   <div style="height: 5px"></div>
                   <table style="width: 100%">
@@ -247,17 +247,32 @@
                     <input matInput placeholder="Last Name"  [(ngModel)]="lname" >
                   </mat-form-field>
                       </td>
-                      <td style="width: 5%">
+                      <td style="width: 15%">
                   <mat-form-field  class="npinput2" style="width: 100%">
                     <input matInput placeholder="Suffix"  [(ngModel)]="suffix" >
                   </mat-form-field>
                       </td>
+                      <td>
+                  
+                  <mat-form-field  class="npinput2" style="width: 100%">
+                    <mat-label>- Proponent Type -</mat-label>
+                    <mat-select  [(ngModel)]="proponenttypeinput">
+                      <mat-option value="2" >
+                        Member
+                      </mat-option>
+                      <mat-option value="1" >
+                        Project Leader
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </td>
                     </tr>
                   </table>
                 </td>
+                
                 <td>
                   <button mat-raised-button (click)="insertproponent()" class="buttonblue" >
-                    <mat-icon style="font-size:20px">add</mat-icon> Add Proponent ({{ proponenttype }})</button>
+                    <mat-icon style="font-size:20px">add</mat-icon> Add Proponent</button>
                 </td>
               </tr>
             </table>
@@ -267,8 +282,28 @@
             <div  *ngIf="proponents[0].id!=null" >
               <table style="width: 100%" *ngFor="let list of proponents">
                 <tr>
-                  <td style="width: 60%">{{list.name}}</td>
-                <td style="width: 40%">
+                  <td style="width: 80%">
+                    <table style="width: 100%">
+                    <tr>
+                      <td style="width: 29%">
+                        {{list.fname}}
+                      </td>
+                      <td style="width: 18%">
+                          {{list.mname}}
+                      </td>
+                      <td style="width: 18%">
+                          {{list.lname}}&nbsp;
+                      </td>
+                      <td style="width: 15%">
+                          {{list.sname}}
+                      </td>
+                      <td>
+                        {{list.type}}
+                      </td>
+                    </tr>
+                  </table>
+                  </td>
+                <td style="width: 20%">
                     <button  mat-button (click)="swalConfirm(list.id,'Remove this Proponent?',5,null,null,null)"  class="buttonred" >
                         <mat-icon style="font-size:20px">remove</mat-icon> Remove</button>
                 </td>

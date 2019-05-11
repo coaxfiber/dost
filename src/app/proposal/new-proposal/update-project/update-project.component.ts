@@ -3,7 +3,7 @@ import { GlobalService } from './../../../global.service';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router'; 
 import { MatStepper,MatDialog,MatDialogRef } from '@angular/material';
-import {\MAT_DIALOG_DATA} from '@angular/material';
+import { MAT_DIALOG_DATA} from '@angular/material';
 import {Http, Headers, RequestOptions} from '@angular/http';
 import Swal from 'sweetalert2';
 
@@ -19,6 +19,7 @@ const swal = Swal;
 })
 export class UpdateProjectComponent implements OnInit {
 
+
   form: FormGroup;
   loading: boolean = false;
   @ViewChild('fileInput') fileInput: ElementRef;
@@ -26,26 +27,26 @@ export class UpdateProjectComponent implements OnInit {
 
   yeararr=[];
 
-	proj=true;
-	prog=false;
-	total=0;
+  proj=true;
+  prog=false;
+  total=0;
 
-	title;
-	duration;
-	fagency;
+  title;
+  duration;
+  fagency;
 
-	cleader;
-	gender;
-	email;
-	agencies;
-	address;
-	telephone;
-	fax;
-	fangency;
+  cleader;
+  gender;
+  email;
+  agencies;
+  address;
+  telephone;
+  fax;
+  fangency;
 
   proposalid=1;
   programid=24;
-	proposalcounter=false;
+  proposalcounter=false;
   projectlists;
 
   protitle='';
@@ -100,6 +101,14 @@ applied1=false;
 pilottesting=false;
 clss=0;
 
+proponenttype="Project Leader"
+proponents
+fname=''
+mname=''
+lname=''
+suffix=''
+proponenttypeinput='2'
+
   constructor(public dialogRef: MatDialogRef<UpdateProjectComponent>,@Inject(MAT_DIALOG_DATA) public data: any,public dialog: MatDialog, private fb: FormBuilder,private global: GlobalService,private http: Http,private route: ActivatedRoute, private router: Router) {
     console.log(this.data.list)
     this.title = this.data.progtitle;
@@ -108,22 +117,13 @@ clss=0;
     this.projectduration = this.data.list.duration;
     this.esummary = this.data.list.duration;
     this.getcooperating(this.projectid); 
+    this.getproponent(this.projectid); 
 
     this.rndstation=this.data.list.duration;
     this.rndstation=this.data.list.duration;
     this.rndstation=this.data.list.duration;
     this.rndstation=this.data.list.duration;
     this.rndstation=this.data.list.duration;
-
-  this.http.get(this.global.api + 'api.php?action=FundingAgency_List',
-         this.global.option)
-            .map(response => response.json())
-            .subscribe(res => {
-              this.fundingagency= res;
-        });
-
-       this.modeofimplementation="Single Agency";
-
 
     this.http.get(this.global.api + 'api.php?action=company_List',
          this.global.option)
@@ -277,6 +277,7 @@ onFileChange(event) {
           }
        }
     }
+
   }
 
 
@@ -310,14 +311,14 @@ onFileChange(event) {
     this.global.swalinfo("<p><b>CO</b> - Requirement for facilities and equipment needed by the program.</p>");
   }
   leader(){
-  	this.global.swalinfo("<p style='text-align:left;'>The overall R & D coordinator (whether multi-agency of single-agency R & D) or the program/project leader. Program leader is the overall coordinator while serving also as the project leader.</p>");
+    this.global.swalinfo("<p style='text-align:left;'>The overall R & D coordinator (whether multi-agency of single-agency R & D) or the program/project leader. Program leader is the overall coordinator while serving also as the project leader.</p>");
   }
 
   summary(){
-  	this.global.swalinfo("<b>Executive Summary</b> - Overview of the program including the significance, objectives, methodology, major activities and expected output of the program.");
+    this.global.swalinfo("<b>Executive Summary</b> - Overview of the program including the significance, objectives, methodology, major activities and expected output of the program.");
   }
   budget(){
-  	this.global.swalinfo("<b>Budget Summary</b> - Personal Services (PS), maintenance and other operating expenses (MOE), and capital outlay (CO) requirement of the whole program by source.");
+    this.global.swalinfo("<b>Budget Summary</b> - Personal Services (PS), maintenance and other operating expenses (MOE), and capital outlay (CO) requirement of the whole program by source.");
   }
   classification(){
     this.global.swalinfo("<b>Classification</b> - indicates whether the program/project is research or development.");
@@ -366,63 +367,63 @@ onFileChange(event) {
   }
 
   add(stepper: MatStepper) {
-  	let x=''
-  	if (this.cleader==undefined||this.cleader=="") {
-  		x=x+"*Coordinator/Leader is required\n";
-  	}if (this.gender==undefined||this.gender=="") {
-  		x=x+"*Gender is required\n";
-  	}if (this.email==undefined||this.email=="") {
-  		x=x+"*Email is required\n";
-  	}if (this.agencies==undefined||this.agencies=="") {
-  		x=x+"*Agency(ies) is required\n";
-  	}if (this.address==undefined||this.address=="") {
-  		x=x+"*Address is required\n";
-  	}if (this.telephone==undefined||this.telephone=="") {
-  		x=x+"*Telephone is required\n";
-  	}
-  	if (x=='') {
-  	  
+    let x=''
+    if (this.cleader==undefined||this.cleader=="") {
+      x=x+"*Coordinator/Leader is required\n";
+    }if (this.gender==undefined||this.gender=="") {
+      x=x+"*Gender is required\n";
+    }if (this.email==undefined||this.email=="") {
+      x=x+"*Email is required\n";
+    }if (this.agencies==undefined||this.agencies=="") {
+      x=x+"*Agency(ies) is required\n";
+    }if (this.address==undefined||this.address=="") {
+      x=x+"*Address is required\n";
+    }if (this.telephone==undefined||this.telephone=="") {
+      x=x+"*Telephone is required\n";
+    }
+    if (x=='') {
+      
 
       stepper.next();
-  	}else
-  		alert(x)
+    }else
+      alert(x)
   }
 
   proposalinsert(stepper: MatStepper) {
 
 let x=''
-  	if (this.title==undefined||this.title=="") {
-  		x=x+"*Title is required\n";
-  	}if (this.duration==undefined||this.duration=="") {
-  		x=x+"*Duration is required\n";
-  	}if (this.fagency==undefined||this.fagency=="") {
-  		x=x+"*Funding Agency is required\n";
-  	}if (this.proj==false&&this.prog==false) {
+    if (this.title==undefined||this.title=="") {
+      x=x+"*Title is required\n";
+    }if (this.duration==undefined||this.duration=="") {
+      x=x+"*Duration is required\n";
+    }if (this.fagency==undefined||this.fagency=="") {
+      x=x+"*Funding Agency is required\n";
+    }if (this.proj==false&&this.prog==false) {
       x=x+"*Must select a proposal type!\n";
     }
 
-  	if (x==''&&this.proposalcounter==false) {
+    if (x==''&&this.proposalcounter==false) {
                   let urlSearchParams = new URLSearchParams();
                     urlSearchParams.append("GeneralTitle",this.title);
-        			     	urlSearchParams.append('LeadAgency', this.agencies);
-        			     	urlSearchParams.append('Street', "go");
-        			     	urlSearchParams.append('Address_PSGC', "012801001");
-        			     	urlSearchParams.append('Telephone', this.telephone);
-        			     	urlSearchParams.append('Fax', this.fax);
-        			     	urlSearchParams.append('Email', this.email);
-        			     	urlSearchParams.append('FundingAgency_id', this.fagency);
-        			     	urlSearchParams.append('TotalDuration', this.duration);
-        			     	urlSearchParams.append('createdBy', this.global.userid.toString());
+                     urlSearchParams.append('LeadAgency', this.agencies);
+                     urlSearchParams.append('Street', "go");
+                     urlSearchParams.append('Address_PSGC', "012801001");
+                     urlSearchParams.append('Telephone', this.telephone);
+                     urlSearchParams.append('Fax', this.fax);
+                     urlSearchParams.append('Email', this.email);
+                     urlSearchParams.append('FundingAgency_id', this.fagency);
+                     urlSearchParams.append('TotalDuration', this.duration);
+                     urlSearchParams.append('createdBy', this.global.userid.toString());
                   let body = urlSearchParams.toString()
-  		var header = new Headers();
+      var header = new Headers();
                   header.append("Accept", "application/json");
                   header.append("Content-Type", "application/x-www-form-urlencoded");    
                   let option = new RequestOptions({ headers: header });
-  	  this.proposalcounter = true;
-  	  this.global.requestToken();
+      this.proposalcounter = true;
+      this.global.requestToken();
 
-	     this.http.post(this.global.api + 'api.php?action=proposalinsert',
-	     body,option)
+       this.http.post(this.global.api + 'api.php?action=proposalinsert',
+       body,option)
           .map(response => response.json())
           .subscribe(res => {
              this.global.swalClose();
@@ -465,18 +466,18 @@ let x=''
              
 
           },error => {
-          	console.log(Error); 
+            console.log(Error); 
                 this.global.swalAlertError();
            } );
-	     
+       
 
-  	}
-  	if (x!='') {
-  		alert(x)
-  	}else
+    }
+    if (x!='') {
+      alert(x)
+    }else
         stepper.next();
 
-  	
+    
 
   }
   getprojectlist(programid){
@@ -528,6 +529,84 @@ let x='';
         }else
           alert(x)
   }
+  getproponent(projectid){
+    var header = new Headers();
+      header.append("Accept", "application/json");
+      header.append("Content-Type", "application/x-www-form-urlencoded");    
+      let option = new RequestOptions({ headers: header });
+      this.http.get(this.global.api + 'api.php?action=spProposal_ProjectProponent_List&projectid='+projectid,
+         option)
+            .map(response => response.json())
+            .subscribe(res => {
+              this.proponents= res;
+              console.log(res);
+              if (res[0].id!=null) {
+                this.proponenttype = 'Member'
+              }else
+                this.proponenttype = 'Project Leader'
+        });
+  }
+
+  insertproponent(){
+
+let x='';
+    if (this.fname==undefined||this.fname=="") {
+      x=x+"*First name is required\n";
+    }
+    if (this.lname==undefined||this.lname=="") {
+      x=x+"*Last name is required\n";
+    }
+    if (x=='') {
+     let urlSearchParams = new URLSearchParams();
+                    urlSearchParams.append("pid",this.projectid.toString());
+                    urlSearchParams.append("lname",this.lname.toString());
+                    urlSearchParams.append("fname",this.fname.toString());
+                    urlSearchParams.append("mname",this.mname.toString());
+                    urlSearchParams.append("sname",this.suffix.toString());
+                    urlSearchParams.append("percent","0");
+                     urlSearchParams.append('type', this.proponenttypeinput.toString() );
+                  let body = urlSearchParams.toString()
+      var header = new Headers();
+                  header.append("Accept", "application/json");
+                  header.append("Content-Type", "application/x-www-form-urlencoded");    
+                  let option = new RequestOptions({ headers: header });
+      this.proposalcounter = true;
+      this.global.swalLoading('Adding project Proponent');
+
+       this.http.post(this.global.api + 'api.php?action=spProposal_ProjectProponent_Insert',
+       body,option)
+          .map(response => response.json())
+          .subscribe(res => {
+             this.global.swalClose();
+             this.coopagency = null;
+             this.fname = ''
+             this.lname = ''
+             this.suffix = ''
+             this.mname = ''
+             this.getproponent(this.projectid);     
+          },error => {
+            console.log(Error); 
+                this.global.swalAlertError();
+           } );
+        }else
+          alert(x)
+  }
+  removeproponent(id){
+                                                                                              
+    var header = new Headers();
+      header.append("Accept", "application/json");
+      header.append("Content-Type", "application/x-www-form-urlencoded");    
+      let option = new RequestOptions({ headers: header });
+      this.http.get(this.global.api + 'api.php?action=spProposal_ProjectProponent_Delete&id='+id,
+         option)
+            .map(response => response.json())
+            .subscribe(res => {
+             this.getproponent(this.projectid); 
+
+        },error => {
+                this.global.swalAlertError();
+           } );
+  }
 
   getcooperating(projectid){
     var header = new Headers();
@@ -539,7 +618,7 @@ let x='';
             .map(response => response.json())
             .subscribe(res => {
               this.calists= res;
-              console.log(res)
+
               if (res[0].id!=null) {
               this.modeofimplementation="Multi Agency";
               }else
@@ -574,6 +653,54 @@ let x='';
         });
   }
 
+
+  addproject(){
+    if (this.protitle==''||this.produration=='') {
+      alert("Project title and Duration is required!")
+    }else
+    {
+     let urlSearchParams = new URLSearchParams();
+                    urlSearchParams.append("programid",this.programid.toString());
+                     urlSearchParams.append('title', this.protitle );
+                     urlSearchParams.append('duration', this.produration);
+                  let body = urlSearchParams.toString()
+      var header = new Headers();
+                  header.append("Accept", "application/json");
+                  header.append("Content-Type", "application/x-www-form-urlencoded");    
+                  let option = new RequestOptions({ headers: header });
+      this.proposalcounter = true;
+      this.global.swalLoading('Adding project title');
+
+       this.http.post(this.global.api + 'api.php?action=projectadd',
+       body,option)
+          .map(response => response.json())
+          .subscribe(res => {
+             this.global.swalClose();
+             this.protitle = '';
+             this.produration = '';
+             this.getprojectlist(this.programid);           
+
+          },error => {
+            console.log(Error); 
+                this.global.swalAlertError();
+           } );
+    }
+  }
+  removeprojecttitle(projectid){
+                                                                                              
+    var header = new Headers();
+      header.append("Accept", "application/json");
+      header.append("Content-Type", "application/x-www-form-urlencoded");    
+      let option = new RequestOptions({ headers: header });
+      this.http.get(this.global.api + 'api.php?action=removeprojecttitle&projectid='+projectid,
+         option)
+            .map(response => response.json())
+            .subscribe(res => {
+             this.getprojectlist(this.programid);   
+        },error => {
+                this.global.swalAlertError();
+           } );
+  }
   removecagency(id){
                                                                                               
     var header = new Headers();
@@ -620,9 +747,23 @@ let x='';
                 this.global.swalAlertError();
            } );
   }
-
-  onNoClick(): void {
-    this.dialogRef.close(0);
+  proposaltype(x){
+    if (x==0) {
+      if (this.prog==false) {
+        this.prog = true;
+        this.proj = false;
+      }
+      else
+        this.prog = false;
+    }
+    else{
+      if (this.proj==false) {
+        this.proj = true;
+        this.prog = false;
+      }
+      else
+        this.proj = false;
+    }
   }
 
   swalConfirm(id,text,ctr,ps,moe,co)
@@ -636,6 +777,7 @@ let x='';
       }).then((result) => {
         if (result.value) {
           if (ctr==1) {
+             this.removeprojecttitle(id);
             // code...
           }else if (ctr==2) {
              this.removebudget(id,ps,moe,co);
@@ -643,6 +785,8 @@ let x='';
              this.removecagency(id);
           }else if (ctr==4) {
              this.removebudget2(id,ps,moe,co);
+          }else if (ctr==5) {
+             this.removeproponent(id);
           }
              
         }
@@ -753,6 +897,43 @@ let x='';
   }
 
  proposaldone(type){
+   if (this.prog==true) {
+      let x=''
+        if (!(this.projectlists!=undefined&&this.projectlists[0].id!=null)) {
+          x=x+"*At least 1 project title is required\n";
+        }if (!(this.budgetlist!=undefined&&this.budgetlist[0].id!=null)) {
+          x=x+"*At least 1 source of fund is required\n";
+        }if (this.esummary==''||this.esummary==null) {
+          x=x+"*Executive Summary is required\n";
+        }
+        if (x=='') {
+                      let urlSearchParams = new URLSearchParams();
+                        urlSearchParams.append("esummary",this.esummary);
+                         urlSearchParams.append('pid', this.proposalid.toString());
+                      let body = urlSearchParams.toString()
+          var header = new Headers();
+                      header.append("Accept", "application/json");
+                      header.append("Content-Type", "application/x-www-form-urlencoded");    
+                      let option = new RequestOptions({ headers: header });
+          this.proposalcounter = true;
+          this.global.requestToken();
+           this.global.swalLoading('Saving New Proposal...');
+
+           this.http.post(this.global.api + 'api.php?action=proposaldone',
+           body,option)
+              .map(response => response.json())
+              .subscribe(res => {
+                 this.global.swalClose(); 
+                 this.router.navigate(['../main',{outlets:{div:'proposals'}}]);
+              },error => {
+                console.log(Error); 
+                    this.global.swalAlertError();
+               } );
+          }
+        if (x!='') {
+          alert(x)
+        }
+     }else{
        let x='';
         if (!(this.calists!=undefined&&this.calists[0].id!=null)) 
           x=x+"*At least 1 Cooperating Agency is required\n";
@@ -895,6 +1076,12 @@ let x='';
         if (x!='') {
           alert(x)
         }
+     }
   }
+
+noclick()
+{
+  this.dialogRef.close(0)
+}
 
 }

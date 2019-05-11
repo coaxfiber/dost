@@ -31,8 +31,9 @@
                   </mat-form-field>
                 </td>
               </tr>
-            </table>
+            </table><p><b>Company: </b>USLT</p>
           </div>
+
           <div>
             <br>
             <button mat-button type="submit" class="buttonblue" (click)="add(stepper)">Next</button>
@@ -41,15 +42,172 @@
       <mat-step>
 
           <ng-template matStepLabel>Other Information</ng-template>
+          <table style="width: 100%">
+            <tr>
+              <td style="width: 70%">
+            <mat-form-field class="npinput"  style="width: 100%">
+              <input matInput placeholder="Author"  [(ngModel)]="author" >
+              <mat-hint></mat-hint>
+            </mat-form-field></td>
+            <td style="width: 30%">
+                <button mat-raised-button (click)="insertauthor()" class="buttonblue" >
+                    <mat-icon style="font-size:20px">add</mat-icon> Add Author</button>
+            </td>
+            </tr>
+          </table>
+
+          <div  *ngIf="authorarray!=undefined" >
+            <div  *ngIf="authorarray[0].id!=null" >
+              <table style="width: 100%">
+                <tr>
+                  <td>Project Title</td>
+                  <td>Duration</td>
+                  <td> </td>
+                </tr>
+                <tr  *ngFor="let list of authorarray">
+                  <td style="width: 70%"><b>{{list.name}}</b></td>
+                <td style="width: 30%">
+                    <button  mat-button (click)="swalConfirm(list.id,'Remove Author?',1,null,null,null)"  class="buttonred" >
+                        <mat-icon style="font-size:20px">remove</mat-icon> Remove</button>
+                </td>
+                </tr>
+              </table>
+          </div>
+          </div>
+          <hr>
+          <table style="width: 100%">
+            <tr>
+              <td style="width: 70%">
+            <mat-form-field class="npinput"  style="width: 100%">
+              <input matInput placeholder="Keyword"  [(ngModel)]="inputkeyword" >
+              <mat-hint></mat-hint>
+            </mat-form-field></td>
+            <td style="width: 30%">
+                <button mat-raised-button (click)="insertauthor()" class="buttonblue" >
+                    <mat-icon style="font-size:20px">add</mat-icon> Add Keyword</button>
+            </td>
+            </tr>
+          </table>
+
+          <div  *ngIf="keywords!=undefined" >
+            <div  *ngIf="keywords[0].id!=null" >
+              <table style="width: 100%">
+                <tr>
+                  <td>Project Title</td>
+                  <td>Duration</td>
+                  <td> </td>
+                </tr>
+                <tr  *ngFor="let list of keywords">
+                  <td style="width: 70%"><b>{{list.name}}</b></td>
+                <td style="width: 30%">
+                    <button  mat-button (click)="swalConfirm(list.id,'Remove Author?',1,null,null,null)"  class="buttonred" >
+                        <mat-icon style="font-size:20px">remove</mat-icon> Remove</button>
+                </td>
+                </tr>
+              </table>
+          </div>
+          </div>
+          <hr>
+
+          <table style="width: 100%">
+            <tr>
+              <td style="width: 70%">
+                  <mat-form-field  class="npinput2">
+                    <mat-label>Discipline</mat-label>
+                    <mat-select  [(ngModel)]="inputdegreelevel">
+                      <mat-option value="{{c.id}}"  *ngFor="let c of degreelevel">
+                        {{c.name}} - {{c.description}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field></td>
+            <td style="width: 30%">
+                <button mat-raised-button (click)="insertauthor()" class="buttonblue" >
+                    <mat-icon style="font-size:20px">add</mat-icon> Add Discipline</button>
+            </td>
+            </tr>
+          </table>
+
+          <div  *ngIf="keywords!=undefined" >
+            <div  *ngIf="keywords[0].id!=null" >
+              <table style="width: 100%">
+                <tr>
+                  <td>Project Title</td>
+                  <td>Duration</td>
+                  <td> </td>
+                </tr>
+                <tr  *ngFor="let list of keywords">
+                  <td style="width: 70%"><b>{{list.name}}</b></td>
+                <td style="width: 30%">
+                    <button  mat-button (click)="swalConfirm(list.id,'Remove Author?',1,null,null,null)"  class="buttonred" >
+                        <mat-icon style="font-size:20px">remove</mat-icon> Remove</button>
+                </td>
+                </tr>
+              </table>
+          </div>
+          </div>
+          <hr>
+
+          <table style="width: 100%">
+            <tr>
+              <td style="width: 70%">
+            <mat-form-field class="npinput"  style="width: 100%">
+              <input matInput placeholder="Funding Agency"  [(ngModel)]="inputkeyword" >
+              <mat-hint></mat-hint>
+            </mat-form-field></td>
+            <td style="width: 30%">
+                <button mat-raised-button (click)="insertauthor()" class="buttonblue" >
+                    <mat-icon style="font-size:20px">add</mat-icon> Add Funding Agency</button>
+            </td>
+            </tr>
+          </table>
+
+          <div  *ngIf="keywords!=undefined" >
+            <div  *ngIf="keywords[0].id!=null" >
+              <table style="width: 100%">
+                <tr>
+                  <td>Project Title</td>
+                  <td>Duration</td>
+                  <td> </td>
+                </tr>
+                <tr  *ngFor="let list of keywords">
+                  <td style="width: 70%"><b>{{list.name}}</b></td>
+                <td style="width: 30%">
+                    <button  mat-button (click)="swalConfirm(list.id,'Remove Author?',1,null,null,null)"  class="buttonred" >
+                        <mat-icon style="font-size:20px">remove</mat-icon> Remove</button>
+                </td>
+                </tr>
+              </table>
+          </div>
+          </div>
+          <hr>
+
+            <p><b>Main Document</b> <small>(PDF File.)</small></p>
+            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+              <div class="form-group">
+                <input type="file" id="avatar" (change)="onFileChange($event)" #fileInput class="inputfile" />
+                <label for="avatar">{{maindoclabel}}</label>
+                <button mat-button type="button" class="btn btn-sm btn-default" (click)="clearFile()">clear file</button>
+              </div>
+            </form>
 
 
 
+            <p><b>Supporting Documents</b> <small>(PDF File, Optional)</small></p>
+            <form [formGroup]="form2" (ngSubmit)="onSubmit()">
+              <div class="form-group">
+                <input type="file" id="avatar2" (change)="onFileChange($event)" #fileInput2 class="inputfile" />
+                <label for="avatar">{{supdoclabel}}</label>
+                <button mat-button type="button" class="btn btn-sm btn-default" (click)="clearFile()">clear file</button>&nbsp;&nbsp;
+                <button mat-button class="buttonblue" >Add</button>
+              </div>
+              </form>
+              <br>
+              <p>Note: Add <a href="#">Publishing Information</a> if the Research has been published</p>
+              <br><br>
             <button mat-button matStepperPrevious class="buttonblue" >Back</button>
-            <button mat-button class="buttonblue" style="float: right;"  (click)="proposalinsert(stepper)">Next</button>
+            <button mat-button class="buttonblue" style="float: right;"  (click)="proposalinsert(stepper)">Submit Research.</button>
+            <button mat-button style="float: right;" (click)="proposaldone(1)">Save as Draft</button>
      
-      </mat-step>
-      <mat-step>
-          <ng-template matStepLabel>Other Information</ng-template>
       </mat-step>
     </mat-horizontal-stepper>
 </div>

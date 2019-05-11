@@ -25,7 +25,10 @@ $possible_url = array("proposalinsert","proposallists", "proposaldelete", 'progr
   'spProposal_ProjectProponent_Insert',
   'spProposal_ProjectProponent_Delete',
   'spProposal_ProjectProponent_List',
-  'spResearch_List');
+  'spResearch_List',
+  'spResearchAuthor_Insert_Update',
+  'spResearchAuthorDelete',
+  'spResearchAuthor_Select');
 
 $value = "An error has occurred";
 
@@ -33,6 +36,19 @@ if (isset($_GET["action"]) && in_array($_GET["action"], $possible_url))
 {
   switch ($_GET["action"])
     {
+
+      case "spResearchAuthor_Select":
+        $value = spResearchAuthor_Select($_GET["rid"]);
+        break;
+      case "spResearchAuthor_Insert_Update":
+        $value = spResearchAuthor_Insert_Update(
+          $_POST["rid"],
+          $_POST["aid"]);
+        break;
+      case "spResearchAuthorDelete":
+        $value = spResearchAuthorDelete($_GET["rid"]);
+        break;
+
 
       case "spResearch_List":
         $value = spResearch_List($_GET["company"]);

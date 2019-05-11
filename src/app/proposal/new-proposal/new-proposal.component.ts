@@ -101,10 +101,11 @@ clss=0;
 
 proponenttype="Project Leader"
 proponents
-fname
-mname
-lname
-suffix
+fname=''
+mname=''
+lname=''
+suffix=''
+proponenttypeinput='2'
 
   constructor(public dialog: MatDialog, private fb: FormBuilder,private global: GlobalService,private http: Http,private route: ActivatedRoute, private router: Router) {
     this.http.get(this.global.api + 'api.php?action=FundingAgency_List',
@@ -531,7 +532,7 @@ let x='';
             .map(response => response.json())
             .subscribe(res => {
               this.proponents= res;
-
+              console.log(res);
               if (res[0].id!=null) {
                 this.proponenttype = 'Member'
               }else
@@ -548,26 +549,22 @@ let x='';
     if (this.lname==undefined||this.lname=="") {
       x=x+"*Last name is required\n";
     }
-    var z=1;
-    if (this.proponenttype=='Member') {
-      z=2
-    }
     if (x=='') {
      let urlSearchParams = new URLSearchParams();
                     urlSearchParams.append("pid",this.projectid.toString());
-                    urlSearchParams.append("lname",this.projectid.toString());
-                    urlSearchParams.append("fname",this.projectid.toString());
-                    urlSearchParams.append("mname",this.projectid.toString());
-                    urlSearchParams.append("sname",this.projectid.toString());
+                    urlSearchParams.append("lname",this.lname.toString());
+                    urlSearchParams.append("fname",this.fname.toString());
+                    urlSearchParams.append("mname",this.mname.toString());
+                    urlSearchParams.append("sname",this.suffix.toString());
                     urlSearchParams.append("percent","0");
-                     urlSearchParams.append('type', z.toString() );
+                     urlSearchParams.append('type', this.proponenttypeinput.toString() );
                   let body = urlSearchParams.toString()
       var header = new Headers();
                   header.append("Accept", "application/json");
                   header.append("Content-Type", "application/x-www-form-urlencoded");    
                   let option = new RequestOptions({ headers: header });
       this.proposalcounter = true;
-      this.global.swalLoading('Adding project title');
+      this.global.swalLoading('Adding project Proponent');
 
        this.http.post(this.global.api + 'api.php?action=spProposal_ProjectProponent_Insert',
        body,option)
@@ -575,6 +572,10 @@ let x='';
           .subscribe(res => {
              this.global.swalClose();
              this.coopagency = null;
+             this.fname = ''
+             this.lname = ''
+             this.suffix = ''
+             this.mname = ''
              this.getproponent(this.projectid);     
           },error => {
             console.log(Error); 
@@ -1036,7 +1037,11 @@ let x='';
                       .subscribe(res => {
                       });
 
-                 let urlSearchParams = new URLSearchParams();
+                      if (type==1) {
+                        this.global.swalSuccess("Proposal Saved as Draft!");
+                      }else
+                      {
+                                         let urlSearchParams = new URLSearchParams();
                         urlSearchParams.append("proposalid",this.proposalid.toString());
                          urlSearchParams.append('statusid', type);
                          urlSearchParams.append('remarks', '');
@@ -1051,10 +1056,9 @@ let x='';
                       .map(response => response.text())
                       .subscribe(res => {
                       });
-                      if (type==1) {
-                        this.global.swalSuccess("Proposal Saved as Draft!");
-                      }else
                         this.global.swalSuccess("Proposal has been submitted!");
+                      }
+
 
                         setTimeout(() => {
                           this.router.navigate(['../main',{outlets:{div:'proposals'}}]);

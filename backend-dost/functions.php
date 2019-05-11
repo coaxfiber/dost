@@ -1,5 +1,65 @@
 <?php 
 
+
+function spResearchAuthorDelete($id)
+{
+$database = new Database();
+$db = $database->getConnection();
+
+  $stmt = $db->prepare("exec spResearchAuthorDelete
+    @Research_id = $id");  
+  $stmt->execute();
+  $app_list = array(
+              "ok" =>"ok"
+               );
+  return  $app_list;
+}
+function spResearchAuthor_Select($id)
+{
+  //normally this info would be pulled from a database.
+  //build JSON array
+$database = new Database();
+$db = $database->getConnection();
+
+  $stmt = $db->prepare("exec spResearchAuthor_Select
+    @Research_id = $id");  
+  $stmt->execute();
+  $app_list = array(
+              "id" => null);
+  $app_list = array(
+               0 => $app_list);
+  $x=0;
+while ($row = $stmt ->fetch()) {
+    $app_list[$x] = array(
+              "id" => $row[0],
+              "name" =>  $row[3]." ".$row[4].' '. $row[5] ,
+              "userid" =>  $row[6] ,
+              "email" =>  $row[7]  );
+            $x++;
+        
+}
+  return  $app_list;
+}
+function spResearchAuthor_Insert_Update($rid,$aid)
+{
+$database = new Database();
+$db = $database->getConnection();
+
+  $stmt = $db->prepare("exec spResearchAuthor_Insert_Update
+    @Research_id = $rid,
+    @Author_id = $aid
+
+    ");  
+  $stmt->execute();
+  $app_list = array(
+              "status" => "success" );
+
+  return  $app_list;
+}
+
+
+
+
 function spResearch_List($x)
 {
   //normally this info would be pulled from a database.
