@@ -1,4 +1,4 @@
-  
+
 <style type="text/css">
 .imgfea {
   margin-left: auto;margin-right: auto;
@@ -8,7 +8,9 @@ img.noStretch{
     object-fit: cover;
   }</style>
 
-    <div class="hero" id="highlighted">
+    <div class="hero" id="highlighted" style="background-image: url(img/buntun2.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;">
       <div class="inner">
         <!--Slideshow-->
         <div id="highlighted-slider" class="container">
@@ -17,19 +19,15 @@ img.noStretch{
             <!--Slide 1-->
             <div class="item">
               <div class="row">
-                <div class="col-md-6 col-md-push-6 item-caption">
+                <div class="col-md-8 col-md-8 " style="padding-left: 60px">
                   <h2 class="h1 text-weight-light">
-                      Gov’t agencies fund <span class="text-primary">USL projects</span>
+                     The <b>Salikha</b> <span class="text-primary">Rehiyon Dos</span>
                     </h2>
-                  <h4>
-                      By Macekrell De la Cruz and Jef-Jef Anagaran
-                    </h4>
-                  <p>Tuguegarao City – After the required vetting, the Commission on Higher Education (CHED) approved this 2018 the University of Saint Louis’ (USL’s) two projects under the agency’s Institutional Development and Innovations Grants (IDIG).</p>
-                  <a href="http://usl.edu.ph/govt-agencies-fund-usl-projects/" class="btn btn-more btn-lg i-right" target="_blank">Read More <i class="fa fa-plus"></i></a>
+                  <p style="font-size: 17px">The <b>Salikha Rehiyon Dos</b> is a system to provide access to collection of research and development outputs of research institutions in the region. The application features the grants management system platform that supports the management of the entire grant life cycle-submission, review, approval, monitoring and evaluation of the project.</p><a href="http://usl.edu.ph/govt-agencies-fund-usl-projects/" class="btn btn-more btn-lg i-right" target="_blank">Read More <i class="fa fa-plus"></i></a>
                 </div>
-                <div class="col-md-6 col-md-pull-6 hidden-xs">
+                <!--<div class="col-md-6 col-md-pull-6 hidden-xs">
                   <img src="img/slides/slide1.png" alt="Slide 1" class="center-block img-responsive">
-                </div>
+                </div>-->
               </div>
             </div>
             <!--Slide 2-->
@@ -54,12 +52,11 @@ img.noStretch{
         </div>
       </div>
     </div>
-  </div>
 
   <!-- ======== @Region: #content ======== -->
   <div id="content">
     <!-- Mission Statement -->
-    <div class="mission text-center block block-pd-sm block-bg-noise">
+    <!--<div class="mission text-center block block-pd-sm block-bg-noise">
       <div class="container">
         <h2 class="text-shadow-white">
             
@@ -67,6 +64,51 @@ img.noStretch{
         <p class="lead text-muted mb-0">Cagayan Valley Research and Development Knowledge Management System (CVRDKMS) is the DOST RO2’s official platform for collecting, preserving, and sharing scholarly articles.</p>
             <a href="about.html" class="btn btn-more"><i class="fa fa-plus"></i>Read more</a>
           </h2>
+      </div>
+    </div>--> <!-- Services -->
+    <div class="services block block-bg-gradient block-border-bottom">
+      <div class="container">
+        <h2 class="block-title">
+            Our Services
+          </h2>
+        <div class="row">
+          <div class="col-md-4 text-center">
+            <span class="fa-stack fa-5x">
+              <i class="fa fa-circle fa-stack-2x text-primary"></i>
+              <i class="fa fa-group fa-stack-1x fa-inverse"></i> </span>
+            <h4 class="text-weight-strong">
+                Search and Download Research
+              </h4>
+            <p>Find articles from our research collections contributed by participating agencies/ institutions in the region.</p>
+            <p>
+              <a href="#" class="btn btn-more i-right">Learn More <i class="fa fa-angle-right"></i></a>
+            </p>
+          </div>
+          <div class="col-md-4 text-center">
+            <span class="fa-stack fa-5x">
+              <i class="fa fa-circle fa-stack-2x text-primary"></i>
+              <i class="fa fa-pencil fa-stack-1x fa-inverse"></i> </span>
+            <h4 class="text-weight-strong">
+                Submit Research
+              </h4>
+            <p>Member institutions/agencies upload their research collections here to improve visibility and impact of their scholarly outputs.</p>
+            <p>
+              <a href="#" class="btn btn-more i-right">Learn More <i class="fa fa-angle-right"></i></a>
+            </p>
+          </div>
+          <div class="col-md-4 text-center">
+            <span class="fa-stack fa-5x">
+              <i class="fa fa-circle fa-stack-2x text-primary"></i>
+              <i class="fa fa-cogs fa-stack-1x fa-inverse"></i> </span>
+            <h4 class="text-weight-strong">
+                Submit Proposal
+              </h4>
+            <p>Submit your program or project proposals to get funding grants.</p>
+            <p>
+              <a href="#" class="btn btn-more i-right">Learn More <i class="fa fa-angle-right"></i></a>
+            </p>
+          </div>
+        </div>
       </div>
     </div>
     <!--Showcase-->
@@ -266,52 +308,7 @@ img.noStretch{
 
       </div>
     </div>
-    <!-- Services -->
-    <div class="services block block-bg-gradient block-border-bottom">
-      <div class="container">
-        <h2 class="block-title">
-            Our Services
-          </h2>
-        <div class="row">
-          <div class="col-md-4 text-center">
-            <span class="fa-stack fa-5x">
-              <i class="fa fa-circle fa-stack-2x text-primary"></i>
-              <i class="fa fa-group fa-stack-1x fa-inverse"></i> </span>
-            <h4 class="text-weight-strong">
-                User Experience / Information Architecture
-              </h4>
-            <p>Rhoncus adipiscing, magna integer cursus augue eros lacus porttitor magna. Dictumst, odio! Elementum tortor sociis in eu dis dictumst pulvinar lorem nec aliquam a nascetur.</p>
-            <p>
-              <a href="#" class="btn btn-more i-right">Learn More <i class="fa fa-angle-right"></i></a>
-            </p>
-          </div>
-          <div class="col-md-4 text-center">
-            <span class="fa-stack fa-5x">
-              <i class="fa fa-circle fa-stack-2x text-primary"></i>
-              <i class="fa fa-pencil fa-stack-1x fa-inverse"></i> </span>
-            <h4 class="text-weight-strong">
-                User Interface Design / User Interface Theming
-              </h4>
-            <p>Rhoncus adipiscing, magna integer cursus augue eros lacus porttitor magna. Dictumst, odio! Elementum tortor sociis in eu dis dictumst pulvinar lorem nec aliquam a nascetur.</p>
-            <p>
-              <a href="#" class="btn btn-more i-right">Learn More <i class="fa fa-angle-right"></i></a>
-            </p>
-          </div>
-          <div class="col-md-4 text-center">
-            <span class="fa-stack fa-5x">
-              <i class="fa fa-circle fa-stack-2x text-primary"></i>
-              <i class="fa fa-cogs fa-stack-1x fa-inverse"></i> </span>
-            <h4 class="text-weight-strong">
-                Code &amp; Development / Implementation Support
-              </h4>
-            <p>Rhoncus adipiscing, magna integer cursus augue eros lacus porttitor magna. Dictumst, odio! Elementum tortor sociis in eu dis dictumst pulvinar lorem nec aliquam a nascetur.</p>
-            <p>
-              <a href="#" class="btn btn-more i-right">Learn More <i class="fa fa-angle-right"></i></a>
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
+   
     <!-- Pricing 
     <div class="block-contained">
       <h2 class="block-title">

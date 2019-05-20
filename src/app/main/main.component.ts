@@ -17,8 +17,8 @@ export class MainComponent implements OnInit {
     image:any = 'assets/noimage.jpg';
     id:any;
     name:any;
-    user={fname:'',surname:'',mname:'',ext:'',sex:'',agency:'',address:'',telno:''}
-
+    user={fname:'',surname:'',mname:'',ext:'',sex:'',agency:'',address:'',telno:'',companyid:'',appname:'',companyname:'',roleid:''}
+    
   constructor( private domSanitizer: DomSanitizer,private global: GlobalService,private http: Http,private route: ActivatedRoute, private router: Router) {
   	this.router.navigate(['../main',{outlets:{div:'home'}}]);
     this.id = this.global.requestid();
@@ -33,8 +33,16 @@ export class MainComponent implements OnInit {
                this.user.agency="01001";
                this.user.address="address";
                this.user.telno="none";
-              this.global.user=this.user;
+               this.global.user=res;
+
              this.global.swalClose(); 
+               this.http.get(this.global.api + 'api.php?action=spUserViewDomain_Company_By_Username&email='+this.global.requestemail(),
+                   this.global.option)
+                      .map(response => response.json())
+                      .subscribe(res => {
+                      this.global.useraccess=res[0];
+                      
+                  });
         });
 
    }

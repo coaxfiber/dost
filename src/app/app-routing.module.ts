@@ -7,6 +7,7 @@ import { NewProposalComponent } from './proposal/new-proposal/new-proposal.compo
 import { ProposalsComponent } from './proposal/proposals/proposals.component';
 import { NewResearchComponent } from './research/new-research/new-research.component';
 import { ResearchesComponent } from './research/researches/researches.component';
+import { UpdateResearchComponent } from './research/update-research/update-research.component';
 import { ProjectDisciplineComponent } from './control-panel/project-discipline/project-discipline.component';
 const routes: Routes = [
   {
@@ -23,6 +24,7 @@ const routes: Routes = [
         { path: 'new-research', component: NewResearchComponent, outlet: 'div' },
         { path: 'researches', component: ResearchesComponent, outlet: 'div' },
         { path: 'discipline', component: ProjectDisciplineComponent, outlet: 'div' },
+        { path: 'update-research', component: UpdateResearchComponent, outlet: 'div' },
       ]
   },
   {

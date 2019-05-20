@@ -17,6 +17,10 @@ import { ResearchesComponent } from './research/researches/researches.component'
 import { ProjectDisciplineComponent } from './control-panel/project-discipline/project-discipline.component';
 import { ProjectClassificationTypeComponent } from './control-panel/project-classification-type/project-classification-type.component';
 import { UpdateProjectComponent } from './proposal/new-proposal/update-project/update-project.component';
+import { ManageAuthorComponent } from './research/new-research/manage-author/manage-author.component';
+import { UpdateResearchComponent } from './research/update-research/update-research.component';
+import { ResearchStatusComponent } from './research/researches/research-status/research-status.component';
+import { ResearchPdfComponent } from './research/researches/research-pdf/research-pdf.component';
 
 @NgModule({
   declarations: [
@@ -31,9 +35,16 @@ import { UpdateProjectComponent } from './proposal/new-proposal/update-project/u
     ProjectDisciplineComponent,
     ProjectClassificationTypeComponent,
     UpdateProjectComponent,
+    ManageAuthorComponent,
+    UpdateResearchComponent,
+    ResearchStatusComponent,
+    ResearchPdfComponent,
   ],
    entryComponents: [
     UpdateProjectComponent,
+    ManageAuthorComponent,
+    ResearchStatusComponent,
+    ResearchPdfComponent
    ],
   imports: [
     BrowserModule,

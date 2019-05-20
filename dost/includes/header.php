@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8">
-  <title>CVRDKMS</title>
+  <title>Salikha - Rehiyon Dos</title>
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <meta content="" name="keywords">
   <meta content="" name="description">
@@ -52,12 +52,18 @@
     Author: BootstrapMade.com
     Author URL: https://bootstrapmade.com
   ======================================================= -->
+<style type="text/css">
+  @media (max-width: 1200px){
+    .social-media.social-media-inline{
+        display: none;
+    }
+  }
+</style>
 </head>
 
 <body class="page-index has-hero">
   <!--Change the background class to alter background image, options are: benches, boots, buildings, city, metro -->
-  <div id="background-wrapper" class="buildings" data-stellar-background-ratio="0.1">
-
+  <div id="background-wrapper" class="buildings" data-stellar-background-ratio="0.1" style="position: fixed;z-index: 100;width: 100%">
     <!-- ======== @Region: #navigation ======== -->
     <div id="navigation" class="wrapper">
       <!--Hidden Header Region-->
@@ -83,7 +89,7 @@
               <!--user menu-->
               <ul class="list-inline user-menu pull-right">
                 <li class="user-register"><i class="fa fa-edit text-primary "></i> <a href="register" class="text-uppercase">Register</a></li>
-                <li class="user-login"><i class="fa fa-sign-in text-primary"></i> <a href="login" class="text-uppercase">Login</a></li>
+                <li class="user-login"><i class="fa fa-sign-in text-primary"></i> <a href="dashboard" class="text-uppercase">Login</a></li>
               </ul>
             </div>
           </div>
@@ -106,11 +112,11 @@
                   </select>
                     <button class="btn btn-info" type="button" data-toggle="modal" data-target="#advanced_search"><i class="fa fa-cog fa-fw"></i></button>
                   <input type="text" class="form-control" aria-label="Text input with dropdown button" style="width: auto;float: none;">
-                    <button class="btn btn-info" type="button" id="search_submit" onclick="window.location.href = 'search';"><i class="fa fa-search fa-fw"></i></button>
+                    <button class="btn btn-info" type="button" id="search_submit" onclick="window.location.href = 'search.php';"><i class="fa fa-search fa-fw"></i></button>
               </div>
             </form>
             <div class="modal fade" id="advanced_search" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-              <div class="modal-dialog" role="document">
+              <div class="modal-dialog" role="document" style="z-index: 1041 !important">
                 <div class="modal-content">
                   <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel" style="width: 150px;margin-right: 0px;float: left">Advanced Search</h5>
@@ -139,24 +145,31 @@
                 <a href="index"><i class="fa fa-home"></i></a>
               </li>
               <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">CVRDKMS<b class="caret"></b></a>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">About Salikha<b class="caret"></b></a>
                 <!-- Dropdown Menu -->
                 <ul class="dropdown-menu">
-                  <li class="dropdown-header">CVRDKMS Website Pages</li>
-                  <li><a href="search" tabindex="-1" class="menu-item">Search</a></li>
-                  <li><a href="about-us" tabindex="-1" class="menu-item">About us</a></li>
-                  <li><a href="login" tabindex="-1" class="menu-item">Login</a></li>
-                  <li><a href="register" tabindex="-1" class="menu-item">Sign-Up</a></li>
-                  <li class="dropdown-footer">Apply Grant</li>
+                  <li><a href="about-us" tabindex="-1" class="menu-item">Overview</a></li>
+                  <li><a href="help.php" tabindex="-1" class="menu-item">Developers</a></li>
                 </ul>
               </li>
-              <li class="dropdown dropdown-mm">
+              <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Resources<b class="caret"></b></a>
                 <!-- Dropdown Menu -->
+                <ul class="dropdown-menu">
+                  <li><a href="about-us" tabindex="-1" class="menu-item">Overview</a></li>
+                  <li><a href="help" tabindex="-1" class="menu-item">Developers</a></li>
+                </ul>
+              </li>
+              <!--<li class="dropdown dropdown-mm">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Resources<b class="caret"></b></a>
                 <ul class="dropdown-menu dropdown-menu-mm dropdown-menu-persist">
-                  <li class="row">
+                <ul class="dropdown-menu">
+                  <li><a href="about-us" tabindex="-1" class="menu-item">Proposal Guidelines</a></li>
+                  <li><a href="help.php" tabindex="-1" class="menu-item">dOWNLOADS</a></li>
+                </ul>
+                <li class="row">
                     <ul class="col-md-4">
-                      <li class="dropdown-header">Researches</li>
+                      <li class="dropdown-header">Proposal Guidelines</li>
                       <li><a href="#">Researcher resources</a></li>
                       <li><a href="#">Register online</a></li>
                       <li><a href="#">Discover tools</a></li>
@@ -186,11 +199,15 @@
                     </div>
                   </li>
                 </ul>
-              </li>
-              <li><a href="#">Contact us</a></li>
+              </li>-->
+              <li><a href="#">Analytics</a></li>
+              <li><a href="#">Help</a></li>
             </ul>
           </div>
           <!--/.navbar-collapse -->
         </div>
       </div>
     </div>
+</div>
+
+    <div style="height: 162px"></div>

@@ -1,16 +1,48 @@
-<div id='research'>
 
-<table style="width: 97%;margin: auto;">
-  <tr><td>
-      <mat-tab-group (selectedTabChange)="tabClick($event)">
-        <mat-tab label="Draft"></mat-tab>
-        <mat-tab label="Submitted"></mat-tab>
-        <mat-tab label="Approved"></mat-tab>
-      </mat-tab-group>
-</td>
+<style type="text/css">
+  .matcontainer{
+    overflow-y: hidden !important;
+  }
+</style>
+<table style="width: 97%;margin: auto;background-color: white;">
+  <tr><td style="width: 150px  !important">
+
+                  <mat-form-field  class="npinput2" style="width: 150px  !important">
+                    <mat-label>Filter by status:</mat-label>
+                    <mat-select  [(ngModel)]="status" >
+                      <mat-option value="" (click)='applyFilter2("")' >
+                        - All -
+                      </mat-option>
+                      <mat-option value="0" (click)='applyFilter2("Draft")' >
+                        Draft
+                      </mat-option>
+                      <mat-option value="1" (click)='applyFilter2("For Technical Review")' >
+                        For Technical Review
+                      </mat-option>
+                      <mat-option value="2" (click)='applyFilter2("Approved")' >
+                        Approved
+                      </mat-option>
+                    </mat-select>
+          </mat-form-field>
+                </td>
+                <td>
+  
+                  <mat-form-field  class="npinput2"  style="width: 150px  !important">
+                    <mat-label>Filter by Degree Level</mat-label>
+                    <mat-select  [(ngModel)]="level" >
+
+                      <mat-option value="" (click)='applyFilter3("")' >
+                        - All -
+                      </mat-option>
+                      <mat-option value="{{c.id}}"  *ngFor="let c of degreelevel" (click)='applyFilter3(c.name)' >
+                        {{c.name}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+    </td>
     <td style="text-align: right;width: 237px" >
        <mat-form-field style="width: 180px !important">
-      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search"  [(ngModel)]="title" >
 
           </mat-form-field>
         <button mat-mini-fab color="primary">
@@ -19,57 +51,70 @@
     </td>
   </tr>
 </table>
-    
+<div id='research' style="overflow-y: scroll;" class="overflowys">
 
 
     <mat-table #table [dataSource]="dataSource" matSort>
 
    <ng-container matColumnDef="title">
-      <mat-header-cell *matHeaderCellDef>Project Title</mat-header-cell>
-      <mat-cell *matCellDef="let element">
-      <div class="rolerow">
-       <b>{{element.title}}</b> <br>
-        <div class="action">
-      <a href="javascript:void(0)" class="actionlink" (click)="openDialogUpdate(element.id)"> Update Proposal</a> | <a href="javascript:void(0)" class="actionlink" style="color: orange" (click)="removeRole(element.id)">
-        Remove</a>
-    </div>
+      <mat-header-cell *matHeaderCellDef style="min-width: 200px">Research Title</mat-header-cell>
+      <mat-cell *matCellDef="let element" style="min-width: 200px">
+      <div class="rolerow" style="padding-right:15px;min-width: 200px">
+       <b>{{element.title}}</b>
     </div>
     </mat-cell>
     </ng-container>
 
    <ng-container matColumnDef="level">
-      <mat-header-cell *matHeaderCellDef> Level </mat-header-cell>
-      <mat-cell *matCellDef="let element">
-      <div class="rolerow">
+      <mat-header-cell *matHeaderCellDef style="flex: 0 0 120px;"> &nbsp; &nbsp;Level </mat-header-cell>
+      <mat-cell *matCellDef="let element" style="flex: 0 0 120px;">
+      <div class="rolerow" style="padding-right:15px">
        <b>{{element.level}}</b>
     </div>
     </mat-cell>
     </ng-container>
 
    <ng-container matColumnDef="company">
-      <mat-header-cell *matHeaderCellDef> Institution/Company </mat-header-cell>
-      <mat-cell *matCellDef="let element">
-      <div class="rolerow">
+      <mat-header-cell *matHeaderCellDef  style="flex: 0 0 240px;padding-left: ">  &nbsp; &nbsp;Institution/Company </mat-header-cell>
+      <mat-cell *matCellDef="let element" style="flex: 0 0 240px;">
+      <div class="rolerow" style="padding-right:15px">
        <b>{{element.company}}</b>
     </div>
     </mat-cell>
     </ng-container>
 
-   <ng-container matColumnDef="datecreated">
-      <mat-header-cell *matHeaderCellDef> Date Created </mat-header-cell>
-      <mat-cell *matCellDef="let element">
-      <div class="rolerow">
-       <b>{{element.datecreated| date :'mediumDate'}} @ {{element.datecreated| date :'shortTime'}}</b>
+   <ng-container matColumnDef="datecreated" >
+      <mat-header-cell *matHeaderCellDef style="width: 200px;flex: 0 0 130px;"> &nbsp; &nbsp; Date Created </mat-header-cell>
+      <mat-cell *matCellDef="let element" style="width: 200px;flex: 0 0 130px;">
+      <div class="rolerow" style="padding-right:15px">
+       <b>{{element.datecreated| date :'mediumDate' }} @ <br>{{element.datecreated| date :'shortTime'}}</b>
     </div>
     </mat-cell>
     </ng-container>
 
 
    <ng-container matColumnDef="status">
-      <mat-header-cell *matHeaderCellDef style="width: 150px;flex: 0 0 75px;"> Status </mat-header-cell>
+      <mat-header-cell *matHeaderCellDef style="width: 150px;flex: 0 0 90px;">  &nbsp; &nbsp;Status </mat-header-cell>
+      <mat-cell *matCellDef="let element" style="width: 150px;flex: 0 0 90px;">
+      <div class="rolerow" style="padding-right:15px">
+       <b>{{element.status[0].status}}</b>
+    </div>
+    </mat-cell>
+    </ng-container>
+
+
+   <ng-container matColumnDef="action">
+      <mat-header-cell *matHeaderCellDef style="width: 150px;flex: 0 0 80px;">  &nbsp; - Action - </mat-header-cell>
       <mat-cell *matCellDef="let element" style="width: 150px;flex: 0 0 75px;">
       <div class="rolerow">
-       <b>Draft</b>
+       <b><input type="button" [matMenuTriggerFor]="menu" style="color: white;background-color: #294a70;border: none;width: 60px;padding-top: 5px;padding-bottom: 5px;" value="Options"></b>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="updateresearch(element.id,element.title,element.abstract,element.dlid)" *ngIf="element.status[0].status=='Draft'">Update Research</button>
+          <button mat-menu-item  *ngIf="element.status[0].status=='Draft'" (click)='removeRole(element.id)'>Delete</button>
+          <button mat-menu-item  *ngIf="element.status[0].status=='For Technical Review'" (click)='returntoDraft(element.id)'>Return to Draft</button>
+          <button mat-menu-item (click)='ViewHistory(element.title,element.status)'>View Status History</button>
+          <button mat-menu-item (click)='Viewpdf(element.id)'>View PDF Document</button>
+        </mat-menu>
     </div>
     </mat-cell>
     </ng-container>
@@ -79,11 +124,14 @@
           <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
 
         </mat-table>
+        <style type="text/css">
+        .mat-paginator-page-size{
+          display:none !important ;
+        }</style>
         <mat-paginator 
              #paginator
             [length]="100"
-              [pageSize]="10"
-              [pageSizeOptions]="[5, 10, 25, 100]">
+              [pageSize]="10">
     </mat-paginator>
 
 </div>

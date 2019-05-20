@@ -24,7 +24,8 @@ displayedColumns = ['title','fagency','datecreated','status'];
 
       draft=[];
       submmited=[];
-  constructor(private global: GlobalService,private http: Http) { }
+  constructor(private global: GlobalService,private http: Http) {
+    this.global.swalLoading('Loading Proposals...'); }
 tabClick(tab) {
     this.createTablestatus(tab.index);
 }
@@ -32,20 +33,10 @@ createTable() {
       this.draft=[];
       this.submmited=[];
 
-    this.global.swalLoading('Loading Proposals...');
         this.http.get(this.global.api+'api.php?action=proposallists&user='+this.global.userid,this.global.option)
           .map(response => response.json())
           .subscribe(res => {
             this.tableArr=res;
-            console.log(res)
-             for (var i = 0; i < this.tableArr.length; i++) {
-                   if (this.tableArr[i].status[0].name=='Draft') {
-                     this.draft.push(this.tableArr[i]);
-                   }else 
-                   if (this.tableArr[i].status[0].name=='Submitted') {
-                     this.submmited.push(this.tableArr[i]);
-                   }
-                 }
             this.dataSource = new MatTableDataSource(this.tableArr);
             this.dataSource.sort = this.sort;
             this.dataSource.paginator = this.paginator;
@@ -53,6 +44,7 @@ createTable() {
           },Error=>{
             //console.log(Error);
             console.log(Error)
+            this.global.swalClose();
           });
       }
 
@@ -108,6 +100,7 @@ swalConfirm(title,text,type,button,d1,d2,remove,id){
       }).then((result) => {
         if (result.value) {
           if (remove=='role') {
+          this.global.swalLoading('Loading Proposals...');
             this.http.get(this.global.api+'api.php?action=proposaldelete&proposalid='+id)
               .map(response => response.json())
               .subscribe(res => {

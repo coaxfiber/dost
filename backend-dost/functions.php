@@ -1,16 +1,498 @@
 <?php 
 
+function spResearchPublicationDetails_Insert($rid,$title,$volume,$issue,$year,$publisher)
+{
+$database = new Database();
+$db = $database->getConnection();
 
-function spResearchAuthorDelete($id)
+  $stmt = $db->prepare("exec spResearchPublicationDetails_Insert
+    @Research_id = $rid,
+    @title = '$title',
+    @volume = '$volume',
+    @issue = '$issue',
+    @year = '$year',
+    @publisher = '$publisher'
+    ");  
+  $stmt->execute();
+  $app_list = array(
+              "status" => 'success' );
+
+  return  $app_list;
+}
+
+function spResearchPublicationDetails_Select($rid)
+{
+  //normally this info would be pulled from a database.
+  //build JSON array
+$database = new Database();
+$db = $database->getConnection();
+
+  $stmt = $db->prepare("exec spResearchPublicationDetails_Select
+    @Research_id = $rid");  
+  $stmt->execute();
+  $app_list = array(
+              "id" => null);
+  $app_list = array(
+               0 => $app_list);
+  $x=0;
+
+while ($row = $stmt ->fetch()) {
+    $app_list[$x] = array(
+              "id" => $row[0],
+              "researchid" => $row[1],
+              "title" => $row[2],
+              "volume" => $row[3],
+              "issue" => $row[4],
+              "year" => $row[5],
+              "publisher" => $row[6]
+              );
+            $x++;
+        
+}
+  return  $app_list;
+}
+
+function spResearchPublicationDetails_Delete($id)
+{
+$database = new Database();
+$db = $database->getConnection();
+
+  $stmt = $db->prepare("exec spResearchPublicationDetails_Delete
+    @id = $id
+    ");  
+  $stmt->execute();
+  $app_list = array(
+              "ok" =>null
+               );
+  return  $app_list;
+}
+
+
+function spAuthor_Delete($id)
+{
+$database = new Database();
+$db = $database->getConnection();
+
+  $stmt = $db->prepare("exec spAuthor_Delete
+    @id = $id
+    ");  
+  $stmt->execute();
+  $row = $stmt ->fetch();
+  $app_list = array(
+              "status" =>$row[0]
+               );
+
+  return  $app_list;
+}
+
+function spAuthor_Insert($fname,$mname,$lname,$sname,$cid){
+  $database = new Database();
+$db = $database->getConnection();
+
+  $stmt = $db->prepare("exec spAuthor_Insert
+   @FirstName = :fname,
+   @MiddleName = :mname,
+    @Surname =:lname,
+    @NameExtension =:sname,
+    @companyID = '$cid'
+    ");  
+
+
+  $stmt->bindParam(':fname', $fname);
+  $stmt->bindParam(':mname', $mname);
+  $stmt->bindParam(':lname', $lname);
+  $stmt->bindParam(':sname', $sname);
+  $stmt->execute();
+  $app_list = array(
+              "status" => 'success' );
+
+  return  $app_list;
+}
+
+function spResearchResearchStatus_Insert($rid,$remarks,$status){
+  $database = new Database();
+$db = $database->getConnection();
+
+  $stmt = $db->prepare("exec spResearchResearchStatus_Insert
+    @Research_id = $rid,
+    @Remarks = '$remarks',
+    @researchStatus_id = $status
+    ");  
+  $stmt->execute();
+  $app_list = array(
+              "status" => 'success2' );
+
+  return  $app_list;
+}
+
+function spResearchDocument_Insert($rid,$name,$doc,$type,$status)
+{
+$database = new Database();
+$db = $database->getConnection();
+
+  $stmt = $db->prepare("exec spResearchDocument_Insert
+    @Research_id = $rid,
+    @name = '$name',
+    @document = '$doc',
+    @type = '$type',
+    @documentStatus_id = '$status'
+    ");  
+  $stmt->execute();
+  $app_list = array(
+              "status" => 'success' );
+
+  return  $app_list;
+}
+
+function spResearchDocument_Select($rid,$type)
+{
+  //normally this info would be pulled from a database.
+  //build JSON array
+$database = new Database();
+$db = $database->getConnection();
+
+  $stmt = $db->prepare("exec spResearchDocument_Select
+    @Research_id = $rid,
+    @type = $type");  
+  $stmt->execute();
+  $app_list = array(
+              "id" => null);
+  $app_list = array(
+               0 => $app_list);
+  $x=0;
+
+while ($row = $stmt ->fetch()) {
+    $app_list[$x] = array(
+              "id" => $row[0],
+              "researchid" => $row[1],
+              "name" => $row[2],
+              "value" => $row[3],
+              "dateuploaded" => $row[4],
+              "type" => $row[5],
+              "statusid" => $row[6]
+              );
+            $x++;
+        
+}
+  return  $app_list;
+}
+
+function spResearchDocument_Delete($id)
+{
+$database = new Database();
+$db = $database->getConnection();
+
+  $stmt = $db->prepare("exec spResearchDocument_Delete
+    @id = $id
+    ");  
+  $stmt->execute();
+  $app_list = array(
+              "ok" =>null
+               );
+  return  $app_list;
+}
+
+
+function spResearchFundingAgency_Delete($id)
+{
+$database = new Database();
+$db = $database->getConnection();
+
+  $stmt = $db->prepare("exec spResearchFundingAgency_Delete
+    @id = $id
+    ");  
+  $stmt->execute();
+  $app_list = array(
+              "ok" =>null
+               );
+  return  $app_list;
+}
+function spResearchFundingAgency_Select($id)
+{
+  //normally this info would be pulled from a database.
+  //build JSON array
+$database = new Database();
+$db = $database->getConnection();
+
+  $stmt = $db->prepare("exec spResearchFundingAgency_Select
+    @Research_id = $id");  
+  $stmt->execute();
+  $app_list = array(
+              "id" => null);
+  $app_list = array(
+               0 => $app_list);
+  $x=0;
+
+while ($row = $stmt ->fetch()) {
+    $app_list[$x] = array(
+              "id" => $row[0],
+              "sof" => $row[1],
+              "sofid" => $row[2],
+              "name" => $row[3],
+              "desc" => $row[4]
+              );
+            $x++;
+        
+}
+  return  $app_list;
+}
+function spResearchFundingAgency_Insert_Update($rid,$did)
+{
+$database = new Database();
+$db = $database->getConnection();
+
+  $stmt = $db->prepare("exec spResearchFundingAgency_Insert_Update
+    @Research_id = $rid,
+    @SourceOfFundID = '$did'
+    ");  
+  $stmt->execute();
+  $app_list = array(
+              "status" => "success" );
+
+  return  $app_list;
+}
+
+
+
+function spResearchProgramDiscipline_Delete($id)
+{
+$database = new Database();
+$db = $database->getConnection();
+
+  $stmt = $db->prepare("exec spResearchProgramDiscipline_Delete
+    @id = $id");  
+  $stmt->execute();
+  $app_list = array(
+              "ok" =>null
+               );
+  return  $app_list;
+}
+function spResearchProgramDiscipline_Select($id)
+{
+  //normally this info would be pulled from a database.
+  //build JSON array
+$database = new Database();
+$db = $database->getConnection();
+
+  $stmt = $db->prepare("exec spResearchProgramDiscipline_Select
+    @Research_id = $id");  
+  $stmt->execute();
+  $app_list = array(
+              "id" => null);
+  $app_list = array(
+               0 => $app_list);
+  $x=0;
+
+while ($row = $stmt ->fetch()) {
+    $app_list[$x] = array(
+              "id" => $row[0],
+              "rid" => $row[1],
+              "did" => $row[2],
+              "desc" => $row[3]
+              );
+            $x++;
+        
+}
+  return  $app_list;
+}
+function spResearchProgramDiscipline_Insert_Update($rid,$did)
+{
+$database = new Database();
+$db = $database->getConnection();
+
+  $stmt = $db->prepare("exec spResearchProgramDiscipline_Insert_Update
+    @Research_id = $rid,
+    @ProgramDiscipline = '$did'
+    ");  
+  $stmt->execute();
+  $app_list = array(
+              "status" => "success" );
+
+  return  $app_list;
+}
+
+function spFundingAgency_Select_NotIn($rid)
+{
+  //normally this info would be pulled from a database.
+  //build JSON array
+$database = new Database();
+$db = $database->getConnection();
+
+  $stmt = $db->prepare("exec spFundingAgency_Select_NotIn
+   @Research_id= $rid");  
+  $stmt->execute();
+  $app_list = array(
+              "id" => null);
+  $app_list = array(
+               0 => $app_list);
+  $x=0;
+while ($row = $stmt ->fetch()) {
+    $app_list[$x] = array(
+              "id" => $row[0],
+              "name" =>  $row[1],
+              "desc" =>  $row[2]);
+            $x++;
+        
+}
+  return  $app_list;
+}
+
+
+
+function spProgramDiscipline_Select_NotIn($rid)
+{
+  //normally this info would be pulled from a database.
+  //build JSON array
+$database = new Database();
+$db = $database->getConnection();
+
+  $stmt = $db->prepare("exec spProgramDiscipline_Select_NotIn
+    @ResearchId= $rid");  
+  $stmt->execute();
+  $app_list = array(
+              "id" => null);
+  $app_list = array(
+               0 => $app_list);
+  $x=0;
+while ($row = $stmt ->fetch()) {
+    $app_list[$x] = array(
+              "id" => $row[0],
+              "desc" =>  $row[1]);
+            $x++;
+        
+}
+  return  $app_list;
+}
+
+
+function spResearchKeyword_Delete($id)
+{
+$database = new Database();
+$db = $database->getConnection();
+
+  $stmt = $db->prepare("exec spResearchKeyword_Delete
+    @id = $id");  
+  $stmt->execute();
+  $app_list = array(
+              "ok" =>$id
+               );
+  return  $app_list;
+}
+function spResearchKeyword_Select($id)
+{
+  //normally this info would be pulled from a database.
+  //build JSON array
+$database = new Database();
+$db = $database->getConnection();
+
+  $stmt = $db->prepare("exec spResearchKeyword_Select
+    @Research_id = $id");  
+  $stmt->execute();
+  $app_list = array(
+              "id" => null);
+  $app_list = array(
+               0 => $app_list);
+  $x=0;
+
+while ($row = $stmt ->fetch()) {
+    $app_list[$x] = array(
+              "id" =>  $row[0],
+              "keyword" => $row[1]
+              );
+            $x++;
+        
+}
+  return  $app_list;
+}
+function spResearchKeyword_Insert($rid,$kw)
+{
+$database = new Database();
+$db = $database->getConnection();
+
+  $stmt = $db->prepare("exec spResearchKeyword_Insert
+    @Research_id = $rid,
+    @Keyword = :kw
+    ");  
+
+
+  $stmt->bindParam(':kw', $kw);
+  $stmt->execute();
+  $app_list = array(
+              "status" => "success" );
+
+  return  $app_list;
+}
+
+
+
+
+
+function spAuthor_listnot($cid,$rid)
+{
+  //normally this info would be pulled from a database.
+  //build JSON array
+$database = new Database();
+$db = $database->getConnection();
+
+  $stmt = $db->prepare("exec spAuthor_list_NotIn
+     @CompanyID = '$cid',
+     @Research_id = '$rid'");  
+  $stmt->execute();
+  $app_list = array(
+              "id" => null);
+  $app_list = array(
+               0 => $app_list);
+  $x=0;
+while ($row = $stmt ->fetch()) {
+    $app_list[$x] = array(
+              "id" => $row[0],
+              "name" =>  $row[1] ,
+              "authorid" =>  $row[2] ,
+              "email" =>  $row[3]  );
+            $x++;
+        
+}
+  return  $app_list;
+}
+function spUserViewDomain_Company_By_Username($email)
+{
+  //normally this info would be pulled from a database.
+  //build JSON array
+$database = new Database();
+$db = $database->getConnection();
+
+  $stmt = $db->prepare("exec spUserViewDomain_Company_By_Username
+    @username = '$email'");  
+  $stmt->execute();
+  $app_list = array(
+              "id" => $email);
+  $app_list = array(
+               0 => $app_list);
+  $x=0;
+while ($row = $stmt ->fetch()) {
+    $app_list[$x] = array(
+              "roleid" => $row[0],
+              "name" =>  $row[1] ,
+              "appname" =>  $row[2] ,
+              "companyid" =>  $row[3],
+              "companyname" =>  $row[4]  );
+            $x++;
+        
+}
+  return  $app_list;
+}
+
+function spResearchAuthorDelete($aid,$rid)
 {
 $database = new Database();
 $db = $database->getConnection();
 
   $stmt = $db->prepare("exec spResearchAuthorDelete
-    @Research_id = $id");  
+    @Research_id = $rid,
+    @authorid= $aid");  
   $stmt->execute();
   $app_list = array(
-              "ok" =>"ok"
+              "ok" =>$aid
                );
   return  $app_list;
 }
@@ -31,8 +513,9 @@ $db = $database->getConnection();
   $x=0;
 while ($row = $stmt ->fetch()) {
     $app_list[$x] = array(
-              "id" => $row[0],
-              "name" =>  $row[3]." ".$row[4].' '. $row[5] ,
+              "rid" => $row[0],
+              "id" => $row[1],
+              "name" =>  $row[2]." ".$row[3].' '. $row[4].' '. $row[5] ,
               "userid" =>  $row[6] ,
               "email" =>  $row[7]  );
             $x++;
@@ -48,7 +531,6 @@ $db = $database->getConnection();
   $stmt = $db->prepare("exec spResearchAuthor_Insert_Update
     @Research_id = $rid,
     @Author_id = $aid
-
     ");  
   $stmt->execute();
   $app_list = array(
@@ -78,9 +560,11 @@ $db = $database->getConnection();
       $app_list[$x] = array(
                 "id" => $row[0],
                 "title" =>  $row[1],
-                "level" =>  $row[3],
-                "company" =>  $row[4],
-                "datecreated" =>  $row[5] );
+                "dlid" =>  $row[3],
+                "level" =>  $row[4],
+                "company" =>  $row[5],
+                "datecreated" =>  $row[6],
+                "abstract" =>  $row[2] );
               $x++;
   }
   return  $app_list;
@@ -152,19 +636,42 @@ $db = $database->getConnection();
 
 function researchadd($title,$abstract,$company,$degreelevel,$user)
 {
+
   $database = new Database();
   $db = $database->getConnection();
 
   $stmt = $db->prepare("exec spResearch_Insert
-    @Title = '$title',
-    @Abstract = '$abstract',
+    @Title = :title,
+    @Abstract = :abstract,
     @DegreeLevel_id = '$degreelevel',
     @CompanyID = '$company',
     @CreatedBy = '$user'");  
+  $stmt->bindParam(':title', $title);
+  $stmt->bindParam(':abstract', $abstract);
   $stmt->execute();
    $row = $stmt ->fetch();
   $app_list = array(
               "id" => $row[0] );
+  return  $app_list;
+}
+function researchedit($id,$title,$abstract,$company,$degreelevel,$user)
+{
+  $database = new Database();
+  $db = $database->getConnection();
+
+  $stmt = $db->prepare("exec spResearch_Update
+    @ID = $id,
+    @Title = :title,
+    @Abstract = $:abstract,
+    @DegreeLevel_id = '$degreelevel',
+    @CompanyID = '$company',
+    @UpdatedBy = '$user'");  
+  $stmt->bindParam(':title', $title);
+  $stmt->bindParam(':abstract', $abstract);
+  $stmt->execute();
+   $row = $stmt ->fetch();
+  $app_list = array(
+              "id" => $id);
   return  $app_list;
 }
 

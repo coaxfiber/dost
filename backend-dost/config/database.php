@@ -2,9 +2,11 @@
 class Database{ 
  
     // specify your own database credentials 
-    private $host = "192.168.0.20"; 
+   private $host = "LAPTOP-PIS1HRE9\SQLEXPRESS01"; 
+    
+   // private $host = "192.168.137.33"; 
     private $db_name = "ResearchReporistory"; 
-    private $username = "ResearchRepoDbAdmin"; 
+    private $username = "ResearchRepoDbAdmin2"; 
     private $password = "UsltReseacrhRepo#2018"; 
     public $conn; 
  

@@ -125,7 +125,6 @@ proponenttypeinput='2'
               this.cagencylist= res;
         });
 
-            console.log(this.projectclassification.length);
     if (global.user.ext==null) {
       global.user.ext = '';
     }
@@ -192,7 +191,6 @@ onFileChange(event) {
     if(event.target.files && event.target.files.length > 0) {
       let file = event.target.files[0];
       reader.readAsDataURL(file);
-      console.log(reader);
       reader.onload = () => {
         this.form.get('avatar').setValue({
           filename: file.name,
@@ -483,7 +481,6 @@ let x=''
             .map(response => response.json())
             .subscribe(res => {
               this.projectlists= res;
-              console.log(res)
               this.projectid=res[0].id;
         });
   }
@@ -1041,23 +1038,23 @@ let x='';
                         this.global.swalSuccess("Proposal Saved as Draft!");
                       }else
                       {
-                                         let urlSearchParams = new URLSearchParams();
+                      let urlSearchParams = new URLSearchParams();
                         urlSearchParams.append("proposalid",this.proposalid.toString());
-                         urlSearchParams.append('statusid', type);
+                         urlSearchParams.append('statusid', '1');
                          urlSearchParams.append('remarks', '');
                          urlSearchParams.append('userid', this.global.requestid());
                          urlSearchParams.append('type', '1');
                       let body = urlSearchParams.toString()
-                var header = new Headers();
-                      header.append("Accept", "application/json");
-                      header.append("Content-Type", "application/x-www-form-urlencoded");    
-                      let option = new RequestOptions({ headers: header });
-                 this.http.post(this.global.api + 'api.php?action=statuschange',body,option)
-                      .map(response => response.text())
-                      .subscribe(res => {
-                      });
-                        this.global.swalSuccess("Proposal has been submitted!");
-                      }
+                      var header = new Headers();
+                            header.append("Accept", "application/json");
+                            header.append("Content-Type", "application/x-www-form-urlencoded");    
+                            let option = new RequestOptions({ headers: header });
+                       this.http.post(this.global.api + 'api.php?action=statuschange',body,option)
+                            .map(response => response.text())
+                            .subscribe(res => {
+                            });
+                              this.global.swalSuccess("Proposal has been submitted!");
+                            }
 
 
                         setTimeout(() => {

@@ -85,3 +85,8 @@ footer {
   .mat-horizontal-stepper-header{
       pointer-events: none !important;
   }
+
+  .overflowys{
+    max-height: calc(100vh - 220px) !important;
+    overflow-y: scroll;
+  }

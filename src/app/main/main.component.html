@@ -9,7 +9,8 @@
 	  			<img [src]="image" width="50" id="photop" onError="this.src='assets/noimage.jpg'"/>
 				</td>
 				<td style="text-align: left" >
-				  {{user.fname}} {{user.mname}} {{user.surname}} {{user.ext}}
+				  {{user.fname}} {{user.mname}} {{user.surname}} {{user.ext}}<br>
+          <small *ngIf="global.useraccess!=undefined">{{global.useraccess.companyname}}</small>
 				</td>
 			</tr>
 		</table>
@@ -23,11 +24,6 @@
         <i class="material-icons iconsize" >home</i><b>&nbsp; Home</b>
       </mat-panel-title>
     </mat-expansion-panel-header>
-		<mat-list>
-		  <mat-list-item><button mat-button  [routerLink]="['../main',{outlets:{div:'person-information'}}]" >Dashboard</button></mat-list-item>
-		  <mat-divider></mat-divider>
-		  <mat-list-item><button mat-button  [routerLink]="['../main',{outlets:{div:'update-person'}}]" >Announcement</button></mat-list-item>
-		</mat-list>
   </mat-expansion-panel>
   <mat-expansion-panel>
     <mat-expansion-panel-header>
@@ -49,7 +45,7 @@
       </mat-panel-title>
     </mat-expansion-panel-header>
 		<mat-list>
-		  <mat-list-item><button mat-button [routerLink]="['../main',{outlets:{div:'new-research'}}]" >New Research</button></mat-list-item>
+		  <mat-list-item><button mat-button [routerLink]="['../main',{outlets:{div:'new-research'}}]" >Submit Research</button></mat-list-item>
 		  <mat-divider></mat-divider>
 		  <mat-list-item><button mat-button [routerLink]="['../main',{outlets:{div:'researches'}}]" >Researches</button></mat-list-item>
 		</mat-list>
@@ -83,7 +79,9 @@
   	<div style="margin-left: 10px;margin-top: 8px;" class="hnav">
 
     </div>
-  	<mat-card class="matcontainer" style="padding: 0;overflow: hidden;overflow-y: scroll;"> 
+    <style type="text/css">
+.matcontainer{overflow-y: scroll;}</style>
+  	<mat-card class="matcontainer" style="padding: 0;overflow: hidden;"> 
 
     <router-outlet name="div"></router-outlet>
 		
