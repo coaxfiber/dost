@@ -4,17 +4,12 @@
 
   
     <span class="example-spacer"></span>
-    
+    <a mat-button [routerLink]="['../main',{outlets:{div:'home'}}]"     style="text-align: center"><i class="material-icons iconsize" >home</i> Home</a>
     <a href="http://192.168.137.1/dost/"></a><button mat-button>Likha Site</button>
-    <button mat-button routerLink="main">Services</button>
     <button mat-icon-button [matMenuTriggerFor]="menu">
   <mat-icon>more_vert</mat-icon>
   </button>
   <mat-menu #menu="matMenu">
-    <button mat-menu-item>
-      <mat-icon>dialpad</mat-icon>
-      <span>Redial</span>
-    </button>
     <button mat-menu-item (click)="logout()">
       <mat-icon>exit_to_app</mat-icon>
       <span> Logout</span>

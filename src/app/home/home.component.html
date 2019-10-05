@@ -1,14 +1,104 @@
-<div style="padding:20px"> <h3 style="margin-top: 0">
-	DOST
+<div style="padding:20px;max-height: calc(100vh - 122px);overflow-y: scroll"> <h3 style="margin-top: 0;margin-bottom: 5px">
+	Report Summary
 </h3>
-<p>
-	Dashboard
-</p>
+<mat-accordion>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Research Report
+      </mat-panel-title>
+      <mat-panel-description>
+        Basic Summury of the researches
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+		<table style="width: 100%">
+			<tr>
+				<td style="width: 30%">
+					<mat-card>
+						<mat-card-content>
+				            <mat-form-field  class="npinput2" style="width: 100%" required>
+				              <mat-label>- All Company -</mat-label>
+				              <mat-select  [(ngModel)]="inputcompany">
+				                <mat-option value="{{f.id}}"  *ngFor="let f of company" (click)="companyresearch(f.id)">
+				                  {{f.name}}
+				                </mat-option>
+				              </mat-select>
+				            </mat-form-field>	
+				            <div style="text-align: center ">
+				            	<h1 style="margin:0;">{{companyresearchcount}}</h1>
+				            	<small>Submitted Researches</small>
+				            </div>
+						</mat-card-content>
+
+					</mat-card>
+				</td>
+				<td style="width: 30%">
+					<mat-card>
+						<mat-card-content>
+				            <mat-form-field  class="npinput2" style="width: 100%" required>
+				              <mat-label>- Filter by -</mat-label>
+				              <mat-select>
+				              	<mat-option (click)="companyresearch('get')" value='a' selected>- All Company -</mat-option>
+				                <mat-option value="{{f.id}}"  *ngFor="let f of company" (click)="companyresearch(f.id)">
+				                  {{f.name}}
+				                </mat-option>
+				              </mat-select>
+				            </mat-form-field>	
+				            <div style="text-align: center ">
+				            	<h1 style="margin:0;">{{companyresearchcount}}</h1>
+				            	<small>Published Researches by Company</small>
+				            </div>
+						</mat-card-content>
+						
+					</mat-card>
+				</td>
+				<td style="width: 20%">
+					<mat-card>
+						<mat-card-content>
+						</mat-card-content>
+					</mat-card>
+				</td>
+				<td style="width: 20%">
+					<mat-card>
+						<mat-card-content>
+						</mat-card-content>
+					</mat-card>
+				</td>
+			</tr>
+		</table>
+  </mat-expansion-panel>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Proposal Report
+      </mat-panel-title>
+      <mat-panel-description>
+        Basic summary of proposals
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <p>I'm visible because I am open</p>
+  </mat-expansion-panel>
+</mat-accordion>
 
 <mat-card>
 	<mat-card-content>
-		<h4>Report Summary</h4>
-		
+
+    <mat-form-field  class="npinput2" style="width: 300px" required>
+      <mat-label>- Year Select -</mat-label>
+      <mat-select  [(ngModel)]="inputcompany">
+        <mat-option value="2019" >
+        	2019
+        </mat-option>
+        <mat-option value="2020" >
+        	2020
+        </mat-option>
+        <mat-option value="2021" >
+        	2021
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+	  <canvas id="lineChart" ></canvas>
+	  <canvas id="barChart"></canvas>
 	</mat-card-content>
 </mat-card>
 

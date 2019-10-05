@@ -2,10 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { GlobalService } from './../../global.service';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router'; 
-import { MatStepper,MatDialog,MatDialogRef } from '@angular/material';
 import {Http, Headers, RequestOptions} from '@angular/http';
 import Swal from 'sweetalert2';
 
+import { MatStepper,MatDialog,MatDialogRef } from '@angular/material';
+import { Inject} from '@angular/core';
+import { MAT_DIALOG_DATA} from '@angular/material';
 import { UpdateProjectComponent } from './../../proposal/new-proposal/update-project/update-project.component';
 import { ElementRef, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
@@ -107,7 +109,7 @@ lname=''
 suffix=''
 proponenttypeinput='2'
 
-  constructor(public dialog: MatDialog, private fb: FormBuilder,private global: GlobalService,private http: Http,private route: ActivatedRoute, private router: Router) {
+  constructor(public dialogRef: MatDialogRef<NewProposalComponent>,@Inject(MAT_DIALOG_DATA) public data: any,public dialog: MatDialog, private fb: FormBuilder,private global: GlobalService,private http: Http,private route: ActivatedRoute, private router: Router) {
     this.http.get(this.global.api + 'api.php?action=FundingAgency_List',
          this.global.option)
             .map(response => response.json())
@@ -117,30 +119,13 @@ proponenttypeinput='2'
 
        this.modeofimplementation="Single Agency";
 
-
-    this.http.get(this.global.api + 'api.php?action=company_List',
-         this.global.option)
-            .map(response => response.json())
-            .subscribe(res => {
-              this.cagencylist= res;
-        });
-
-    if (global.user.ext==null) {
-      global.user.ext = '';
-    }
-    if (global.user.mname==null) {
-      global.user.mname = '';
-    }
-    if (global.user.telno==null) {
-      global.user.telno = '';
-    }
-
     this.cleader = global.user.fname+" "+global.user.mname+" "+global.user.surname+" "+global.user.ext;
     this.gender = global.user.sex;
     this.email = global.requestemail();
-    this.agencies = global.user.agency;
-    this.address = global.user.address;
+    this.agencies = data.company;
+    this.address = global.user.psgc1;
     this.telephone = global.user.telno;
+
 
     var dt = new Date();
      var year = dt.getFullYear() - 10;
@@ -231,6 +216,7 @@ onFileChange(event) {
        if (type==5) {
          this.projectdiscipline.push(text);
        }
+
     }else{
       if (type==1) {
            for( var i = 0; i < this.projectclassification.length; i++){ 
@@ -381,7 +367,6 @@ onFileChange(event) {
   }
 
   proposalinsert(stepper: MatStepper) {
-
 let x=''
   	if (this.title==undefined||this.title=="") {
   		x=x+"*Title is required\n";
@@ -397,10 +382,10 @@ let x=''
                   let urlSearchParams = new URLSearchParams();
                     urlSearchParams.append("GeneralTitle",this.title);
         			     	urlSearchParams.append('LeadAgency', this.agencies);
-        			     	urlSearchParams.append('Street', "go");
-        			     	urlSearchParams.append('Address_PSGC', "012801001");
+        			     	urlSearchParams.append('Street', this.global.user.street1);
+        			     	urlSearchParams.append('Address_PSGC', this.global.user.psgc1);
         			     	urlSearchParams.append('Telephone', this.telephone);
-        			     	urlSearchParams.append('Fax', this.fax);
+        			     	urlSearchParams.append('Fax', '');
         			     	urlSearchParams.append('Email', this.email);
         			     	urlSearchParams.append('FundingAgency_id', this.fagency);
         			     	urlSearchParams.append('TotalDuration', this.duration);
@@ -419,12 +404,10 @@ let x=''
           .subscribe(res => {
              this.global.swalClose();
              this.proposalid=res.id;
-             this.http.get(this.global.api + 'api.php?action=programinsert&proposalid='+this.proposalid,
-             option)
+             this.http.get(this.global.api + 'api.php?action=programinsert&proposalid='+this.proposalid, option)
                 .map(response => response.json())
                 .subscribe(res => {
                   this.programid= res.id;
-
                   if (this.proj!=true) {
                     this.getprojectlist(this.programid);
                   }else{
@@ -471,6 +454,11 @@ let x=''
   	
 
   }
+
+noclick()
+{
+  this.dialogRef.close(1)
+}
   getprojectlist(programid){
     var header = new Headers();
       header.append("Accept", "application/json");
@@ -573,6 +561,7 @@ let x='';
              this.lname = ''
              this.suffix = ''
              this.mname = ''
+             this.proponenttypeinput = ''
              this.getproponent(this.projectid);     
           },error => {
             console.log(Error); 
@@ -818,7 +807,6 @@ let x='';
 
              this.balltotal = this.balltotal+this.budgettotal;
              this.global.swalClose(); 
-             this.fangency1 = '';
              this.ps = '';
              this.moe = '';
              this.co = '';
@@ -869,7 +857,6 @@ let x='';
 
              this.balltotal = this.balltotal+this.budgettotal;
              this.global.swalClose(); 
-             this.fangency1 = '';
              this.ps = '';
              this.moe = '';
              this.co = '';
@@ -925,8 +912,6 @@ let x='';
         }
      }else{
        let x='';
-        if (!(this.calists!=undefined&&this.calists[0].id!=null)) 
-          x=x+"*At least 1 Cooperating Agency is required\n";
         
         if (this.rndstation==''||this.rndstation==null) {
           x=x+"*Research & Development Station is required\n";

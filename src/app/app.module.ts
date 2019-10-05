@@ -21,6 +21,32 @@ import { ManageAuthorComponent } from './research/new-research/manage-author/man
 import { UpdateResearchComponent } from './research/update-research/update-research.component';
 import { ResearchStatusComponent } from './research/researches/research-status/research-status.component';
 import { ResearchPdfComponent } from './research/researches/research-pdf/research-pdf.component';
+import { Research0Component } from './research/researches/research-0/research-0.component';
+import { Research1Component } from './research/researches/research-1/research-1.component';
+import { Research2Component } from './research/researches/research-2/research-2.component';
+import { RolesComponent } from './user-management/roles/roles.component';
+import { RoleUpdateComponent } from './user-management/roles/role-update/role-update.component';
+import { RoleAddComponent } from './user-management/roles/role-add/role-add.component';
+import { AssignUserRolesComponent } from './user-management/assign-user-roles/assign-user-roles.component';
+import { Research3Component } from './research/researches/research-3/research-3.component';
+import { Research4Component } from './research/researches/research-4/research-4.component';
+import { Research5Component } from './research/researches/research-5/research-5.component';
+import { UserRoleManagementComponent } from './user-management/assign-user-roles/user-role-management/user-role-management.component';
+import { PendingComponent } from './research/research-approval/pending/pending.component';
+import { ViewResearchDetailComponent } from './research/research-approval/view-research-detail/view-research-detail.component';
+import { RegistrationComponent } from './registration/registration.component';
+import { AddressLookupComponent } from './registration/address-lookup/address-lookup.component';
+import { EditProfileComponent } from './profile/edit-profile/edit-profile.component';
+import { ChangeStatusComponent } from './research/research-approval/change-status/change-status.component';
+import { WithIssuesComponent } from './research/research-approval/with-issues/with-issues.component';
+import { PublishedComponent } from './research/research-approval/published/published.component';
+import { ChangePasswordComponent } from './profile/change-password/change-password.component';
+import { CompanyComponent } from './control-panel/company/company.component';
+import { AddUpdateComponent } from './control-panel/company/add-update/add-update.component';
+import { AddUpdateProjdiscipComponent } from './control-panel/project-discipline/add-update-projdiscip/add-update-projdiscip.component';
+import { GrantManagementComponent } from './control-panel/grant-management/grant-management.component';
+import { GrantAddUpdateComponent } from './control-panel/grant-management/grant-add-update/grant-add-update.component';
+
 
 @NgModule({
   declarations: [
@@ -39,12 +65,51 @@ import { ResearchPdfComponent } from './research/researches/research-pdf/researc
     UpdateResearchComponent,
     ResearchStatusComponent,
     ResearchPdfComponent,
+    Research0Component,
+    Research1Component,
+    Research2Component,
+    RolesComponent,
+    RoleUpdateComponent,
+    RoleAddComponent,
+    AssignUserRolesComponent,
+    Research3Component,
+    Research4Component,
+    Research5Component,
+    UserRoleManagementComponent,
+    PendingComponent,
+    ViewResearchDetailComponent,
+    RegistrationComponent,
+    AddressLookupComponent,
+    EditProfileComponent,
+    ChangeStatusComponent,
+    WithIssuesComponent,
+    PublishedComponent,
+    ChangePasswordComponent,
+    CompanyComponent,
+    AddUpdateComponent,
+    AddUpdateProjdiscipComponent,
+    GrantManagementComponent,
+    GrantAddUpdateComponent,
   ],
    entryComponents: [
     UpdateProjectComponent,
     ManageAuthorComponent,
     ResearchStatusComponent,
-    ResearchPdfComponent
+    ResearchPdfComponent,
+    NewProposalComponent,
+    NewResearchComponent,
+    UpdateResearchComponent,
+    RoleAddComponent,
+    RoleUpdateComponent,
+    UserRoleManagementComponent,
+    ViewResearchDetailComponent,
+    AddressLookupComponent,
+    EditProfileComponent,
+    ChangeStatusComponent,
+    ChangePasswordComponent,
+    AddUpdateComponent,
+    AddUpdateProjdiscipComponent,
+    GrantAddUpdateComponent
    ],
   imports: [
     BrowserModule,

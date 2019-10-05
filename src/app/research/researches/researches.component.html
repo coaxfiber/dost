@@ -6,28 +6,7 @@
 </style>
 <table style="width: 97%;margin: auto;background-color: white;">
   <tr><td style="width: 150px  !important">
-
-                  <mat-form-field  class="npinput2" style="width: 150px  !important">
-                    <mat-label>Filter by status:</mat-label>
-                    <mat-select  [(ngModel)]="status" >
-                      <mat-option value="" (click)='applyFilter2("")' >
-                        - All -
-                      </mat-option>
-                      <mat-option value="0" (click)='applyFilter2("Draft")' >
-                        Draft
-                      </mat-option>
-                      <mat-option value="1" (click)='applyFilter2("For Technical Review")' >
-                        For Technical Review
-                      </mat-option>
-                      <mat-option value="2" (click)='applyFilter2("Approved")' >
-                        Approved
-                      </mat-option>
-                    </mat-select>
-          </mat-form-field>
-                </td>
-                <td>
-  
-                  <mat-form-field  class="npinput2"  style="width: 150px  !important">
+<mat-form-field  class="npinput2"  style="width: 150px  !important">
                     <mat-label>Filter by Degree Level</mat-label>
                     <mat-select  [(ngModel)]="level" >
 
@@ -39,6 +18,10 @@
                       </mat-option>
                     </mat-select>
                   </mat-form-field>
+                </td>
+                <td>
+  
+                  
     </td>
     <td style="text-align: right;width: 237px" >
        <mat-form-field style="width: 180px !important">

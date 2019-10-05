@@ -1,5 +1,56 @@
 <?php 
 
+
+function spUser_PersonalInformation_Get($email)
+{
+  //normally this info would be pulled from a database.
+  //build JSON array
+$database = new Database();
+$db = $database->getConnection();
+
+  $stmt = $db->prepare("exec spUser_PersonalInformation_Get
+    @userName = :email");  
+  $stmt->bindParam(':email', $email);
+  $stmt->execute();
+  $app_list = array(
+              "id" => null);
+  $app_list = array(
+               0 => $app_list);
+  $x=0;
+
+while ($row = $stmt ->fetch()) {
+    $app_list[$x] = array(
+              "id" => $row[0],
+              "lname" => $row[1],
+              "fname" => $row[2],
+              "mname" => $row[3],
+              "ext" => $row[4],
+              "birthdate" => $row[5],
+              "placeofbirth" => $row[6],
+              "sex" => $row[7],
+              "civilstatus" => $row[8],
+              "height" => $row[9],
+              "weight" => $row[10],
+              "bloodtype" => $row[11],
+              "GSISno" => $row[12],
+              "pagibigno" => $row[13],
+              "philhealthno" => $row[14],
+              "tinno" => $row[15],
+              "agencyemloyeeno" => $row[16],
+              "citizenship" => $row[17],
+              "residentialaddress" => $row[18],
+              "permanentaddressstreet" => $row[19],
+              "permanentaddresspsgc" => $row[20],
+              "telno" => $row[21],
+              "mobileno" => $row[22]
+
+              );
+            $x++;
+        
+}
+  return  $app_list;
+}
+
 function spResearchPublicationDetails_Insert($rid,$title,$volume,$issue,$year,$publisher)
 {
 $database = new Database();

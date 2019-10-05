@@ -87,6 +87,28 @@ footer {
   }
 
   .overflowys{
-    max-height: calc(100vh - 220px) !important;
+    max-height: calc(100vh - 310px) !important;
     overflow-y: scroll;
+  }
+
+
+  .apptable {
+  border-collapse: collapse;
+  width: 100%;
+}
+    .apptable td, .apptable th {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+
+  .apptable tr:nth-child(even){background-color: #f2f2f2;}
+
+  .apptable tr:hover {background-color: #ddd;}
+
+  .apptable th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #294a70;
+    color: white;
   }

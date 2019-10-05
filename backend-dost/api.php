@@ -61,7 +61,8 @@ $possible_url = array("proposalinsert","proposallists", "proposaldelete", 'progr
 
   'spResearchResearchStatus_Insert',
   'spAuthor_Insert',
-  'spAuthor_Delete');
+  'spAuthor_Delete',
+  'spUser_PersonalInformation_Get');
 
 $value = "An error has occurred";
 
@@ -69,6 +70,10 @@ if (isset($_GET["action"]) && in_array($_GET["action"], $possible_url))
 {
   switch ($_GET["action"])
     {
+      case "spUser_PersonalInformation_Get":
+        $value = spUser_PersonalInformation_Get(
+          $_GET["email"]);
+        break;
       case "spResearchPublicationDetails_Insert":
         $value = spResearchPublicationDetails_Insert(
           $_POST["rid"],

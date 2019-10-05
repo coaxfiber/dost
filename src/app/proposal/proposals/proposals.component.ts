@@ -12,26 +12,30 @@ const swal = Swal;
   styleUrls: ['./proposals.component.scss']
 })
 export class ProposalsComponent implements OnInit {
-displayedColumns = ['title','fagency','datecreated','status'];
+displayedColumns = ['title','fagency','datecreated','status','action'];
       @ViewChild(MatSort) sort: MatSort;
        @ViewChild('paginator') paginator: MatPaginator;
 
 	  dataSource;
 	  tableArr:Array<any>;
+
       ngOnInit() {
-        this.createTable();
+             this.createTable();
       }
 
       draft=[];
       submmited=[];
   constructor(private global: GlobalService,private http: Http) {
-    this.global.swalLoading('Loading Proposals...'); }
-tabClick(tab) {
-    this.createTablestatus(tab.index);
-}
+        }
+    
+
+    tabClick(tab) {
+        this.createTablestatus(tab.index);
+    }
+
+
+
 createTable() {
-      this.draft=[];
-      this.submmited=[];
 
         this.http.get(this.global.api+'api.php?action=proposallists&user='+this.global.userid,this.global.option)
           .map(response => response.json())
@@ -40,11 +44,9 @@ createTable() {
             this.dataSource = new MatTableDataSource(this.tableArr);
             this.dataSource.sort = this.sort;
             this.dataSource.paginator = this.paginator;
-            this.global.swalClose();
           },Error=>{
             //console.log(Error);
             console.log(Error)
-            this.global.swalClose();
           });
       }
 
@@ -100,7 +102,7 @@ swalConfirm(title,text,type,button,d1,d2,remove,id){
       }).then((result) => {
         if (result.value) {
           if (remove=='role') {
-          this.global.swalLoading('Loading Proposals...');
+          this.global.swalLoading('');
             this.http.get(this.global.api+'api.php?action=proposaldelete&proposalid='+id)
               .map(response => response.json())
               .subscribe(res => {

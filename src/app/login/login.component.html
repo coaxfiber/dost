@@ -27,7 +27,7 @@
                     </mat-grid-tile>
                     <mat-grid-tile [colspan]="7">
                         <mat-input-container class="justifier">
-                            <input matInput placeholder="ID Number" text="text" [(ngModel)]="username">
+                            <input matInput placeholder="Email Address" text="text" [(ngModel)]="username">
                         </mat-input-container>
                     </mat-grid-tile>
                 </mat-grid-list>
@@ -45,7 +45,12 @@
                     </mat-grid-tile>
                 </mat-grid-list>
                 <!-- Markup for getting Password ends -->
- 
+
+                <table style="float: left;margin: 10px">
+                    <tr>
+                        <td><a  routerLink="../registration" style="text-decoration: none;color: #294a70;font-size: 13px;">Register</a></td>
+                    </tr>
+                </table>
                 <button  type='submit' class="buttonblue"   mat-raised-button style="float: right;margin: 10px" (click)="login()"> 
                     <mat-icon>input</mat-icon> Login
                 </button>

@@ -12,16 +12,18 @@ export class ResearchStatusComponent implements OnInit {
 
 	title;
 	status
-
+  tas
   constructor(public dialogRef: MatDialogRef<ResearchStatusComponent>,@Inject(MAT_DIALOG_DATA) public data: any,) {
   	this.title=data.title;
-  	this.status=data.status.reverse();
+    this.status=data.status;
+    this.status.reverse();
   }
 
   ngOnInit() {
   }
 	noclick()
 	{
-	  this.dialogRef.close(0)
+    this.status.reverse();
+	  this.dialogRef.close(1)
 	}
 }

@@ -11,7 +11,8 @@ const swal = Swal;
 @Injectable()
 export class GlobalService {
 	token: any;
-	api = "http://localhost/backend-dost/";
+  api = "http://usl.edu.ph/pages/backend-dost/";
+  //api = "http://usl.edu.ph/pages/dost/dashboard/backend-dost/";
 	header = new Headers();
   option:any;
 
@@ -24,6 +25,9 @@ export class GlobalService {
    researchabstract;
    researchlevel;
 
+   injectid
+
+   company
   constructor(@Inject(SESSION_STORAGE) private storage: WebStorageService,private router: Router,private http: Http) { 	
     if(this.storage.get('token')!=null){
       this.requestToken();
@@ -70,19 +74,25 @@ export class GlobalService {
    swal('Oops...', 'Connection Error!', 'error');
   }
 
-  setSession(val){
-    this.storage.set('token',val);
-    this.storage.set('level',"1");
-    this.storage.set('domain',"college");
-    this.storage.set('yearlevel',"2");
+  setSession(val1,val2,val3,val4){
+    this.storage.set('username',val1);
+    this.storage.set('password',val2);
+    this.storage.set('appid',val3);
+    this.storage.set('apppword',val4);
   }
 
   getSession(){
-    return this.storage.get('token');
+    return this.storage.get('username');
+  }
+  getSessionp(){
+    return this.storage.get('password');
   }
 
   removeSession(){
-    this.storage.remove('token');
+    this.storage.remove('username');
+    this.storage.remove('id');
+    this.storage.remove('email');
+    this.storage.remove('password');
   }
   
   logout(){
@@ -105,8 +115,8 @@ export class GlobalService {
           // Read more about handling dismissals
           result.dismiss === swal.DismissReason.timer
         ) {
-          this.storage.remove('token');
-          window.location.reload();
+          this.removeSession();
+          this.router.navigate(['../login']);
         }
       })
   }

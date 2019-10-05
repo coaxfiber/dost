@@ -7,7 +7,6 @@ import {Http, Headers, RequestOptions} from '@angular/http';
 import Swal from 'sweetalert2';
 import { ManageAuthorComponent } from './../new-research/manage-author/manage-author.component';
 
-
 import { ElementRef, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 const swal = Swal;
@@ -714,23 +713,15 @@ let x='';
   		alert(x)
   }
 
+ 
   researchdone(type) {
     let x=''
     if (this.form.value.avatar==undefined||this.form.value.avatar==null) {
       x=x+"*Main Document Attachment is required\n";
       
     }else{
-      console.log(this.form.value.avatar.filetype)
       if (this.form.value.avatar.filetype!='application/pdf') {
       x=x+"*Main Document Attachment must be in PDF format\n";
-      }
-    }
-    if (this.fundingagencyarrayinresearch==undefined) {
-      x=x+"*At least 1 Funding Agency is required\n";
-      
-    }else{
-      if (this.fundingagencyarrayinresearch[0].id==null) {
-         x=x+"*At least 1 Funding Agency is required\n";
       }
     }
 
@@ -762,6 +753,35 @@ let x='';
 
 
     if (x=='') {
+
+
+    let c=''
+    let counter=0
+     if (this.pubtitle==undefined||this.pubtitle=='') {
+      c=c+"*Publication Title is required\n";counter++
+    }
+    if (this.pubvolume==undefined||this.pubvolume=='') {
+      c=c+"*Publication Volume is required\n";counter++
+    }
+    if (this.pubissue==undefined||this.pubissue=='') {
+      c=c+"*Publication Issue is required\n";counter++
+    }
+    if (this.pubyear==undefined||this.pubyear=='') {
+      c=c+"*Publication Year is required\n";counter++
+    }
+    if (this.pubpublisher==undefined||this.pubpublisher=='') {
+      c=c+"*Publisher is required\n";counter++
+    }
+
+    if (c=='') {
+     this.insertpublicationinfo();
+    }
+
+    if (counter>0&&counter<5) {
+      console.log(counter);
+       alert("All Fields in the Publication info should be filled up!")
+    }else {                   
+
       let urlSearchParams = new URLSearchParams();
                     urlSearchParams.append("rid",this.researchid.toString());
                      urlSearchParams.append('name', this.form.value.avatar.filename );
@@ -773,7 +793,7 @@ let x='';
                   header.append("Accept", "application/json");
                   header.append("Content-Type", "application/x-www-form-urlencoded");    
                   let option = new RequestOptions({ headers: header });
-      this.global.swalLoading('Adding Supporting Document...');
+      this.global.swalLoading('');
 
        this.http.post(this.global.api + 'api.php?action=spResearchDocument_Insert',
        body,option)
@@ -784,7 +804,7 @@ let x='';
                 this.global.swalAlertError();
            } );
                        if (type==0) {
-                        this.global.swalSuccess("Research Saved as Draft!");
+                        this.global.swalSuccess("Saved as Draft!");
                       }else{
                         this.global.swalSuccess("Research Submitted!");
 
@@ -801,25 +821,16 @@ let x='';
                                 .map(response => response.text())
                                 .subscribe(res => {
                                 });
-                      }
-
+                      }  
                          setTimeout(() => {
-                this.global.swalClose();
-                          this.router.navigate(['../main',{outlets:{div:'researches'}}]);
+                          if (type==0) {
+                             this.router.navigate(['../main',{outlets:{div:'researches-Draft'}}]);                            // code...
+                          }else{
+                             this.router.navigate(['../main',{outlets:{div:'researches-Pending'}}]);                            // code...
+                          }
                           }, 1500);
+      }     
     }else
       alert(x)
-  }
-
-
-  openDialogauthor(): void {
-    const dialogRef = this.dialog.open(ManageAuthorComponent, {
-      width: '60%',data:{data:'elton'}, disableClose: true });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result==1) {
-         this.getauthorselect()  
-      }
-    });
   }
 }

@@ -11,9 +11,6 @@ export class AppComponent {
   routerlink = "login";
 	public data:any
   constructor(private global: GlobalService,private router: Router){
-  	if (this.global.getSession()==null) {
-	  	this.router.navigate(['login']);
-  	}
   }
 
   logout(){

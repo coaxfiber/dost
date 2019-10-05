@@ -21,21 +21,23 @@ import {MatNativeDateModule} from '@angular/material';
 import {MatRadioModule} from '@angular/material/radio';
 import { MatPaginatorModule } from '@angular/material';
 import {MatDialogModule} from '@angular/material';
-import {MatChipsModule} from '@angular/material/chips';
-
+import {MatChipsModule} from '@angular/material/chips';import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 @NgModule({
   imports: [MatButtonModule, MatToolbarModule,MatIconModule,MatCardModule,MatStepperModule,
   MatFormFieldModule,FormsModule, ReactiveFormsModule,MatInputModule,MatSelectModule,
   MatCheckboxModule,MatListModule,MatGridListModule,MatSidenavModule,MatExpansionModule,
   MatMenuModule,MatTabsModule,MatTableModule,MatDatepickerModule,MatNativeDateModule,
-  MatRadioModule,MatPaginatorModule,MatDialogModule,MatChipsModule,
+  MatRadioModule,MatPaginatorModule,MatDialogModule,MatChipsModule,MatProgressSpinnerModule,
+  MatAutocompleteModule
 
   ],
   exports: [MatButtonModule, MatToolbarModule,MatIconModule,MatCardModule,MatStepperModule,
   MatFormFieldModule,FormsModule, ReactiveFormsModule,MatInputModule,MatSelectModule,
   MatCheckboxModule,MatListModule,MatGridListModule,MatSidenavModule,MatExpansionModule,
   MatMenuModule,MatTabsModule,MatTableModule,MatDatepickerModule,MatNativeDateModule,
-  MatRadioModule,MatPaginatorModule,MatDialogModule,MatChipsModule,
+  MatRadioModule,MatPaginatorModule,MatDialogModule,MatChipsModule,MatProgressSpinnerModule,
+  MatAutocompleteModule
   
   ],
 })

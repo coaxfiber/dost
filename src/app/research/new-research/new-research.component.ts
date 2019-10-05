@@ -7,6 +7,8 @@ import {Http, Headers, RequestOptions} from '@angular/http';
 import Swal from 'sweetalert2';
 import { ManageAuthorComponent } from './manage-author/manage-author.component';
 
+import { Inject} from '@angular/core';
+import { MAT_DIALOG_DATA} from '@angular/material';
 
 import { ElementRef, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
@@ -69,7 +71,7 @@ counter=1;
       avatar: null
     });
   }
-  constructor(public dialog: MatDialog, private fb: FormBuilder, private router: Router,private global: GlobalService,private http: Http) {
+  constructor(public dialogRef: MatDialogRef<NewResearchComponent>,@Inject(MAT_DIALOG_DATA) public data: any,public dialog: MatDialog, private fb: FormBuilder, private router: Router,private global: GlobalService,private http: Http) {
   	this.http.get(this.global.api + 'api.php?action=company_List',
          this.global.option)
             .map(response => response.json())
@@ -151,7 +153,8 @@ onFileChange2(event) {
   }
 
   clearFile() {
-
+    
+    console.log(this.form.value.avatar.value)
     //this.form.value.avatar.filetype);
     //this.form.value.avatar.value);
 
@@ -392,6 +395,7 @@ let x='';
        body,option)
           .map(response => response.json())
           .subscribe(res => {
+            console.log(res)
              this.getfundingagency(this.researchid);  
               this.inputfundingagency='';          
           },error => {
@@ -425,8 +429,8 @@ let x='';
            option)
               .map(response => response.json())
               .subscribe(res => {
+                this.global.swalClose();
                 this.fundingagencyarrayinresearch= res;
-                this.getfundingagencyselect(this.researchid)
              this.global.swalClose();
           });
 
@@ -645,7 +649,7 @@ let x='';
   	if (this.inputtitle==undefined||this.inputtitle=="") {
   		x=x+"*Research Title is required\n";
   	}if (this.inputcompany==undefined||this.inputcompany=="") {
-  		x=x+"*Company is required\n";
+  		x=x+"*Your role has not been assigned to any company.\n";
   	}if (this.inputabstract==undefined||this.inputabstract=="") {
   		x=x+"*Abstract is required\n";
   	}if (this.inputdegreelevel==undefined||this.inputdegreelevel=="") {
@@ -673,7 +677,6 @@ let x='';
             .subscribe(res => {
                this.global.swalClose();
                 this.getdisciplineselect(this.researchid)
-                this.getfundingagencyselect(this.researchid)
             },error => {
               console.log(Error); 
                   this.global.swalAlertError();
@@ -713,7 +716,6 @@ let x='';
                             .subscribe(res => {
                             });  
                 this.getdisciplineselect(this.researchid)
-                this.getfundingagencyselect(this.researchid)
                this.getauthorselect();
 	          },error => {
 	            console.log(Error); 
@@ -724,6 +726,10 @@ let x='';
   	}else
   		alert(x)
   }
+  noclick()
+{
+  this.dialogRef.close(1)
+}
 
   researchdone(type) {
     let x=''
@@ -764,6 +770,35 @@ let x='';
 
 
     if (x=='') {
+
+
+    let c=''
+    let counter=0
+     if (this.pubtitle==undefined||this.pubtitle=='') {
+      c=c+"*Publication Title is required\n";counter++
+    }
+    if (this.pubvolume==undefined||this.pubvolume=='') {
+      c=c+"*Publication Volume is required\n";counter++
+    }
+    if (this.pubissue==undefined||this.pubissue=='') {
+      c=c+"*Publication Issue is required\n";counter++
+    }
+    if (this.pubyear==undefined||this.pubyear=='') {
+      c=c+"*Publication Year is required\n";counter++
+    }
+    if (this.pubpublisher==undefined||this.pubpublisher=='') {
+      c=c+"*Publisher is required\n";counter++
+    }
+
+    if (c=='') {
+     this.insertpublicationinfo();
+    }
+
+    if (counter>0&&counter<5) {
+      console.log(counter);
+       alert("All Fields in the Publication info should be filled up!")
+    }else {                   
+
       let urlSearchParams = new URLSearchParams();
                     urlSearchParams.append("rid",this.researchid.toString());
                      urlSearchParams.append('name', this.form.value.avatar.filename );
@@ -786,6 +821,7 @@ let x='';
                 this.global.swalAlertError();
            } );
                        if (type==0) {
+                        this.global.swalSuccess("Saved as Draft!");
                       }else{
                         this.global.swalSuccess("Research Submitted!");
 
@@ -802,12 +838,18 @@ let x='';
                                 .map(response => response.text())
                                 .subscribe(res => {
                                 });
-                      }
-
+                      }  
                          setTimeout(() => {
                           this.global.swalClose();
-                          this.router.navigate(['../main',{outlets:{div:'researches'}}]);
+                          if (type==0) {
+                            this.dialogRef.close(2);
+                            // code...
+                          }else{
+
+                            this.dialogRef.close(3);
+                          }
                           }, 1500);
+      }     
     }else
       alert(x)
   }

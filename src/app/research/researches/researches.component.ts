@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Injectable } from '@angular/core';
 import { GlobalService } from './../../global.service';
 import {Http, Headers, RequestOptions} from '@angular/http';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
@@ -16,12 +16,16 @@ const swal = Swal;
   styleUrls: ['./researches.component.scss']
 })
 export class ResearchesComponent implements OnInit {
+
+
 	displayedColumns = ['title','level','company','datecreated','status','action'];
       @ViewChild(MatSort) sort: MatSort;
        @ViewChild('paginator') paginator: MatPaginator;
 
 	  dataSource;
 	  tableArr:Array<any>;
+
+    injectid
       ngOnInit() {
         this.createTable();
       }
@@ -34,6 +38,7 @@ export class ResearchesComponent implements OnInit {
       title
       level
       status
+
 
   constructor(public dialog: MatDialog,private global: GlobalService,private http: Http,private router: Router) {
     
@@ -57,7 +62,7 @@ export class ResearchesComponent implements OnInit {
                 if(res[0].id!=null){
 
                 const dialogRef = this.dialog.open(ResearchPdfComponent, {
-                      width: '90%',data:{pdf: id}, disableClose: true });
+                      width: '90%',data:{pdf: id}, disableClose: false });
 
                     dialogRef.afterClosed().subscribe(result => {
                       if (result==1) { 
@@ -71,7 +76,7 @@ export class ResearchesComponent implements OnInit {
 
   ViewHistory(title,status): void {
     const dialogRef = this.dialog.open(ResearchStatusComponent, {
-      width: '50%',data:{title:title,status:status}, disableClose: true });
+      width: '50%',data:{title:title,status:status}, disableClose: false });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result==1) { 
@@ -87,10 +92,11 @@ export class ResearchesComponent implements OnInit {
             .subscribe(res => {
             this.global.swalClose();
             this.tableArr= res;
-            //console.log(res)
+            console.log(res)
             this.dataSource = new MatTableDataSource(this.tableArr);
             this.dataSource.sort = this.sort;
             this.dataSource.paginator = this.paginator;
+            this.applyFilter2('0');
         },error=>{
             console.log(error);
             this.global.swalClose();
@@ -121,7 +127,7 @@ this.status=''
 applyFilter2(filterValue: string) {
   this.dataSource.filterPredicate = (data:
   {status}, filterValue: string) =>
-  data.status[0].status.trim().toLowerCase().indexOf(filterValue) !== -1;
+  data.status[0].id.trim().toLowerCase().indexOf(filterValue) !== -1;
 
     this.dataSource.filter = filterValue.trim().toLowerCase();
 

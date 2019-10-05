@@ -1,6 +1,8 @@
-<div style="padding:20px" id="new-research">
-	<h3>Submit Research</h3>
-	<hr>
+  <div mat-dialog-actions style="float: right">
+  <button mat-raised-button (click)="noclick()" color="warning">Close</button>
+</div>
+  <h4>Submit Research</h4>
+  <hr><div id="new-research">
   <div class="oveflowys" style="overflow-y: scroll;max-height: calc(100vh - 240px);">
 	<mat-horizontal-stepper   labelPostion="botton" [linear]="true" #stepper>
       <mat-step>
@@ -101,7 +103,6 @@
                           <td style="width: 70%">
                         <mat-form-field class="npinput"  style="width: 100%">
                           <input matInput placeholder="Keyword"  [(ngModel)]="keyword" >
-                          <mat-hint></mat-hint>
                         </mat-form-field></td>
                         <td style="width: 30%">
                             <button mat-raised-button (click)="insertkeyword()" class="buttonblue" >
@@ -171,14 +172,10 @@
                 <table style="width: 100%">
                         <tr>
                           <td style="width: 70%">
-                              <mat-form-field  class="npinput2" style="width: 100%">
-                                <mat-label>Funding Agency</mat-label>
-                                <mat-select  [(ngModel)]="inputfundingagency">
-                                  <mat-option value="{{c.id}}"  *ngFor="let c of fundingagency">
-                                    {{c.name}}
-                                  </mat-option>
-                                </mat-select>
-                              </mat-form-field></td>
+
+                        <mat-form-field class="npinput2"  style="width: 100%">
+                          <input matInput placeholder="Funding Agency"  [(ngModel)]="inputfundingagency" >
+                        </mat-form-field></td>
                         <td style="width: 30%">
                             <button mat-raised-button (click)="insertfundingagency()" class="buttonblue" >
                                 <mat-icon style="font-size:20px">add</mat-icon> Add Funding Agency</button>
@@ -203,7 +200,7 @@
               <mat-expansion-panel>
                 <mat-expansion-panel-header>
                   <mat-panel-title>
-                    Documents
+                    File Upload
                   </mat-panel-title>
                 </mat-expansion-panel-header>
                    <p><b>Main Document</b> <small>(PDF File.)</small></p>
@@ -293,7 +290,7 @@
                           <td style="width: 70%">
                             
                           </td>
-                          <td style="width: 30%"> <button mat-button class="buttonblue" (click)="insertpublicationinfo()">Add Publication Info</button></td>
+                          <td style="width: 30%"></td>
                         </tr>
                       </table>
                     <br>
@@ -332,7 +329,7 @@
               <!--<p>Note: Add <a href="#">Publishing Information</a> if the Research has been published</p>
               --><br><br>
             <button mat-button matStepperPrevious class="buttonblue" >Back</button>
-            <button mat-button class="buttonblue" style="float: right;"  (click)="researchdone(1)">Research</button>
+            <button mat-button class="buttonblue" style="float: right;"  (click)="researchdone(1)">Submit</button>
             <button mat-button style="float: right;" (click)="researchdone(0)">Save as Draft</button>
      
       </mat-step>

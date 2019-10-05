@@ -17,14 +17,18 @@ const swal = Swal;
 })
 export class LoginComponent implements OnInit {
 	username:any="admin@gmail.com";
-	password:any="admin";
+	password:any="admin1";
   key = 1
   header = new Headers();
   user
   constructor(private http: Http, private global: GlobalService,private router: Router) { 
-    
+    if (window.location.href.includes("registration")) {
+      this.router.navigate(['registration']);
+    }else
     if (this.global.getSession()!=null) {
-      this.router.navigate(['main']);
+      this.username=this.global.getSession();
+      this.password=this.global.getSessionp();
+      this.login();
     }
   }
 
@@ -71,6 +75,7 @@ export class LoginComponent implements OnInit {
           .map(response => response.json())
           .subscribe(res => {
              swal.close();
+               console.log(res)
              if (res.id==null) {
                swal(
                   '',
@@ -79,6 +84,7 @@ export class LoginComponent implements OnInit {
                   )
              }else{
                this.global.setemail(res.email,res.id);
+               this.global.setSession(this.username,this.password,'CVRDKMS','admin')
                this.router.navigate(['main']);
              }
           },error => {

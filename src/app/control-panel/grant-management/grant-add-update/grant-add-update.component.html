@@ -1,0 +1,97 @@
+<div>
+  	<h4>{{title}}</h4>
+	<hr>
+</div> 
+
+<table class="example-full-width" cellspacing="0" style="width: 100%">
+		  <tr>
+		    <td width="100%">
+		  		<mat-form-field style="width: 100%">
+			      <input matInput placeholder="Call for proposal name" type="text" [(ngModel)]="name" name="role" value="">
+			    </mat-form-field></td>
+		  	<!--<mat-form-field class="example-full-width">
+		      <input matInput placeholder="LR Number" value="" [(ngModel)]="options.value.lrno" name="lrno" required>
+		    </mat-form-field>-->
+		  </tr>
+		  <tr>
+		  	
+		    <td width="100%">
+		    	<table style="width: 100%">
+		    		<tr>
+		    			<td style="width: 50%">
+		    				<mat-form-field style="width: 100%">
+							  <input matInput [matDatepicker]="picker1" placeholder="Start Date" [value]="date.value">
+							  <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+							  <mat-datepicker #picker1></mat-datepicker>
+							</mat-form-field>
+		    			</td>
+		    			<td>
+		    				<mat-form-field style="width: 100%">
+							  <input matInput [matDatepicker]="picker2" placeholder="End Date" [value]="date.value">
+							  <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+							  <mat-datepicker #picker2></mat-datepicker>
+							</mat-form-field>
+		    			</td>
+		    		</tr>
+		    	</table>
+		  		</td>
+		  </tr>
+		  <tr>
+		  	
+		    <td width="100%">
+		    	<table style="width: 100%">
+		    		<tr>
+		    			<td style="width: 50%">
+		    				<mat-form-field style="width: 100%">
+							  <input matInput [matDatepicker]="picker3" placeholder="" [value]="date.value">
+							  <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+							  <mat-datepicker #picker3></mat-datepicker>
+							</mat-form-field>
+		    			</td>
+		    			<td>
+		    				<mat-form-field style="width: 100%">
+							  <input matInput [matDatepicker]="picker4" placeholder="Value binding" [value]="date.value">
+							  <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+							  <mat-datepicker #picker4></mat-datepicker>
+							</mat-form-field>
+		    			</td>
+		    		</tr>
+		    	</table>
+		  		</td>
+		  </tr>
+		  
+		  <tr>
+		  	
+		    <td width="100%">
+		    	<table cellspacing="0" style="width: 100%">
+				  <tr>
+				    <td width="30%">
+				  	<mat-form-field style="width: 100%">
+				      <input autocomplete="off"  matInput placeholder="Street" [(ngModel)]="street" name="lrno">
+				    </mat-form-field></td>
+				  	<td style="padding-left: 10px">
+				    <mat-form-field style="width: calc(100% - 50px)">
+				      <input autocomplete="off"  autofocus matInput  placeholder="Residential Address" [(ngModel)]="perma" readonly="readonly">
+				    </mat-form-field>
+				    <button mat-mini-fab color="primary"  (click)="openDialog(2)">
+					    <mat-icon>search</mat-icon>
+					  </button>
+				  	</td>
+				  </tr>
+				  </table>
+		    </td>
+		  </tr>
+		  <tr>
+		  	<td>
+		  		
+						            <mat-form-field  class="npinput2" style="width: 100%" required>
+						              <mat-label>Industry</mat-label>
+						              <mat-select  [(ngModel)]="industry">
+						                <mat-option value="{{f.id}}"  *ngFor="let f of industrylist">
+						                  {{f.name}}
+						                </mat-option>
+						              </mat-select>
+						            </mat-form-field>
+		  	</td>
+		  </tr>
+		  </table>
